@@ -35,6 +35,7 @@
             playB = new createjs.Bitmap(playI);
             playB.x = midWindowX - playB.image.width / 2;
             playB.y = midWindowY - playB.image.height / 2;
+            playB.addEventListener("click", this.playClick);
             stage.addChild(playB);
 
             medalI = preload.getResult("topscores");
@@ -42,7 +43,7 @@
             medalB.x = configB.x + configB.image.width + 2 * padding;
             medalB.y = window.innerHeight - padding - medalB.image.height;
             medalH = new createjs.ButtonHelper(medalB);
-            medalB.addEventListener("click",this.medalClick);
+            medalB.addEventListener("click", this.medalClick);
             stage.addChild(medalB);
 
             stage.update();
@@ -50,8 +51,11 @@
         medalClick: function () {
             WinJS.Navigation.navigate("/pages/topscores/topscores.html");
         },
-        configClick : function(){
+        configClick: function () {
             WinJS.UI.SettingsFlyout.show();
+        },
+        playClick: function () {
+            WinJS.Navigation.navigate("/pages/game/game.html");
         },
         initialize: function (element) {
             this.setMeasures();
@@ -68,7 +72,7 @@
                 { id: "topscores", src: "images/assets/buttons/topscores.png" }
             ];
             preload.loadManifest(manifest);
-            preload.on("complete",this.setGame, this);
+            preload.on("complete", this.setGame, this);
             stage = new createjs.Stage(canvas);
         }
 

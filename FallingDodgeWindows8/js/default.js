@@ -36,8 +36,8 @@
 
             app.onsettings = function (e) {
                 e.detail.applicationcommands = {
-                    "about": { href: "/flyouts/settings-about.html", title: "About" },
-                    "privacy": { href: "/flyouts/settings-privacy.html", title: "Privacy" }
+                    "about": { href: "/flyouts/settings-about.html", title: "Acerca de" },
+                    "privacy": { href: "/flyouts/settings-privacy.html", title: "Privacidad" }
                 };
                 WinJS.UI.SettingsFlyout.populateSettings(e);
             }
