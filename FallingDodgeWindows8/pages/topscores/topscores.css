@@ -1,0 +1,4 @@
+﻿.topscorespage section[role=main] {
+        -ms-grid-row: 2;
+    margin: auto 120px;
+}
