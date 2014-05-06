@@ -33,6 +33,14 @@
             });
 
             args.setPromise(p);
+
+            app.onsettings = function (e) {
+                e.detail.applicationcommands = {
+                    "about": { href: "/flyouts/settings-about.html", title: "About" },
+                    "privacy": { href: "/flyouts/settings-privacy.html", title: "Privacy" }
+                };
+                WinJS.UI.SettingsFlyout.populateSettings(e);
+            }
         }
     });
 
@@ -46,3 +54,4 @@
 
     app.start();
 })();
+
