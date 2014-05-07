@@ -57,8 +57,19 @@
         playClick: function () {
             WinJS.Navigation.navigate("/pages/game/game.html");
         },
+        onViewStateChanged: function (eventArgs) {
+            midWindowX = window.innerWidth / 2;
+            midWindowY = window.innerHeight / 2;
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            playB.x = midWindowX - playB.image.width / 2;
+            playB.y = midWindowY - playB.image.height / 2;
+            stage.update();
+        },
         initialize: function (element) {
             this.setMeasures();
+            window.addEventListener("resize", this.onViewStateChanged);
             canvas = element.querySelector("#gameCanvas");
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;

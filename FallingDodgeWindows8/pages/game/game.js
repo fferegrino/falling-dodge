@@ -4,6 +4,13 @@
     var canvas, context, stage;
     var preload;
     var escomImage, escomBitmap;
+    var viewStateEnabled = true;
+    
+    function showViewstateNotEnabled() {
+        var msg = new Windows.UI.Popups.MessageDialog(
+            "No internet connection has been found.");
+        msg.showAsync();
+    }
 
     WinJS.UI.Pages.define("/pages/game/game.html", {
         // This function is called whenever a user navigates to this page. It
@@ -16,7 +23,10 @@
         touchHandler: function (event) {
             WinJS.Navigation.navigate("/pages/startscreen/startscreen.html");
         },
-
+        
+        onViewStateChange: function (eventArgs) {
+            showViewstateNotEnabled();
+        },
         setGame: function () {
             escomImage = preload.getResult("escom");
             escomBitmap = new createjs.Bitmap(escomImage);
@@ -29,7 +39,6 @@
             startText.x = (window.innerWidth / 2) - (startText.getMeasuredWidth() / 2);
             stage.addChild(startText);
 
-
             stage.update();
         },
         bckClick: function(){
@@ -39,8 +48,8 @@
             canvas = element.querySelector("#gameCanvas");
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            //Handle Touch
-            //canvas.addEventListener("MSPointerUp", this.touchHandler, false);
+
+            window.addEventListener("resize", this.onViewStateChanged);
 
             // AppBar
             

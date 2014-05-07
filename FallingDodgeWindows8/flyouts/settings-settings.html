@@ -2,7 +2,21 @@
 <html>
 <head>
     <title></title>
+    <link href="../css/default-flyout.css" rel="stylesheet" />
 </head>
 <body>
+    <div id="settings" data-win-control="WinJS.UI.SettingsFlyout" aria-label="Settings flyout"
+         data-win-options="{settingsCommandId:'settings',width:'narrow'}">
+        <div class="win-header" style="background-color: #DF5745; color: white;">
+            <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+            <div class="win-label">Configuración</div>
+            <!--<img src="ms-appx:///images/smalllogo.png" style="position: absolute; right: 40px;" />-->
+        </div>
+        <div class="win-content">
+			Música <div data-win-control="WinJS.UI.ToggleSwitch"></div>
+			<br />
+			Sonidos <div data-win-control="WinJS.UI.ToggleSwitch"></div>
+        </div>
+    </div>
 </body>
 </html>
