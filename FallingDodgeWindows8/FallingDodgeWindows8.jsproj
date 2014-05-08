@@ -62,6 +62,7 @@
     <Content Include="flyouts\settings-settings.html" />
     <Content Include="fonts\meriendaone-regular.ttf" />
     <Content Include="images\assets\buttons\info.png" />
+    <Content Include="images\assets\buttons\pause.png" />
     <Content Include="images\assets\buttons\play.png" />
     <Content Include="images\assets\buttons\settings.png" />
     <Content Include="images\assets\buttons\topscores.png" />

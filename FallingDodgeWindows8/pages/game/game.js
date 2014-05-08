@@ -5,6 +5,7 @@
     var preload;
     // Stage related vars
     var backgroundImage, backgroundBitmap;
+    var pauseI, pauseB;
     var textoPuntuacion;
 
     // Game related vars:
@@ -18,6 +19,18 @@
         msg.showAsync();
     }
 
+    function registerForShareGame() {
+        var dataTransferManager = Windows.ApplicationModel.DataTransfer.DataTransferManager.getForCurrentView();
+        dataTransferManager.addEventListener("datarequested", shareHandler);
+    }
+
+    function shareHandler(e) {
+        var request = e.request;
+        request.data.properties.title = "Puntuación";
+        request.data.properties.description = "Comparte tu puntuación"
+        request.data.setText("He juntado " + totalPoints + " en Falling Dodge. Ven a vencerme: http://www.fallingdodge.com");
+
+    }
 
 
     function onViewStateChangedGame(eventArgs) {
@@ -50,10 +63,18 @@
             backgroundBitmap.y = (window.innerHeight / 2) - (backgroundBitmap.image.height / 2);
             stage.addChild(backgroundBitmap);
 
+            pauseI = preload.getResult("pause");
+            pauseB = new createjs.Bitmap(pauseI);
+            pauseB.x = 20;
+            pauseB.y = 20;
+            stage.addChild(pauseB);
+
             textoPuntuacion = new createjs.Text(user + ": " + totalPoints, "40px meriendaOne", "#fff");
             textoPuntuacion.y = 20;
-            textoPuntuacion.x = 20;
+            textoPuntuacion.x = 20 + pauseB.image.width + 20;
             stage.addChild(textoPuntuacion);
+
+            registerForShareGame();
 
             stage.update();
         },
@@ -78,7 +99,8 @@
 
             preload = new createjs.LoadQueue(true);
             var manifest = [
-                { id: "background", src: "images/assets/game/game-bg-1366x768.png" }
+                { id: "background", src: "images/assets/game/game-bg-1366x768.png" },
+                { id: "pause", src: "images/assets/buttons/pause.png" }
             ];
             preload.loadManifest(manifest);
             preload.on("complete", this.setGame, this);
