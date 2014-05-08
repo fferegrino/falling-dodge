@@ -1,6 +1,9 @@
-﻿.homepage section[role=main] {
+﻿body{
+    background-color: #2a2a2a;
+}
+.homepage section[role=main] {
     /*margin: auto 120px;*/
-    background-color: white;
+    
 }
 .fragment {
     /* Define a grid with rows for a banner and a body */

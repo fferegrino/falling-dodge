@@ -66,6 +66,7 @@
     <Content Include="images\assets\buttons\play.png" />
     <Content Include="images\assets\buttons\settings.png" />
     <Content Include="images\assets\buttons\topscores.png" />
+    <Content Include="images\assets\escom-light.png" />
     <Content Include="images\assets\escom.png" />
     <Content Include="images\assets\game\game-bg-1366x768.png" />
     <Content Include="images\logo.scale-100.png" />

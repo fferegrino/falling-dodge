@@ -25,7 +25,7 @@
             escomBitmap.y = (window.innerHeight / 2) - (escomBitmap.image.height / 2) - 20;
             stage.addChild(escomBitmap);
 
-            var startText = new createjs.Text("presiona para continuar", "60px Segoe UI", "#0047B6");
+            var startText = new createjs.Text("presiona para continuar", "60px meriendaOne", "#fff");
             startText.y = escomBitmap.y + escomBitmap.image.height;
             startText.x = (window.innerWidth / 2) - (startText.getMeasuredWidth() / 2);
             stage.addChild(startText);
@@ -44,7 +44,7 @@
 
             preload = new createjs.LoadQueue(true);
             var manifest = [
-                { id: "escom", src: "images/assets/escom.png" }
+                { id: "escom", src: "images/assets/escom-light.png" }
             ];
             preload.loadManifest(manifest);
             preload.on("complete", this.setGame, this);
