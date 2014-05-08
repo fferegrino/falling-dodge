@@ -3,8 +3,14 @@
 
     var canvas, context, stage;
     var preload;
-    var backgrundImage, backgroundBitmap;
+    // Stage related vars
+    var backgroundImage, backgroundBitmap;
+    var textoPuntuacion;
+
+    // Game related vars:
     var viewStateEnabled = true;
+    var totalPoints = 999999;
+    var user = "create_js"
 
     function showViewstateNotEnabled() {
         var msg = new Windows.UI.Popups.MessageDialog(
@@ -38,16 +44,16 @@
             WinJS.Navigation.navigate("/pages/startscreen/startscreen.html");
         },
         setGame: function () {
-            backgrundImage = preload.getResult("background");
-            backgroundBitmap = new createjs.Bitmap(backgrundImage);
+            backgroundImage = preload.getResult("background");
+            backgroundBitmap = new createjs.Bitmap(backgroundImage);
             backgroundBitmap.x = (window.innerWidth / 2) - (backgroundBitmap.image.width / 2);
             backgroundBitmap.y = (window.innerHeight / 2) - (backgroundBitmap.image.height / 2);
             stage.addChild(backgroundBitmap);
 
-            var startText = new createjs.Text("aquí va el juego", "60px Segoe UI", "#0047B6");
-            startText.y = backgroundBitmap.y + backgroundBitmap.image.height;
-            startText.x = (window.innerWidth / 2) - (startText.getMeasuredWidth() / 2);
-            stage.addChild(startText);
+            textoPuntuacion = new createjs.Text(user + ": " + totalPoints, "40px meriendaOne", "#fff");
+            textoPuntuacion.y = 20;
+            textoPuntuacion.x = 20;
+            stage.addChild(textoPuntuacion);
 
             stage.update();
         },
