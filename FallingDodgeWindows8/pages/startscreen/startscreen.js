@@ -6,9 +6,22 @@
     var configI, configB, configH;
     var playI, playB, heartH;
     var medalI, medalB, medalH;
+    var backgroundI, backgroundB;
     // Measures
     var midWindowX, midWindowY;
     var padding;
+    
+    function onViewStateChanged(eventArgs) {
+        midWindowX = window.innerWidth / 2;
+        midWindowY = window.innerHeight / 2;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        playB.x = midWindowX - playB.image.width / 2;
+        playB.y = midWindowY - playB.image.height / 2;
+        stage.update();
+    }
+
 
     WinJS.UI.Pages.define("/pages/startscreen/startscreen.html", {
         // This function is called whenever a user navigates to this page. It
@@ -24,6 +37,12 @@
         },
 
         setGame: function () {
+            backgroundI = preload.getResult("background");
+            backgroundB = new createjs.Bitmap(backgroundI);
+            backgroundB.x = (window.innerWidth / 2) - (backgroundB.image.width / 2);
+            backgroundB.y = (window.innerHeight / 2) - (backgroundB.image.height / 2);
+            stage.addChild(backgroundB);
+
             configI = preload.getResult("settings");
             configB = new createjs.Bitmap(configI);
             configB.x = padding;
@@ -55,21 +74,12 @@
             WinJS.UI.SettingsFlyout.show();
         },
         playClick: function () {
+            window.removeEventListener("resize", onViewStateChanged);
             WinJS.Navigation.navigate("/pages/game/game.html");
-        },
-        onViewStateChanged: function (eventArgs) {
-            midWindowX = window.innerWidth / 2;
-            midWindowY = window.innerHeight / 2;
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-
-            playB.x = midWindowX - playB.image.width / 2;
-            playB.y = midWindowY - playB.image.height / 2;
-            stage.update();
         },
         initialize: function (element) {
             this.setMeasures();
-            window.addEventListener("resize", this.onViewStateChanged);
+            window.addEventListener("resize", onViewStateChanged);
             canvas = element.querySelector("#gameCanvas");
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -80,7 +90,8 @@
             var manifest = [
                 { id: "settings", src: "images/assets/buttons/settings.png" },
                 { id: "play", src: "images/assets/buttons/play.png" },
-                { id: "topscores", src: "images/assets/buttons/topscores.png" }
+                { id: "topscores", src: "images/assets/buttons/topscores.png" },
+                { id: "background", src: "images/assets/game/game-bg-1366x768.png" }
             ];
             preload.loadManifest(manifest);
             preload.on("complete", this.setGame, this);

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:build="http://schemas.microsoft.com/developer/appx/2012/build" IgnorableNamespaces="build">
-  <Identity Name="b16e30d2-14c2-4615-a35d-a1f73635017c" Version="1.0.0.0" Publisher="CN=Antonio" />
+  <Identity Name="b16e30d2-14c2-4615-a35d-a1f73635017c" Version="0.1.10.0" Publisher="CN=Antonio" />
   <Properties>
-    <DisplayName>FallingDodgeWindows8Nav</DisplayName>
-    <PublisherDisplayName>Antonio</PublisherDisplayName>
+    <DisplayName>FallingDodgeWindows8</DisplayName>
+    <PublisherDisplayName>Messier 16</PublisherDisplayName>
     <Logo>images\storelogo.png</Logo>
   </Properties>
   <Prerequisites>
@@ -15,18 +15,18 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="default.html">
-      <m2:VisualElements DisplayName="Falling Dodge" Description="Falling Dodge. The Game FTW!" ForegroundText="light" BackgroundColor="#464646" Square150x150Logo="images\Logo.png" Square30x30Logo="images\SmallLogo.png">
-        <m2:SplashScreen Image="images\splashscreen.png" />
+      <m2:VisualElements DisplayName="Falling Dodge" Description="Falling Dodge. The Game FTW!" ForegroundText="light" BackgroundColor="#2A2A2A" Square150x150Logo="images\Logo.png" Square30x30Logo="images\SmallLogo.png">
+        <m2:DefaultTile DefaultSize="square150x150Logo">
+        </m2:DefaultTile>
+        <m2:SplashScreen Image="images\splashscreen.png" BackgroundColor="#2A2A2A" />
         <m2:InitialRotationPreference>
           <m2:Rotation Preference="landscape" />
           <m2:Rotation Preference="landscapeFlipped" />
         </m2:InitialRotationPreference>
+        <m2:ApplicationView MinWidth="width500" />
       </m2:VisualElements>
     </Application>
   </Applications>
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
   <build:Metadata>
     <build:Item Name="Blend" Version="12.0.41212.0" />
   </build:Metadata>

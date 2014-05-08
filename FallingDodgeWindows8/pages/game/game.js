@@ -3,13 +3,27 @@
 
     var canvas, context, stage;
     var preload;
-    var escomImage, escomBitmap;
+    var backgrundImage, backgroundBitmap;
     var viewStateEnabled = true;
-    
+
     function showViewstateNotEnabled() {
         var msg = new Windows.UI.Popups.MessageDialog(
-            "No internet connection has been found.");
+            "Falling Dodge no puede ser jugado en ese tamaño de pantalla");
         msg.showAsync();
+    }
+
+
+
+    function onViewStateChangedGame(eventArgs) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        backgroundBitmap.x = (window.innerWidth / 2) - (backgroundBitmap.image.width / 2);
+        //backgroundBitmap.y = (window.innerHeight / 2) - (backgroundBitmap.image.height / 2) - 20;
+        stage.update();
+        /*
+        if (window.innerWidth < 600)
+            showViewstateNotEnabled();
+        */
     }
 
     WinJS.UI.Pages.define("/pages/game/game.html", {
@@ -19,29 +33,26 @@
             this.initialize(element);
         },
 
-        
+
         touchHandler: function (event) {
             WinJS.Navigation.navigate("/pages/startscreen/startscreen.html");
         },
-        
-        onViewStateChange: function (eventArgs) {
-            showViewstateNotEnabled();
-        },
         setGame: function () {
-            escomImage = preload.getResult("escom");
-            escomBitmap = new createjs.Bitmap(escomImage);
-            escomBitmap.x = (window.innerWidth / 2) - (escomBitmap.image.width / 2);
-            escomBitmap.y = (window.innerHeight / 2) - (escomBitmap.image.height / 2) - 20;
-            stage.addChild(escomBitmap);
+            backgrundImage = preload.getResult("background");
+            backgroundBitmap = new createjs.Bitmap(backgrundImage);
+            backgroundBitmap.x = (window.innerWidth / 2) - (backgroundBitmap.image.width / 2);
+            backgroundBitmap.y = (window.innerHeight / 2) - (backgroundBitmap.image.height / 2);
+            stage.addChild(backgroundBitmap);
 
             var startText = new createjs.Text("aquí va el juego", "60px Segoe UI", "#0047B6");
-            startText.y = escomBitmap.y + escomBitmap.image.height;
+            startText.y = backgroundBitmap.y + backgroundBitmap.image.height;
             startText.x = (window.innerWidth / 2) - (startText.getMeasuredWidth() / 2);
             stage.addChild(startText);
 
             stage.update();
         },
-        bckClick: function(){
+        bckClick: function () {
+            window.removeEventListener("resize", onViewStateChangedGame);
             WinJS.Navigation.back();
         },
         initialize: function (element) {
@@ -49,10 +60,11 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            window.addEventListener("resize", this.onViewStateChanged);
+            window.addEventListener("resize", onViewStateChangedGame);
+
 
             // AppBar
-            
+
             var appbarCtrl = document.getElementById('appbar');
             document.getElementById('bck').addEventListener("click", this.bckClick, false);
 
@@ -60,7 +72,7 @@
 
             preload = new createjs.LoadQueue(true);
             var manifest = [
-                { id: "escom", src: "images/assets/escom.png" }
+                { id: "background", src: "images/assets/game/game-bg-1366x768.png" }
             ];
             preload.loadManifest(manifest);
             preload.on("complete", this.setGame, this);

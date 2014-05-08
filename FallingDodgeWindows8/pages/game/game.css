@@ -22,3 +22,8 @@
         -ms-grid-row: 1;
         height: 100%;
     }
+
+
+            #appbar{
+                background-color: rgba(200,200,200, 0.7);
+            }
