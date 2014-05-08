@@ -5,20 +5,25 @@
     //Buttons:
     var configI, configB, configH;
     var playI, playB, heartH;
+    var infoI, infoB;
     var medalI, medalB, medalH;
     var backgroundI, backgroundB;
     // Measures
     var midWindowX, midWindowY;
     var padding;
-    
+
     function onViewStateChanged(eventArgs) {
         midWindowX = window.innerWidth / 2;
         midWindowY = window.innerHeight / 2;
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        playB.x = midWindowX - playB.image.width / 2;
-        playB.y = midWindowY - playB.image.height / 2;
+        if (playB != undefined) {
+            playB.x = midWindowX - playB.image.width / 2;
+            //playB.y = midWindowY - playB.image.height / 2;
+        }
+        if (infoI != undefined) {
+            infoB.x = window.innerWidth - padding - infoB.image.width;
+        }
         stage.update();
     }
 
@@ -57,6 +62,12 @@
             playB.addEventListener("click", this.playClick);
             stage.addChild(playB);
 
+            infoI = preload.getResult("info");
+            infoB = new createjs.Bitmap(infoI);
+            infoB.x = window.innerWidth - padding - infoB.image.width;
+            infoB.y = window.innerHeight - padding - configB.image.height;
+            stage.addChild(infoB);
+
             medalI = preload.getResult("topscores");
             medalB = new createjs.Bitmap(medalI);
             medalB.x = configB.x + configB.image.width + 2 * padding;
@@ -91,6 +102,7 @@
                 { id: "settings", src: "images/assets/buttons/settings.png" },
                 { id: "play", src: "images/assets/buttons/play.png" },
                 { id: "topscores", src: "images/assets/buttons/topscores.png" },
+                { id: "info", src: "images/assets/buttons/info.png" },
                 { id: "background", src: "images/assets/game/game-bg-1366x768.png" }
             ];
             preload.loadManifest(manifest);

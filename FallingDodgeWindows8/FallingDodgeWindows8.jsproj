@@ -60,6 +60,7 @@
     <Content Include="flyouts\settings-privacy.html" />
     <Content Include="flyouts\settings-about.html" />
     <Content Include="flyouts\settings-settings.html" />
+    <Content Include="images\assets\buttons\info.png" />
     <Content Include="images\assets\buttons\play.png" />
     <Content Include="images\assets\buttons\settings.png" />
     <Content Include="images\assets\buttons\topscores.png" />
