@@ -5,8 +5,8 @@
     //Buttons:
     var configI, configB, configH;
     var playI, playB, heartH;
-    var infoI, infoB;
-    var medalI, medalB, medalH;
+    var infoI, infoB, infoHit;
+    var medalI, medalB, medalH, medalHit;
     var backgroundI, backgroundB;
     // Measures
     var midWindowX, midWindowY;
@@ -42,6 +42,7 @@
         },
 
         setGame: function () {
+
             backgroundI = preload.getResult("background");
             backgroundB = new createjs.Bitmap(backgroundI);
             backgroundB.x = (window.innerWidth / 2) - (backgroundB.image.width / 2);
@@ -66,13 +67,19 @@
             infoB = new createjs.Bitmap(infoI);
             infoB.x = window.innerWidth - padding - infoB.image.width;
             infoB.y = window.innerHeight - padding - configB.image.height;
+            infoHit = new createjs.Shape();
+            infoHit.graphics.beginFill("#000").drawRect(0, 0, infoB.image.width, infoB.image.height);
+            infoB.hitArea = infoHit;
             stage.addChild(infoB);
 
             medalI = preload.getResult("topscores");
             medalB = new createjs.Bitmap(medalI);
             medalB.x = configB.x + configB.image.width + 2 * padding;
             medalB.y = window.innerHeight - padding - medalB.image.height;
-            medalH = new createjs.ButtonHelper(medalB);
+            medalHit = new createjs.Shape();
+            // add hitarea property so clicking on transparent areas of png images trigger the event listeners associated to them
+            medalHit.graphics.beginFill("#000").drawRect(0, 0, medalB.image.width, medalB.image.height); 
+            medalB.hitArea = medalHit;
             medalB.addEventListener("click", this.medalClick);
             stage.addChild(medalB);
 
