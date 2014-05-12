@@ -52,7 +52,9 @@
             this.initialize(element);
         },
 
-
+        getAnimationElements: function(){
+            return undefined;
+        },
         touchHandler: function (event) {
             WinJS.Navigation.navigate("/pages/startscreen/startscreen.html");
         },
