@@ -13,8 +13,10 @@
     var textoPuntuacion;
     var mainCharacter;
 
-    function tick(event) {
+    function loop(event) {
         if (!paused) {
+
+
             stage.update(event);
         }
     }
@@ -63,7 +65,7 @@
         ready: function (element, options) {
             this.initialize(element);
         },
-        
+
         initialize: function (element) {
             canvas = element.querySelector("#gameCanvas");
             canvas.width = window.innerWidth;
@@ -86,7 +88,7 @@
 
         },
 
-        getAnimationElements: function(){
+        getAnimationElements: function () {
             return undefined;
         },
         setGame: function () {
@@ -95,6 +97,18 @@
             backgroundBitmap.x = (window.innerWidth / 2) - (backgroundBitmap.image.width / 2);
             backgroundBitmap.y = (window.innerHeight / 2) - (backgroundBitmap.image.height / 2);
             stage.addChild(backgroundBitmap);
+
+            var dataSpriteC = {
+                images: [preload.getResult("mainCharacter")],
+                frames: { width: 96, height: 127 },
+                animations: { walk: [0, 2] },
+                framerate: 7
+            };
+            var spriteSheet = new createjs.SpriteSheet(dataSpriteC);
+            mainCharacter = new createjs.Sprite(spriteSheet, "walk");
+            mainCharacter.y = window.innerHeight - 127;
+            mainCharacter.x = (window.innerWidth / 2) - 48;
+            stage.addChild(mainCharacter);
 
             pauseFade = new createjs.Shape();
             pauseFade.graphics.beginFill("rgba(0,0,0,0.5)").drawRect(0, 0, window.innerWidth, window.innerHeight);
@@ -116,35 +130,20 @@
             textoPuntuacion.x = 20 + pauseB.image.width + 20;
             stage.addChild(textoPuntuacion);
 
-            var dataSpriteC = {
-                images: [preload.getResult("mainCharacter")],
-                frames: { width: 96, height: 127 },
-                animations: { walk: [0, 2] },
-                framerate: 7
-            };
-            var spriteSheet = new createjs.SpriteSheet(dataSpriteC);
-            mainCharacter = new createjs.Sprite(spriteSheet, "walk");
-            mainCharacter.y = window.innerHeight - 127;
-            mainCharacter.x = window.innerWidth - 48;
-            stage.addChild(mainCharacter);
 
             registerForShareGame();
             paused = false;
-
-            //stage.update();
-            //timeOut = windwsetInterval(gameLoop, 35);
-            //animFrame(gameLoop);
-            //
-            createjs.Ticker.addEventListener("tick", tick);
+            createjs.Ticker.addEventListener("tick", loop);
         },
 
         // Handlers:
-        pauseClick: function () {
+        pauseClick: function () {   
             if (paused) {
                 pauseFade.visible = false;
             } else {
                 pauseFade.visible = true;
             }
+            stage.update();
             paused = !paused;
         },
         bckClick: function () {

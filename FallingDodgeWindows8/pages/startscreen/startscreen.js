@@ -52,7 +52,7 @@
                 { id: "play", src: "images/assets/buttons/play.png" },
                 { id: "topscores", src: "images/assets/buttons/topscores.png" },
                 { id: "info", src: "images/assets/buttons/info.png" },
-                { id: "background", src: "images/assets/game/game-bg-1366x768.png" }
+                { id: "background", src: "images/assets/game/bg-starter.png" }
             ];
             preload.loadManifest(manifest);
 
@@ -76,7 +76,8 @@
             configI = preload.getResult("settings");
             configB = new createjs.Bitmap(configI);
             configB.x = padding;
-            configB.y = window.innerHeight - padding - configB.image.height;
+            //configB.y = window.innerHeight - padding - configB.image.height;
+            configB.y = padding;
             configB.addEventListener("click", this.configClick);
             stage.addChild(configB);
 
@@ -90,7 +91,8 @@
             infoI = preload.getResult("info");
             infoB = new createjs.Bitmap(infoI);
             infoB.x = window.innerWidth - padding - infoB.image.width;
-            infoB.y = window.innerHeight - padding - configB.image.height;
+            //infoB.y = window.innerHeight - padding - configB.image.height;
+            infoB.y = padding;
             infoHit = new createjs.Shape();
             infoHit.graphics.beginFill("#000").drawRect(0, 0, infoB.image.width, infoB.image.height);
             infoB.hitArea = infoHit;
@@ -99,7 +101,8 @@
             medalI = preload.getResult("topscores");
             medalB = new createjs.Bitmap(medalI);
             medalB.x = configB.x + configB.image.width + 2 * padding;
-            medalB.y = window.innerHeight - padding - medalB.image.height;
+            medalB.y = padding;
+            //medalB.y = window.innerHeight - padding - medalB.image.height;
             medalHit = new createjs.Shape();
 
             // Add hitarea property so clicking on transparent areas of png images trigger the event listeners associated to them
