@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="797a54ea-2d34-4504-955a-fd40b84e9e15" Version="1.0.0.1" Publisher="CN=YOLOdevs" />
+  <Properties>
+    <DisplayName>Falling Dodge - Construct Release</DisplayName>
+    <Description>Falling Dodge The Game FTW!</Description>
+    <PublisherDisplayName>YOLOdevs</PublisherDisplayName>
+    <Logo>StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="index.html">
+      <m2:VisualElements DisplayName="Falling Dodge - Construct Release" Description="Falling Dodge The Game FTW!" BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Square150x150Logo.png" Square30x30Logo="Square30x30Logo.png">
+        <m2:DefaultTile>
+          <m2:ShowNameOnTiles>
+            <m2:ShowOn Tile="square150x150Logo" />
+          </m2:ShowNameOnTiles>
+        </m2:DefaultTile>
+        <m2:SplashScreen Image="SplashScreen.png" />
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>
