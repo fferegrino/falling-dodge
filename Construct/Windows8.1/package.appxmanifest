@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
   <Identity Name="797a54ea-2d34-4504-955a-fd40b84e9e15" Version="1.0.0.1" Publisher="CN=YOLOdevs" />
   <Properties>
-    <DisplayName>Falling Dodge - Construct Release</DisplayName>
+    <DisplayName>Falling Dodge</DisplayName>
     <Description>Falling Dodge The Game FTW!</Description>
     <PublisherDisplayName>YOLOdevs</PublisherDisplayName>
     <Logo>StoreLogo.png</Logo>
@@ -16,17 +16,13 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="index.html">
-      <m2:VisualElements DisplayName="Falling Dodge - Construct Release" Description="Falling Dodge The Game FTW!" BackgroundColor="#464646" ForegroundText="light" Square150x150Logo="Square150x150Logo.png" Square30x30Logo="Square30x30Logo.png">
-        <m2:DefaultTile>
-          <m2:ShowNameOnTiles>
-            <m2:ShowOn Tile="square150x150Logo" />
-          </m2:ShowNameOnTiles>
-        </m2:DefaultTile>
-        <m2:SplashScreen Image="SplashScreen.png" />
+      <m2:VisualElements DisplayName="Falling Dodge" Description="Falling Dodge The Game FTW!" BackgroundColor="#2A2A2A" ForegroundText="light" Square150x150Logo="Square150x150Logo.png" Square30x30Logo="Square30x30Logo.png">
+        <m2:SplashScreen Image="SplashScreen.png" BackgroundColor="#2A2A2A" />
+        <m2:InitialRotationPreference>
+          <m2:Rotation Preference="landscape" />
+        </m2:InitialRotationPreference>
+        <m2:ApplicationView MinWidth="width500" />
       </m2:VisualElements>
     </Application>
   </Applications>
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
 </Package>

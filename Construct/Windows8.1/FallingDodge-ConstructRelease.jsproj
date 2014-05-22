@@ -43,7 +43,7 @@
   <PropertyGroup>
     <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefaultLanguage>es-MX</DefaultLanguage>
     <VisualStudioVersion>12.0</VisualStudioVersion>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <PackageCertificateThumbprint>53A71C1E8F58773A4FA25AB033627AE638B42C54</PackageCertificateThumbprint>
@@ -60,6 +60,19 @@
     <Content Include="c2runtime.js" />
     <Content Include="jquery-2.0.0.min.js" />
     <Content Include="images\gamebackground.png" />
+    <Content Include="images\playbutton-sheet0.png" />
+    <Content Include="images\tiledbackground.png" />
+    <Content Include="images\leftarrow-sheet0.png" />
+    <Content Include="images\rightarrow-sheet0.png" />
+    <Content Include="images\uparrow-sheet0.png" />
+    <Content Include="images\gamefloor.png" />
+    <Content Include="images\mainc-sheet0.png" />
+    <Content Include="images\mainc-sheet1.png" />
+    <Content Include="images\player-sheet0.png" />
+    <Content Include="images\sprite-sheet0.png" />
+    <Content Include="images\pausebutton-sheet0.png" />
+	<Content Include="images\block-sheet0.png" />
+	<Content Include="images\hudfont.png" />
     <Content Include="icon-16.png" />
     <Content Include="icon-32.png" />
     <Content Include="icon-114.png" />
