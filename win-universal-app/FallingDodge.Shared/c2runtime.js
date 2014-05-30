@@ -21154,20 +21154,24 @@ cr.plugins_.win8 = function(runtime)
 			this.currentApp["licenseInformation"].addEventListener("licensechanged", function() {
 				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnLicenseChanged, self);
 			});
-			if (this.showAbout || this.showSupport || this.showPrivacy)
-			{
+/*
+            if (this.showAbout || this.showSupport || this.showPrivacy) {
 				WinJS["Application"].addEventListener("settings", function (e) {
 					var cmds = {};
 					if (self.showAbout)
-						cmds["about"] = { "title": "Acerca de", "href": "/settings/about.html" };
+                        cmds["about"] = { "title": "Acerca de", "href": "/settings/about.html" };
 					if (self.showSupport)
 						cmds["support"] = { "title": "Support", "href": "/support.html" };
 					if (self.showPrivacy)
 						cmds["privacy"] = { "title": "Privacy Policy", "href": "/privacy.html" };
+                    // History flyout:
+                    cmds["history"] = { title: "Historia", href: "/settings/history.html" };
+
 					e["detail"]["applicationcommands"] = cmds;
 					WinJS["UI"]["SettingsFlyout"]["populateSettings"](e);
 				});
 			}
+*/
 			if (this.isTestMode)
 			{
 				Windows["ApplicationModel"]["Package"]["current"]["installedLocation"]["getFileAsync"]("WindowsStoreProxy.xml").done(
@@ -22635,11 +22639,11 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Function,
+		cr.plugins_.Button,
+		false,
 		true,
-		false,
-		false,
-		false,
+		true,
+		true,
 		false,
 		false,
 		false,
@@ -22647,11 +22651,11 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Button,
+		cr.plugins_.Function,
+		true,
 		false,
-		true,
-		true,
-		true,
+		false,
+		false,
 		false,
 		false,
 		false,
@@ -22683,7 +22687,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.TiledBg,
+		cr.plugins_.Text,
 		false,
 		true,
 		true,
@@ -22692,18 +22696,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
-		true
-	]
-,	[
-		cr.plugins_.WebStorage,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
 		false
 	]
 ,	[
@@ -22719,15 +22711,15 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.win8,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -22743,7 +22735,19 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.win8,
+		cr.plugins_.TiledBg,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -23635,6 +23639,23 @@ cr.getProjectModel = function() { return [
 		[],
 		null
 	]
+,	[
+		"t36",
+		cr.plugins_.Text,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		5794892183316289,
+		[],
+		null
+	]
 	],
 	[
 	],
@@ -24138,6 +24159,26 @@ cr.getProjectModel = function() { return [
 					1,
 					1,
 					"",
+					0
+				]
+			]
+,			[
+				[475, 9, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
+				36,
+				37,
+				[
+				],
+				[
+				],
+				[
+					"Text",
+					0,
+					"24pt Arial",
+					"rgb(255,255,255)",
+					0,
+					0,
+					0,
+					0,
 					0
 				]
 			]
@@ -26158,6 +26199,13 @@ false,false,3552970546163114,false
 				]
 			]
 ,			[
+				1,
+				"blockPosition",
+				0,
+				0,
+false,false,3096662099478148,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -26188,6 +26236,42 @@ false,false,3552970546163114,false
 				[
 				[
 					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					7332720202326143,
+					false
+					,[
+					[
+						11,
+						"blockPosition"
+					]
+,					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps.floor
+							,[
+[
+								19,
+								cr.system_object.prototype.exps.random
+								,[
+[
+									0,
+									0
+								]
+,[
+									0,
+									22
+								]
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
 					cr.system_object.prototype.acts.CreateObject,
 					null,
 					1031608927621318,
@@ -26209,24 +26293,8 @@ false,false,3552970546163114,false
 						[
 							6,
 							[
-								19,
-								cr.system_object.prototype.exps.floor
-								,[
-[
-									19,
-									cr.system_object.prototype.exps.random
-									,[
-[
-										0,
-										0
-									]
-,[
-										0,
-										22
-									]
-									]
-								]
-								]
+								23,
+								"blockPosition"
 							]
 							,[
 								0,
@@ -26268,6 +26336,55 @@ false,false,3552970546163114,false
 									0,
 									100
 								]
+							]
+						]
+					]
+					]
+				]
+,				[
+					36,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					1878395883775609,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								2,
+								"Bloque: "
+							]
+							,[
+								23,
+								"blockPosition"
+							]
+						]
+					]
+					]
+				]
+,				[
+					15,
+					cr.plugins_.Sprite.prototype.acts.SetOpacity,
+					null,
+					3496166083189931,
+					false
+					,[
+					[
+						0,
+						[
+							19,
+							cr.system_object.prototype.exps.random
+							,[
+[
+								0,
+								50
+							]
+,[
+								0,
+								100
+							]
 							]
 						]
 					]
@@ -26684,7 +26801,7 @@ false,false,3552970546163114,false
 							]
 							,[
 								2,
-								" jugando Falling Dodge para Windows 8"
+								" bloques jugando Falling Dodge para Windows 8"
 							]
 						]
 					]
@@ -27006,53 +27123,187 @@ false,false,3652255639891808,false
 			,[
 			[
 				0,
-				null,
+				[true, "Music"],
 				false,
 				null,
-				614801186587341,
+				8856442705268053,
 				[
 				[
 					-1,
-					cr.system_object.prototype.cnds.CompareVar,
+					cr.system_object.prototype.cnds.IsGroupActive,
 					null,
 					0,
 					false,
 					false,
 					false,
-					9380389218592028,
+					8856442705268053,
 					false
 					,[
 					[
-						11,
-						"MusicOn"
-					]
-,					[
-						8,
-						0
-					]
-,					[
-						7,
+						1,
 						[
-							0,
-							0
+							2,
+							"Music"
 						]
 					]
 					]
 				]
 				],
 				[
+				]
+				,[
 				[
-					32,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
+					0,
 					null,
-					5218299296329196,
-					false
-					,[
+					false,
+					null,
+					8768002845951396,
 					[
-						7,
+					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3291263262696905,
+						false
+						,[
 						[
-							23,
-							"MUSICOFFTEXT"
+							1,
+							[
+								2,
+								"music"
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3240710768811689,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"music"
+							]
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							0,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						32,
+						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
+						null,
+						26175547998293,
+						false
+						,[
+						[
+							7,
+							[
+								23,
+								"MUSICONTEXT"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						1760472810680859,
+						false
+						,[
+						[
+							11,
+							"MusicOn"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					6741417824384658,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.Else,
+						null,
+						0,
+						false,
+						false,
+						false,
+						7285687439922048,
+						false
+					]
+					],
+					[
+					[
+						32,
+						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
+						null,
+						686320781101247,
+						false
+						,[
+						[
+							7,
+							[
+								23,
+								"MUSICOFFTEXT"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						6664541516240287,
+						false
+						,[
+						[
+							11,
+							"MusicOn"
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
 						]
 					]
 					]
@@ -27061,36 +27312,187 @@ false,false,3652255639891808,false
 			]
 ,			[
 				0,
-				null,
+				[true, "Sound effects"],
 				false,
 				null,
-				4809899572563723,
+				5260744070574762,
 				[
 				[
 					-1,
-					cr.system_object.prototype.cnds.Else,
+					cr.system_object.prototype.cnds.IsGroupActive,
 					null,
 					0,
 					false,
 					false,
 					false,
-					3860755605895918,
-					false
-				]
-				],
-				[
-				[
-					32,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-					null,
-					3550393530639046,
+					5260744070574762,
 					false
 					,[
 					[
-						7,
+						1,
 						[
-							23,
-							"MUSICONTEXT"
+							2,
+							"Sound effects"
+						]
+					]
+					]
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					614801186587341,
+					[
+					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+						null,
+						0,
+						false,
+						false,
+						false,
+						1947576083545557,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"soundFX"
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
+						null,
+						0,
+						false,
+						false,
+						false,
+						9380389218592028,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"soundFX"
+							]
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							0,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						35,
+						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
+						null,
+						5218299296329196,
+						false
+						,[
+						[
+							7,
+							[
+								23,
+								"SOUNDFXONTEXT"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						1217278547224759,
+						false
+						,[
+						[
+							11,
+							"SoundFXOn"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					4809899572563723,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.Else,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3860755605895918,
+						false
+					]
+					],
+					[
+					[
+						35,
+						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
+						null,
+						3550393530639046,
+						false
+						,[
+						[
+							7,
+							[
+								23,
+								"SOUNDFXOFFTEXT"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						1020955972788256,
+						false
+						,[
+						[
+							11,
+							"SoundFXOn"
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
 						]
 					]
 					]
@@ -27494,6 +27896,52 @@ false,false,3652255639891808,false
 				]
 				]
 			]
+,			[
+				30,
+				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+				null,
+				2120588372374614,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"soundFX"
+					]
+				]
+,				[
+					7,
+					[
+						23,
+						"SoundFXOn"
+					]
+				]
+				]
+			]
+,			[
+				30,
+				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+				null,
+				8582466439884336,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"music"
+					]
+				]
+,				[
+					7,
+					[
+						23,
+						"MusicOn"
+					]
+				]
+				]
+			]
 			]
 		]
 		]
@@ -27512,7 +27960,7 @@ false,false,3652255639891808,false
 	true,
 	2,
 	2,
-	37,
+	38,
 	false,
 	true,
 	[

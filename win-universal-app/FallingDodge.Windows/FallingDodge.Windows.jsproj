@@ -56,7 +56,10 @@
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <Content Include="css\default.css" />
+    <Content Include="js\default.js" />
     <Content Include="page.html" />
+    <Content Include="settings\history.html" />
     <Content Include="settings\privacy.html" />
     <Content Include="settings\about.html" />
     <None Include="FallingDodge.Windows_TemporaryKey.pfx" />
