@@ -4,10 +4,13 @@
     var app = WinJS.Application;
     var originalH, originalW;
     jQuery(window).resize(function () {
-        if (jQuery(window).width() == originalW) {
+        var aspectRatio = jQuery(window).width() / jQuery(window).height();
+        if (1.6 < aspectRatio && aspectRatio < 1.8) {
             cr_setSuspended(false);
+            viewState(true);
         } else {
             cr_setSuspended(true);
+            viewState(false);
         }
         //cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
     });
@@ -33,6 +36,14 @@
             originalW = jQuery(window).width();
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
                 // TODO: This application has been newly launched.
+                var aspectRatio = jQuery(window).width() / jQuery(window).height();
+                if (1.6 < aspectRatio && aspectRatio < 1.8) {
+                    cr_setSuspended(false);
+                    viewState(true);
+                } else {
+                    cr_setSuspended(true);
+                    viewState(false);
+                }
             }
             else {
                 // This application has been reactivated from suspension.
@@ -66,5 +77,23 @@
     Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function () {
         cr_setSuspended(false);
     }, false);
+
+
+    function viewState(valid) {
+        if (valid) {
+            $("#invalidViewStateShade").hide();
+        } else {
+            $("#invalidViewStateShade").show();
+            $("#viewStateMessage").centerVertical();
+        }
+    }
+
+    // Center on the screen
+    jQuery.fn.centerVertical = function () {
+        this.css("position", "absolute");
+        this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+                                                    $(window).scrollTop()) + "px");
+        return this;
+    }
 
 })();
