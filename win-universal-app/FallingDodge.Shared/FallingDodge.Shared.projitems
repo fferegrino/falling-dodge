@@ -29,6 +29,7 @@
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\bgmenuscreen-sheet0.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\configbutton-sheet0.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leaderboardbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backsettingsbutton-sheet0.png" />
 	<Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
 	<Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
 	<Content Include="$(MSBuildThisFileDirectory)icon-16.png" />

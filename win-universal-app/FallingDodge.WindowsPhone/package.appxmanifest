@@ -17,7 +17,7 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="index-phone.html">
-      <m3:VisualElements DisplayName="Falling Dodge" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png" Description="Falling Dodge The Game FTW!" ForegroundText="light" BackgroundColor="#000000">
+      <m3:VisualElements DisplayName="Falling Dodge" Square150x150Logo="images\Square150x150Logo.png" Square44x44Logo="images\Square44x44Logo.png" Description="Sam se encontró en una ciudad llena desierta y a lo lejos se bosquejaban unas ruinas, el miraba a lo lejos cuando de pronto comenzaron a caer bloques de colores, era lo que llamaban una lluvia. Llovía a menudo por eso era difícil mantener a las ciudades a salvo y una vez que una ciudad era destruida las lluvias se agudizaban en aquel punto de Marte." ForegroundText="light" BackgroundColor="#000000">
         <m3:DefaultTile Wide310x150Logo="images\Wide310x150Logo.png" Square71x71Logo="images\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:SplashScreen Image="images\SplashScreen.png" BackgroundColor="#000000" />

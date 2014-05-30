@@ -16,7 +16,7 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="index-win.html">
-      <m2:VisualElements DisplayName="Falling Dodge" Description="Falling Dodge The Game FTW!" ForegroundText="light" BackgroundColor="#000000" Square150x150Logo="images\Logo.png" Square30x30Logo="images\SmallLogo.png">
+      <m2:VisualElements DisplayName="Falling Dodge" Description="Sam se encontró en una ciudad llena desierta y a lo lejos se bosquejaban unas ruinas, el miraba a lo lejos cuando de pronto comenzaron a caer bloques de colores, era lo que llamaban una lluvia. Llovía a menudo por eso era difícil mantener a las ciudades a salvo y una vez que una ciudad era destruida las lluvias se agudizaban en aquel punto de Marte." ForegroundText="light" BackgroundColor="#000000" Square150x150Logo="images\Logo.png" Square30x30Logo="images\SmallLogo.png">
         <m2:DefaultTile ShortName="Falling Dodge">
         </m2:DefaultTile>
         <m2:SplashScreen Image="images\splashscreen.png" BackgroundColor="#000000" />
@@ -27,7 +27,4 @@
       </m2:VisualElements>
     </Application>
   </Applications>
-  <Capabilities>
-    <Capability Name="internetClient" />
-  </Capabilities>
 </Package>

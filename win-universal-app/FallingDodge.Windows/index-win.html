@@ -96,6 +96,17 @@
 					cr_setSuspended(false);
 				}
 				args.setPromise(WinJS.UI.processAll());
+
+			    // Adding items to Settings pane
+                /*
+				app.onsettings = function (e) {
+				    e.detail.applicationcommands = {
+                        "page" : { href: "/page.html" , title: "Page"}
+				        //"about": { href: "/settings/about.html", title: "Acerca de" }
+				    };
+				    WinJS.UI.SettingsFlyout.populateSettings(e);
+				}
+                */
 			}
 		};
 
