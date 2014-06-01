@@ -21159,14 +21159,11 @@ cr.plugins_.win8 = function(runtime)
 				WinJS["Application"].addEventListener("settings", function (e) {
 					var cmds = {};
 					if (self.showAbout)
-                        cmds["about"] = { "title": "Acerca de", "href": "/settings/about.html" };
+						cmds["about"] = { "title": "About", "href": "/about.html" };
 					if (self.showSupport)
 						cmds["support"] = { "title": "Support", "href": "/support.html" };
 					if (self.showPrivacy)
 						cmds["privacy"] = { "title": "Privacy Policy", "href": "/privacy.html" };
-                    // History flyout:
-                    cmds["history"] = { title: "Historia", href: "/settings/history.html" };
-
 					e["detail"]["applicationcommands"] = cmds;
 					WinJS["UI"]["SettingsFlyout"]["populateSettings"](e);
 				});
@@ -22615,8 +22612,8 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Arr,
-		false,
+		cr.plugins_.Audio,
+		true,
 		false,
 		false,
 		false,
@@ -22627,8 +22624,8 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Audio,
-		true,
+		cr.plugins_.Arr,
+		false,
 		false,
 		false,
 		false,
@@ -22675,55 +22672,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Sprite,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.win8,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.Touch,
 		true,
 		false,
 		false,
@@ -22745,6 +22694,54 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.Sprite,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
 	]
 ,	[
 		cr.plugins_.WebStorage,
@@ -23656,6 +23653,36 @@ cr.getProjectModel = function() { return [
 		[],
 		null
 	]
+,	[
+		"t37",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			9549834460853459,
+			[
+				["images/assetsC2/backbutton-sheet0.png", 1575, 0, 0, 80, 80, 1, 0.5, 0.5,[],[0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3500000238418579,0.3500000238418579,-0.5,0,-0.3500000238418579,-0.3500000238418579,0,-0.5,0.3500000238418579,-0.3500000238418579],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		8872434332521765,
+		[],
+		null
+	]
 	],
 	[
 	],
@@ -24421,6 +24448,67 @@ cr.getProjectModel = function() { return [
 					0,
 					"{\"\"c2array\"\":true,\"\"size\"\":[2,32,1],\"\"data\"\":[[[9],[10],[11],[12],[13],[14],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[38],[39],[40],[43],[47],[48]],[[\"\".'|\"\"],[\"\"l:\"\"],[\"\"Ii,\"\"],[\"\"!\"\"],[\"\";\"\"],[\"\"`\"\"],[\"\"[]\"\"],[\"\"-\\\"\"°\"\"],[\"\"()\"\"],[\"\"t\"\"],[\"\"?\"\"],[\"\"rs*\"\"],[\"\"\\\\/\"\"],[\"\"ce1_\"\"],[\"\"juvxy3567$<>\"\"],[\"\"bhnz89£\"\"],[\"\"Fao4~+=\"\"],[\"\"BLPSgk2\"\"],[\"\"EYdfp0\"\"],[\"\"GKTq\"\"],[\"\"CJR€\"\"],[\"\"U\"\"],[\"\"AVXZ\"\"],[\"\"DH\"\"],[\"\"N&\"\"],[\"\"O\"\"],[\"\"Qw\"\"],[\"\"#\"\"],[\"\"Mm\"\"],[\"\"%\"\"],[\"\"@\"\"],[\"\"W\"\"]]]}",
 					-1
+				]
+			]
+			],
+			[			]
+		]
+		],
+		[
+		],
+		[]
+	]
+,	[
+		"HighScoresLayout",
+		1366,
+		768,
+		false,
+		"HighScoresEvents",
+		2722167846327141,
+		[
+		[
+			"Layer 0",
+			0,
+			6143969674334538,
+			true,
+			[255, 255, 255],
+			false,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				27,
+				38,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[80, 80, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				37,
+				39,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
 				]
 			]
 			],
@@ -26895,6 +26983,74 @@ false,false,3096662099478148,false
 			null,
 			false,
 			null,
+			945764023010159,
+			[
+			[
+				2,
+				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7248090117989111,
+				false
+				,[
+				[
+					4,
+					28
+				]
+				]
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.SetLayerVisible,
+				null,
+				4587821778947775,
+				false
+				,[
+				[
+					5,
+					[
+						0,
+						2
+					]
+				]
+,				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				9212991770584013,
+				false
+				,[
+				[
+					11,
+					"settingsVisible"
+				]
+,				[
+					7,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			6325049861565252,
 			[
 			[
@@ -26982,7 +27138,7 @@ false,false,3096662099478148,false
 			null,
 			false,
 			null,
-			945764023010159,
+			2028762897189779,
 			[
 			[
 				2,
@@ -26992,12 +27148,12 @@ false,false,3096662099478148,false
 				false,
 				false,
 				false,
-				7248090117989111,
+				5448355880219262,
 				false
 				,[
 				[
 					4,
-					28
+					29
 				]
 				]
 			]
@@ -27005,41 +27161,14 @@ false,false,3096662099478148,false
 			[
 			[
 				-1,
-				cr.system_object.prototype.acts.SetLayerVisible,
+				cr.system_object.prototype.acts.GoToLayout,
 				null,
-				4587821778947775,
+				1742558095914426,
 				false
 				,[
 				[
-					5,
-					[
-						0,
-						2
-					]
-				]
-,				[
-					3,
-					1
-				]
-				]
-			]
-,			[
-				-1,
-				cr.system_object.prototype.acts.SetVar,
-				null,
-				9212991770584013,
-				false
-				,[
-				[
-					11,
-					"settingsVisible"
-				]
-,				[
-					7,
-					[
-						0,
-						1
-					]
+					6,
+					"HighScoresLayout"
 				]
 				]
 			]
@@ -27946,6 +28075,311 @@ false,false,3652255639891808,false
 		]
 		]
 	]
+,	[
+		"HighScoresEvents",
+		[
+		[
+			1,
+			"MAXSCORES",
+			0,
+			10,
+false,true,6804083586070575,false
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			1047562254630422,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.OnLayoutStart,
+				null,
+				1,
+				false,
+				false,
+				false,
+				2978388809368693,
+				false
+			]
+			],
+			[
+			[
+				4,
+				cr.plugins_.Function.prototype.acts.CallFunction,
+				null,
+				5737543505202141,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"fillScoreboard"
+					]
+				]
+,				[
+					13,
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			[true, "Functions"],
+			false,
+			null,
+			470153861156153,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
+				null,
+				0,
+				false,
+				false,
+				false,
+				470153861156153,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Functions"
+					]
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				1,
+				"currentScore",
+				0,
+				0,
+false,false,137819117408848,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				5633705744667694,
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					1480419637118747,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"fillScoreboard"
+						]
+					]
+					]
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					8735216911659403,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.While,
+						null,
+						0,
+						true,
+						false,
+						false,
+						2370518549337235,
+						false
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						6053472234805542,
+						false
+						,[
+						[
+							11,
+							"currentScore"
+						]
+,						[
+							8,
+							3
+						]
+,						[
+							7,
+							[
+								23,
+								"MAXSCORES"
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.SessionStorageExists,
+						null,
+						0,
+						false,
+						false,
+						false,
+						9301190473351835,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									2,
+									"maxScore"
+								]
+								,[
+									23,
+									"currentScore"
+								]
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.CreateObject,
+						null,
+						5178119531293362,
+						false
+						,[
+						[
+							4,
+							16
+						]
+,						[
+							5,
+							[
+								0,
+								0
+							]
+						]
+,						[
+							0,
+							[
+								6,
+								[
+									0,
+									10
+								]
+								,[
+									23,
+									"currentScore"
+								]
+							]
+						]
+,						[
+							0,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.AddVar,
+						null,
+						8230507871545415,
+						false
+						,[
+						[
+							11,
+							"currentScore"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			7878270951107792,
+			[
+			[
+				2,
+				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+				null,
+				1,
+				false,
+				false,
+				false,
+				5292979064155417,
+				false
+				,[
+				[
+					4,
+					37
+				]
+				]
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
+				null,
+				2616680685320864,
+				false
+				,[
+				[
+					6,
+					"MenuLayout"
+				]
+				]
+			]
+			]
+		]
+		]
+	]
 	],
 	"media/",
 	false,
@@ -27960,7 +28394,7 @@ false,false,3652255639891808,false
 	true,
 	2,
 	2,
-	38,
+	40,
 	false,
 	true,
 	[

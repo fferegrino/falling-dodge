@@ -49,15 +49,19 @@
     <RequiredPlatformVersion>8.1</RequiredPlatformVersion>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <DefaultLanguage>es</DefaultLanguage>
-    <PackageCertificateThumbprint>CFEEC17931B9FA911E841C3069C72A0B2FA5195B</PackageCertificateThumbprint>
-    <PackageCertificateKeyFile>FallingDodge.Windows_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>AD3E96A74FBAB31158A0DAF8157C1D28DFEA171C</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>FallingDodge.Windows_StoreKey.pfx</PackageCertificateKeyFile>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
+    <None Include="FallingDodge.Windows_StoreKey.pfx" />
     <Content Include="js\default.js" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="page.html" />
     <Content Include="settings\history.html" />
     <Content Include="settings\privacy.html" />
