@@ -19638,6 +19638,316 @@ cr.plugins_.Text = function(runtime)
 }());
 ;
 ;
+cr.plugins_.TextBox = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.TextBox.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	var elemTypes = ["text", "password", "email", "number", "tel", "url"];
+	if (navigator.userAgent.indexOf("MSIE 9") > -1)
+	{
+		elemTypes[2] = "text";
+		elemTypes[3] = "text";
+		elemTypes[4] = "text";
+		elemTypes[5] = "text";
+	}
+	instanceProto.onCreate = function()
+	{
+		if (this.runtime.isDomFree)
+		{
+			cr.logexport("[Construct 2] Textbox plugin not supported on this platform - the object will not be created");
+			return;
+		}
+		if (this.properties[7] === 6)	// textarea
+		{
+			this.elem = document.createElement("textarea");
+			jQuery(this.elem).css("resize", "none");
+		}
+		else
+		{
+			this.elem = document.createElement("input");
+			this.elem.type = elemTypes[this.properties[7]];
+		}
+		this.elem.id = this.properties[9];
+		jQuery(this.elem).appendTo(this.runtime.canvasdiv ? this.runtime.canvasdiv : "body");
+		this.elem["autocomplete"] = "off";
+		this.elem.value = this.properties[0];
+		this.elem["placeholder"] = this.properties[1];
+		this.elem.title = this.properties[2];
+		this.elem.disabled = (this.properties[4] === 0);
+		this.elem["readOnly"] = (this.properties[5] === 1);
+		this.elem["spellcheck"] = (this.properties[6] === 1);
+		this.autoFontSize = (this.properties[8] !== 0);
+		this.element_hidden = false;
+		if (this.properties[3] === 0)
+		{
+			jQuery(this.elem).hide();
+			this.visible = false;
+			this.element_hidden = true;
+		}
+		var onchangetrigger = (function (self) {
+			return function() {
+				self.runtime.trigger(cr.plugins_.TextBox.prototype.cnds.OnTextChanged, self);
+			};
+		})(this);
+		this.elem["oninput"] = onchangetrigger;
+		if (navigator.userAgent.indexOf("MSIE") !== -1)
+			this.elem["oncut"] = onchangetrigger;
+		this.elem.onclick = (function (self) {
+			return function(e) {
+				e.stopPropagation();
+				self.runtime.isInUserInputEvent = true;
+				self.runtime.trigger(cr.plugins_.TextBox.prototype.cnds.OnClicked, self);
+				self.runtime.isInUserInputEvent = false;
+			};
+		})(this);
+		this.elem.ondblclick = (function (self) {
+			return function(e) {
+				e.stopPropagation();
+				self.runtime.isInUserInputEvent = true;
+				self.runtime.trigger(cr.plugins_.TextBox.prototype.cnds.OnDoubleClicked, self);
+				self.runtime.isInUserInputEvent = false;
+			};
+		})(this);
+		this.elem.addEventListener("touchstart", function (e) {
+			e.stopPropagation();
+		}, false);
+		this.elem.addEventListener("touchmove", function (e) {
+			e.stopPropagation();
+		}, false);
+		this.elem.addEventListener("touchend", function (e) {
+			e.stopPropagation();
+		}, false);
+		jQuery(this.elem).mousedown(function (e) {
+			e.stopPropagation();
+		});
+		jQuery(this.elem).mouseup(function (e) {
+			e.stopPropagation();
+		});
+		jQuery(this.elem).keydown(function (e) {
+			if (e.which !== 13 && e.which != 27)	// allow enter and escape
+				e.stopPropagation();
+		});
+		jQuery(this.elem).keyup(function (e) {
+			if (e.which !== 13 && e.which != 27)	// allow enter and escape
+				e.stopPropagation();
+		});
+		this.lastLeft = 0;
+		this.lastTop = 0;
+		this.lastRight = 0;
+		this.lastBottom = 0;
+		this.lastWinWidth = 0;
+		this.lastWinHeight = 0;
+		this.updatePosition(true);
+		this.runtime.tickMe(this);
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return {
+			"text": this.elem.value,
+			"placeholder": this.elem.placeholder,
+			"tooltip": this.elem.title,
+			"disabled": !!this.elem.disabled,
+			"readonly": !!this.elem.readOnly,
+			"spellcheck": !!this.elem["spellcheck"]
+		};
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+		this.elem.value = o["text"];
+		this.elem.placeholder = o["placeholder"];
+		this.elem.title = o["tooltip"];
+		this.elem.disabled = o["disabled"];
+		this.elem.readOnly = o["readonly"];
+		this.elem["spellcheck"] = o["spellcheck"];
+	};
+	instanceProto.onDestroy = function ()
+	{
+		if (this.runtime.isDomFree)
+				return;
+		jQuery(this.elem).remove();
+		this.elem = null;
+	};
+	instanceProto.tick = function ()
+	{
+		this.updatePosition();
+	};
+	instanceProto.updatePosition = function (first)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		var left = this.layer.layerToCanvas(this.x, this.y, true);
+		var top = this.layer.layerToCanvas(this.x, this.y, false);
+		var right = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, true);
+		var bottom = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, false);
+		if (!this.visible || !this.layer.visible || right <= 0 || bottom <= 0 || left >= this.runtime.width || top >= this.runtime.height)
+		{
+			if (!this.element_hidden)
+				jQuery(this.elem).hide();
+			this.element_hidden = true;
+			return;
+		}
+		if (left < 1)
+			left = 1;
+		if (top < 1)
+			top = 1;
+		if (right >= this.runtime.width)
+			right = this.runtime.width - 1;
+		if (bottom >= this.runtime.height)
+			bottom = this.runtime.height - 1;
+		var curWinWidth = window.innerWidth;
+		var curWinHeight = window.innerHeight;
+		if (!first && this.lastLeft === left && this.lastTop === top && this.lastRight === right && this.lastBottom === bottom && this.lastWinWidth === curWinWidth && this.lastWinHeight === curWinHeight)
+		{
+			if (this.element_hidden)
+			{
+				jQuery(this.elem).show();
+				this.element_hidden = false;
+			}
+			return;
+		}
+		this.lastLeft = left;
+		this.lastTop = top;
+		this.lastRight = right;
+		this.lastBottom = bottom;
+		this.lastWinWidth = curWinWidth;
+		this.lastWinHeight = curWinHeight;
+		if (this.element_hidden)
+		{
+			jQuery(this.elem).show();
+			this.element_hidden = false;
+		}
+		var offx = Math.round(left) + jQuery(this.runtime.canvas).offset().left;
+		var offy = Math.round(top) + jQuery(this.runtime.canvas).offset().top;
+		jQuery(this.elem).css("position", "absolute");
+		jQuery(this.elem).offset({left: offx, top: offy});
+		jQuery(this.elem).width(Math.round(right - left));
+		jQuery(this.elem).height(Math.round(bottom - top));
+		if (this.autoFontSize)
+			jQuery(this.elem).css("font-size", ((this.layer.getScale(true) / this.runtime.devicePixelRatio) - 0.2) + "em");
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function(glw)
+	{
+	};
+	function Cnds() {};
+	Cnds.prototype.CompareText = function (text, case_)
+	{
+		if (this.runtime.isDomFree)
+			return false;
+		if (case_ === 0)	// insensitive
+			return cr.equals_nocase(this.elem.value, text);
+		else
+			return this.elem.value === text;
+	};
+	Cnds.prototype.OnTextChanged = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnClicked = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnDoubleClicked = function ()
+	{
+		return true;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.SetText = function (text)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.value = text;
+	};
+	Acts.prototype.SetPlaceholder = function (text)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.placeholder = text;
+	};
+	Acts.prototype.SetTooltip = function (text)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.title = text;
+	};
+	Acts.prototype.SetVisible = function (vis)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.visible = (vis !== 0);
+	};
+	Acts.prototype.SetEnabled = function (en)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.disabled = (en === 0);
+	};
+	Acts.prototype.SetReadOnly = function (ro)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.readOnly = (ro === 0);
+	};
+	Acts.prototype.SetFocus = function ()
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.focus();
+	};
+	Acts.prototype.SetBlur = function ()
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.blur();
+	};
+	Acts.prototype.SetCSSStyle = function (p, v)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		jQuery(this.elem).css(p, v);
+	};
+	Acts.prototype.ScrollToBottom = function ()
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.scrollTop = this.elem.scrollHeight;
+	};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.Text = function (ret)
+	{
+		if (this.runtime.isDomFree)
+		{
+			ret.set_string("");
+			return;
+		}
+		ret.set_string(this.elem.value);
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
 cr.plugins_.TiledBg = function(runtime)
 {
 	this.runtime = runtime;
@@ -22612,18 +22922,6 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Audio,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.Arr,
 		false,
 		false,
@@ -22641,6 +22939,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.Audio,
+		true,
+		false,
+		false,
+		false,
 		false,
 		false,
 		false,
@@ -22672,18 +22982,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.win8,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.TiledBg,
 		false,
 		true,
@@ -22696,7 +22994,7 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.SpriteFontPlus,
 		false,
 		true,
 		true,
@@ -22705,6 +23003,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		true
+	]
+,	[
+		cr.plugins_.win8,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -22720,18 +23030,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22744,6 +23042,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.TextBox,
+		false,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.WebStorage,
 		true,
 		false,
@@ -22753,6 +23063,18 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false,
+		false
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 		false
 	]
 	],
@@ -23671,7 +23993,7 @@ cr.getProjectModel = function() { return [
 			false,
 			9549834460853459,
 			[
-				["images/assetsC2/backbutton-sheet0.png", 1575, 0, 0, 80, 80, 1, 0.5, 0.5,[],[0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3500000238418579,0.3500000238418579,-0.5,0,-0.3500000238418579,-0.3500000238418579,0,-0.5,0.3500000238418579,-0.3500000238418579],0]
+				["images/assetsC2/backbutton-sheet0.png", 1575, 0, 0, 80, 80, 1, 0.5, 0.5,[],[0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3499999940395355,0.3500000238418579,-0.5,0,-0.3499999940395355,-0.3499999940395355,0,-0.5,0.3500000238418579,-0.3499999940395355],0]
 			]
 			]
 		],
@@ -23680,6 +24002,70 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		8872434332521765,
+		[],
+		null
+	]
+,	[
+		"t38",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			2242407074118407,
+			[
+				["images/assetsC2/quitgame-sheet0.png", 637, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.5,-0.5,0.4599999785423279,-0.5,0.4599999785423279,0.5,-0.5,0.5],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		3370477570130572,
+		[],
+		null
+	]
+,	[
+		"t39",
+		cr.plugins_.TextBox,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		1129908358552672,
+		[],
+		null
+	]
+,	[
+		"t40",
+		cr.plugins_.Text,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		8715136937947407,
 		[],
 		null
 	]
@@ -23892,7 +24278,7 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[1176, 676, 0, 80, 80, 0, 0, 0.699999988079071, 0.5, 0.5, 0, 0, []],
+				[1176, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				6,
 				6,
 				[
@@ -23907,7 +24293,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[1276, 676, 0, 80, 80, 0, 0, 0.699999988079071, 0.5, 0.5, 0, 0, []],
+				[1276, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				7,
 				7,
 				[
@@ -23922,7 +24308,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[90, 676, 0, 80, 80, 0, 0, 0.699999988079071, 0.5, 0.5, 0, 0, []],
+				[90, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				8,
 				8,
 				[
@@ -23937,7 +24323,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[90, 586, 0, 50, 48, 0, 0, 0.699999988079071, 0.5, 0.5, 0, 0, []],
+				[90, 435, 0, 50, 48, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				12,
 				12,
 				[
@@ -24022,6 +24408,67 @@ cr.getProjectModel = function() { return [
 					"Default",
 					0,
 					1
+				]
+			]
+,			[
+				[483, 160, 0, 400, 50, 0, 0, 1, 0, 0, 0, 0, []],
+				39,
+				41,
+				[
+				],
+				[
+				],
+				[
+					"",
+					"Elige tu nombre",
+					"",
+					1,
+					1,
+					0,
+					0,
+					0,
+					1,
+					""
+				]
+			]
+,			[
+				[483, 90, 0, 400, 70, 0, 0, 1, 0, 0, 0, 0, []],
+				18,
+				42,
+				[
+				],
+				[
+				],
+				[
+					9,
+					9,
+					9,
+					9,
+					1,
+					0,
+					1,
+					0,
+					1
+				]
+			]
+,			[
+				[483, 107.6234588623047, 0, 400, 42.48094177246094, 0, 0, 1, 0, 0, 0, 0, []],
+				40,
+				43,
+				[
+				],
+				[
+				],
+				[
+					"Error en el nombre de usuario",
+					1,
+					"20pt Segoe UI Light",
+					"rgb(255,255,255)",
+					1,
+					0,
+					0,
+					0,
+					0
 				]
 			]
 			],
@@ -24511,6 +24958,21 @@ cr.getProjectModel = function() { return [
 					1
 				]
 			]
+,			[
+				[80, 200, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				38,
+				40,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
 			],
 			[			]
 		]
@@ -24525,6 +24987,20 @@ cr.getProjectModel = function() { return [
 		"GameEvents",
 		[
 		[
+			1,
+			"userPlaying",
+			1,
+			"",
+false,false,9091896386734875,false
+		]
+,		[
+			1,
+			"retVal",
+			0,
+			0,
+false,false,6526169856898472,false
+		]
+,		[
 			1,
 			"gameStarted",
 			0,
@@ -24755,6 +25231,13 @@ false,false,3552970546163114,false
 			]
 			,[
 			[
+				1,
+				"regexVal",
+				0,
+				-1,
+false,false,3265711371229401,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -24784,148 +25267,36 @@ false,false,3552970546163114,false
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
-					8538319771354531,
+					6009944559692154,
 					false
 					,[
 					[
 						11,
-						"gameStarted"
+						"regexVal"
 					]
 ,					[
 						7,
 						[
-							0,
-							1
+							19,
+							cr.system_object.prototype.exps.regexmatchcount
+							,[
+[
+								20,
+								39,
+								cr.plugins_.TextBox.prototype.exps.Text,
+								true,
+								null
+							]
+,[
+								2,
+								"[a-zA-Z]+[a-zA-Z0-9_]{4,16}"
+							]
+,[
+								2,
+								""
+							]
+							]
 						]
-					]
-					]
-				]
-,				[
-					4,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					1324570273927267,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"pauseEvent"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-,				[
-					4,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					2513068946250862,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"createBlock"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-,				[
-					5,
-					cr.plugins_.Audio.prototype.acts.Play,
-					null,
-					722668045179143,
-					false
-					,[
-					[
-						2,
-						["backgroundmattoglseby",true]
-					]
-,					[
-						3,
-						1
-					]
-,					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-,					[
-						1,
-						[
-							2,
-							"bgMusic"
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetLayerVisible,
-					null,
-					8737415677863547,
-					false
-					,[
-					[
-						5,
-						[
-							0,
-							1
-						]
-					]
-,					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetLayerVisible,
-					null,
-					7682669816967224,
-					false
-					,[
-					[
-						5,
-						[
-							0,
-							3
-						]
-					]
-,					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetLayerVisible,
-					null,
-					9682707718075447,
-					false
-					,[
-					[
-						5,
-						[
-							0,
-							4
-						]
-					]
-,					[
-						3,
-						0
 					]
 					]
 				]
@@ -24936,7 +25307,7 @@ false,false,3552970546163114,false
 					null,
 					false,
 					null,
-					3267183367730566,
+					301910813222383,
 					[
 					[
 						-1,
@@ -24946,12 +25317,12 @@ false,false,3552970546163114,false
 						false,
 						false,
 						false,
-						1421228249377824,
+						1523026314488563,
 						false
 						,[
 						[
 							11,
-							"MusicOn"
+							"regexVal"
 						]
 ,						[
 							8,
@@ -24961,7 +25332,7 @@ false,false,3552970546163114,false
 							7,
 							[
 								0,
-								0
+								1
 							]
 						]
 						]
@@ -24969,22 +25340,313 @@ false,false,3552970546163114,false
 					],
 					[
 					[
-						5,
-						cr.plugins_.Audio.prototype.acts.SetMuted,
+						-1,
+						cr.system_object.prototype.acts.SetVar,
 						null,
-						5215096937873114,
+						3395935579890155,
+						false
+						,[
+						[
+							11,
+							"gameStarted"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+,					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						879679123946432,
 						false
 						,[
 						[
 							1,
 							[
 								2,
+								"pauseEvent"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+,					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						5315378487093182,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"createBlock"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+,					[
+						5,
+						cr.plugins_.Audio.prototype.acts.Play,
+						null,
+						9699185516138077,
+						false
+						,[
+						[
+							2,
+							["backgroundmattoglseby",true]
+						]
+,						[
+							3,
+							1
+						]
+,						[
+							0,
+							[
+								0,
+								0
+							]
+						]
+,						[
+							1,
+							[
+								2,
 								"bgMusic"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						8142289943854627,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								1
+							]
+						]
+,						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						992099124915719,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								3
+							]
+						]
+,						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						4038235170600649,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								4
 							]
 						]
 ,						[
 							3,
 							0
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						5868390230237623,
+						false
+						,[
+						[
+							11,
+							"userPlaying"
+						]
+,						[
+							7,
+							[
+								20,
+								39,
+								cr.plugins_.TextBox.prototype.exps.Text,
+								true,
+								null
+							]
+						]
+						]
+					]
+,					[
+						36,
+						cr.plugins_.Text.prototype.acts.SetText,
+						null,
+						819956196607316,
+						false
+						,[
+						[
+							7,
+							[
+								10,
+								[
+									2,
+									"Rval: "
+								]
+								,[
+									23,
+									"userPlaying"
+								]
+							]
+						]
+						]
+					]
+,					[
+						40,
+						cr.plugins_.Text.prototype.acts.SetVisible,
+						null,
+						4744877592180479,
+						false
+						,[
+						[
+							3,
+							0
+						]
+						]
+					]
+					]
+					,[
+					[
+						0,
+						null,
+						false,
+						null,
+						4264820587604244,
+						[
+						[
+							-1,
+							cr.system_object.prototype.cnds.CompareVar,
+							null,
+							0,
+							false,
+							false,
+							false,
+							9198581993772124,
+							false
+							,[
+							[
+								11,
+								"MusicOn"
+							]
+,							[
+								8,
+								0
+							]
+,							[
+								7,
+								[
+									0,
+									0
+								]
+							]
+							]
+						]
+						],
+						[
+						[
+							5,
+							cr.plugins_.Audio.prototype.acts.SetMuted,
+							null,
+							5215096937873114,
+							false
+							,[
+							[
+								1,
+								[
+									2,
+									"bgMusic"
+								]
+							]
+,							[
+								3,
+								0
+							]
+							]
+						]
+						]
+					]
+,					[
+						0,
+						null,
+						false,
+						null,
+						6492411313999097,
+						[
+						[
+							-1,
+							cr.system_object.prototype.cnds.Else,
+							null,
+							0,
+							false,
+							false,
+							false,
+							5951002503433789,
+							false
+						]
+						],
+						[
+						[
+							5,
+							cr.plugins_.Audio.prototype.acts.SetMuted,
+							null,
+							7370185700223736,
+							false
+							,[
+							[
+								1,
+								[
+									2,
+									"bgMusic"
+								]
+							]
+,							[
+								3,
+								1
+							]
+							]
 						]
 						]
 					]
@@ -24995,7 +25657,7 @@ false,false,3552970546163114,false
 					null,
 					false,
 					null,
-					6492411313999097,
+					5351816059848131,
 					[
 					[
 						-1,
@@ -25005,26 +25667,19 @@ false,false,3552970546163114,false
 						false,
 						false,
 						false,
-						5951002503433789,
+						6498440780253301,
 						false
 					]
 					],
 					[
 					[
-						5,
-						cr.plugins_.Audio.prototype.acts.SetMuted,
+						40,
+						cr.plugins_.Text.prototype.acts.SetVisible,
 						null,
-						7370185700223736,
+						4490561551550708,
 						false
 						,[
 						[
-							1,
-							[
-								2,
-								"bgMusic"
-							]
-						]
-,						[
 							3,
 							1
 						]
@@ -25467,6 +26122,33 @@ false,false,3552970546163114,false
 				[
 				[
 					-1,
+					cr.system_object.prototype.acts.SetLayerVisible,
+					null,
+					4810654025172,
+					false
+					,[
+					[
+						5,
+						[
+							0,
+							5
+						]
+					]
+,					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.ResetGlobals,
+					null,
+					626857790605558,
+					false
+				]
+,				[
+					-1,
 					cr.system_object.prototype.acts.GoToLayout,
 					null,
 					15278231597651,
@@ -25477,6 +26159,41 @@ false,false,3552970546163114,false
 						"MenuLayout"
 					]
 					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				5979564162279926,
+				[
+				[
+					2,
+					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+					null,
+					1,
+					false,
+					false,
+					false,
+					6449053698065623,
+					false
+					,[
+					[
+						4,
+						39
+					]
+					]
+				]
+				],
+				[
+				[
+					39,
+					cr.plugins_.TextBox.prototype.acts.SetFocus,
+					null,
+					6078129655615139,
+					false
 				]
 				]
 			]
@@ -25667,6 +26384,52 @@ false,false,3552970546163114,false
 ,					[
 						3,
 						1
+					]
+					]
+				]
+,				[
+					39,
+					cr.plugins_.TextBox.prototype.acts.SetCSSStyle,
+					null,
+					4652003059744963,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"font-family"
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"Segoe UI"
+						]
+					]
+					]
+				]
+,				[
+					39,
+					cr.plugins_.TextBox.prototype.acts.SetCSSStyle,
+					null,
+					1913924171528533,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"font-size"
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"1.7em"
+						]
 					]
 					]
 				]
@@ -25944,6 +26707,13 @@ false,false,3552970546163114,false
 				]
 			]
 ,			[
+				1,
+				"placesito",
+				0,
+				0,
+false,false,2927331587099801,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -25987,6 +26757,78 @@ false,false,3552970546163114,false
 				],
 				[
 				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1822226189272911,
+					false
+					,[
+					[
+						11,
+						"placesito"
+					]
+,					[
+						7,
+						[
+							19,
+							cr.system_object.prototype.exps["int"]
+							,[
+[
+								20,
+								4,
+								cr.plugins_.Function.prototype.exps.Call,
+								false,
+								null
+								,[
+[
+									2,
+									"findHighScore"
+								]
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					36,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					8435312442375802,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								10,
+								[
+									10,
+									[
+										2,
+										"Lugar "
+									]
+									,[
+										23,
+										"retVal"
+									]
+								]
+								,[
+									2,
+									" "
+								]
+							]
+							,[
+								23,
+								"userPlaying"
+							]
+						]
+					]
+					]
+				]
+,				[
 					4,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
@@ -26002,6 +26844,81 @@ false,false,3552970546163114,false
 					]
 ,					[
 						13,
+					]
+					]
+				]
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					3192309084801396,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						5375361275856679,
+						false
+						,[
+						[
+							11,
+							"placesito"
+						]
+,						[
+							8,
+							3
+						]
+,						[
+							7,
+							[
+								23,
+								"MAXSCORES"
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						1550921531760346,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"saveScore"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										23,
+										"retVal"
+									]
+								]
+,
+								[
+									7,
+									[
+										23,
+										"fallenBLocks"
+									]
+								]
+						]
+						]
 					]
 					]
 				]
@@ -26429,55 +27346,6 @@ false,false,3096662099478148,false
 					]
 					]
 				]
-,				[
-					36,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					1878395883775609,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								2,
-								"Bloque: "
-							]
-							,[
-								23,
-								"blockPosition"
-							]
-						]
-					]
-					]
-				]
-,				[
-					15,
-					cr.plugins_.Sprite.prototype.acts.SetOpacity,
-					null,
-					3496166083189931,
-					false
-					,[
-					[
-						0,
-						[
-							19,
-							cr.system_object.prototype.exps.random
-							,[
-[
-								0,
-								50
-							]
-,[
-								0,
-								100
-							]
-							]
-						]
-					]
-					]
-				]
 				]
 				,[
 				[
@@ -26591,24 +27459,17 @@ false,false,3096662099478148,false
 							[
 								10,
 								[
-									10,
-									[
-										2,
-										"Bloques "
-									]
-									,[
-										23,
-										"fallenBLocks"
-									]
+									23,
+									"userPlaying"
 								]
 								,[
 									2,
-									" nivel "
+									": "
 								]
 							]
 							,[
 								23,
-								"level"
+								"fallenBLocks"
 							]
 						]
 					]
@@ -26717,6 +27578,828 @@ false,false,3096662099478148,false
 ,					[
 						3,
 						1
+					]
+					]
+				]
+				]
+			]
+,			[
+				1,
+				"returnValue",
+				0,
+				1,
+false,false,5079001095005062,false
+			]
+,			[
+				1,
+				"found",
+				0,
+				0,
+false,false,9212322293282646,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				3829158571183133,
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					7652931994913868,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"findHighScore"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					9151108201612363,
+					false
+					,[
+					[
+						11,
+						"found"
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					5430756294378804,
+					false
+					,[
+					[
+						11,
+						"retVal"
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					8126266272336303,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.While,
+						null,
+						0,
+						true,
+						false,
+						false,
+						4777099071806221,
+						false
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						5496947037786941,
+						false
+						,[
+						[
+							11,
+							"retVal"
+						]
+,						[
+							8,
+							3
+						]
+,						[
+							7,
+							[
+								4,
+								[
+									23,
+									"MAXSCORES"
+								]
+								,[
+									0,
+									1
+								]
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+						null,
+						0,
+						false,
+						false,
+						false,
+						5342181132399628,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCORENAME"
+								]
+								,[
+									23,
+									"retVal"
+								]
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
+						null,
+						0,
+						false,
+						false,
+						false,
+						1084129611076859,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCOREPOINTS"
+								]
+								,[
+									23,
+									"retVal"
+								]
+							]
+						]
+,						[
+							8,
+							4
+						]
+,						[
+							0,
+							[
+								23,
+								"fallenBLocks"
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.AddVar,
+						null,
+						2659070680749623,
+						false
+						,[
+						[
+							11,
+							"retVal"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				1,
+				"userName",
+				1,
+				"\"YOLODevs\"",
+false,false,905082637867006,false
+			]
+,			[
+				1,
+				"place",
+				0,
+				0,
+false,false,8868845151871732,false
+			]
+,			[
+				1,
+				"points",
+				0,
+				0,
+false,false,8417681627499555,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				1094542759768871,
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					991972176338056,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"saveScore"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					61880516686833,
+					false
+					,[
+					[
+						11,
+						"place"
+					]
+,					[
+						7,
+						[
+							20,
+							4,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					4152590772617986,
+					false
+					,[
+					[
+						11,
+						"points"
+					]
+,					[
+						7,
+						[
+							20,
+							4,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								1
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					30,
+					cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+					null,
+					9058747147768846,
+					false
+					,[
+					[
+						1,
+						[
+							10,
+							[
+								23,
+								"MAXSCORENAME"
+							]
+							,[
+								23,
+								"place"
+							]
+						]
+					]
+,					[
+						7,
+						[
+							23,
+							"userPlaying"
+						]
+					]
+					]
+				]
+,				[
+					30,
+					cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+					null,
+					6428116723411778,
+					false
+					,[
+					[
+						1,
+						[
+							10,
+							[
+								23,
+								"MAXSCOREPOINTS"
+							]
+							,[
+								23,
+								"place"
+							]
+						]
+					]
+,					[
+						7,
+						[
+							23,
+							"points"
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				1,
+				"localCurrentName",
+				1,
+				"",
+false,false,9834037491259728,false
+			]
+,			[
+				1,
+				"localCurrentPoints",
+				0,
+				0,
+false,false,5010579868977193,false
+			]
+,			[
+				1,
+				"localRetVal",
+				0,
+				0,
+false,false,8661820777727452,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				2220242816492659,
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					5424961043356554,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"shiftScores"
+						]
+					]
+					]
+				]
+,				[
+					30,
+					cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+					null,
+					0,
+					false,
+					false,
+					false,
+					7651229221874669,
+					false
+					,[
+					[
+						1,
+						[
+							10,
+							[
+								23,
+								"MAXSCORENAME"
+							]
+							,[
+								23,
+								"retVal"
+							]
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					7619741835924297,
+					false
+					,[
+					[
+						11,
+						"localRetVal"
+					]
+,					[
+						7,
+						[
+							23,
+							"retVal"
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1407660398132977,
+					false
+					,[
+					[
+						11,
+						"localCurrentPoints"
+					]
+,					[
+						7,
+						[
+							20,
+							30,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								10,
+								[
+									23,
+									"MAXSCOREPOINTS"
+								]
+								,[
+									23,
+									"localRetVal"
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					7197096187700603,
+					false
+					,[
+					[
+						11,
+						"localCurrentName"
+					]
+,					[
+						7,
+						[
+							20,
+							30,
+							cr.plugins_.WebStorage.prototype.exps.LocalValue,
+							true,
+							null
+							,[
+[
+								10,
+								[
+									23,
+									"MAXSCORENAME"
+								]
+								,[
+									23,
+									"localRetVal"
+								]
+							]
+							]
+						]
+					]
+					]
+				]
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					9062082883887535,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.While,
+						null,
+						0,
+						true,
+						false,
+						false,
+						968116502869482,
+						false
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						861609266871346,
+						false
+						,[
+						[
+							11,
+							"localRetVal"
+						]
+,						[
+							8,
+							3
+						]
+,						[
+							7,
+							[
+								5,
+								[
+									23,
+									"MAXSCORES"
+								]
+								,[
+									0,
+									1
+								]
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+						null,
+						0,
+						false,
+						false,
+						false,
+						4555550458529736,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCORENAME"
+								]
+								,[
+									4,
+									[
+										23,
+										"localRetVal"
+									]
+									,[
+										0,
+										1
+									]
+								]
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						30,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						7458978504730912,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCORENAME"
+								]
+								,[
+									23,
+									"localRetVal"
+								]
+							]
+						]
+,						[
+							7,
+							[
+								23,
+								"localCurrentName"
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.acts.StoreLocal,
+						null,
+						6174225638257592,
+						false
+						,[
+						[
+							1,
+							[
+								23,
+								"MAXSCOREPOINTS"
+							]
+						]
+,						[
+							7,
+							[
+								23,
+								"localCurrentPoints"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						3585363745845527,
+						false
+						,[
+						[
+							11,
+							"localCurrentPoints"
+						]
+,						[
+							7,
+							[
+								20,
+								30,
+								cr.plugins_.WebStorage.prototype.exps.LocalValue,
+								true,
+								null
+								,[
+[
+									10,
+									[
+										23,
+										"MAXSCOREPOINTS"
+									]
+									,[
+										4,
+										[
+											23,
+											"localRetVal"
+										]
+										,[
+											0,
+											1
+										]
+									]
+								]
+								]
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						2882200805507982,
+						false
+						,[
+						[
+							11,
+							"localCurrentName"
+						]
+,						[
+							7,
+							[
+								20,
+								30,
+								cr.plugins_.WebStorage.prototype.exps.LocalValue,
+								true,
+								null
+								,[
+[
+									10,
+									[
+										23,
+										"MAXSCORENAME"
+									]
+									,[
+										4,
+										[
+											23,
+											"localRetVal"
+										]
+										,[
+											0,
+											1
+										]
+									]
+								]
+								]
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.AddVar,
+						null,
+						6468527878712024,
+						false
+						,[
+						[
+							11,
+							"localRetVal"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
 					]
 					]
 				]
@@ -28080,6 +29763,20 @@ false,false,3652255639891808,false
 		[
 		[
 			1,
+			"MAXSCOREPOINTS",
+			1,
+			"maxScoreP",
+false,false,829824190412893,false
+		]
+,		[
+			1,
+			"MAXSCORENAME",
+			1,
+			"maxScoreUName",
+false,false,1397094107719254,false
+		]
+,		[
+			1,
 			"MAXSCORES",
 			0,
 			10,
@@ -28159,9 +29856,16 @@ false,true,6804083586070575,false
 			,[
 			[
 				1,
+				"curScoreName",
+				1,
+				"\"\"",
+false,false,1206227577633036,false
+			]
+,			[
+				1,
 				"currentScore",
 				0,
-				0,
+				1,
 false,false,137819117408848,false
 			]
 ,			[
@@ -28193,6 +29897,26 @@ false,false,137819117408848,false
 				]
 				],
 				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					6367142101071641,
+					false
+					,[
+					[
+						11,
+						"currentScore"
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
 				]
 				,[
 				[
@@ -28243,7 +29967,7 @@ false,false,137819117408848,false
 					]
 ,					[
 						30,
-						cr.plugins_.WebStorage.prototype.cnds.SessionStorageExists,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
 						false,
@@ -28257,8 +29981,8 @@ false,false,137819117408848,false
 							[
 								10,
 								[
-									2,
-									"maxScore"
+									23,
+									"MAXSCORENAME"
 								]
 								,[
 									23,
@@ -28291,10 +30015,17 @@ false,false,137819117408848,false
 ,						[
 							0,
 							[
+								0,
+								200
+							]
+						]
+,						[
+							0,
+							[
 								6,
 								[
 									0,
-									10
+									55
 								]
 								,[
 									23,
@@ -28302,11 +30033,66 @@ false,false,137819117408848,false
 								]
 							]
 						]
-,						[
-							0,
+						]
+					]
+,					[
+						16,
+						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
+						null,
+						7869880355172389,
+						false
+						,[
+						[
+							7,
 							[
-								0,
-								0
+								10,
+								[
+									10,
+									[
+										20,
+										30,
+										cr.plugins_.WebStorage.prototype.exps.LocalValue,
+										true,
+										null
+										,[
+[
+											10,
+											[
+												23,
+												"MAXSCORENAME"
+											]
+											,[
+												23,
+												"currentScore"
+											]
+										]
+										]
+									]
+									,[
+										2,
+										" "
+									]
+								]
+								,[
+									20,
+									30,
+									cr.plugins_.WebStorage.prototype.exps.LocalValue,
+									true,
+									null
+									,[
+[
+										10,
+										[
+											23,
+											"MAXSCOREPOINTS"
+										]
+										,[
+											23,
+											"currentScore"
+										]
+									]
+									]
+								]
 							]
 						]
 						]
@@ -28321,6 +30107,209 @@ false,false,137819117408848,false
 						[
 							11,
 							"currentScore"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				1,
+				"currentScore1",
+				0,
+				1,
+false,false,8571747330113035,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				6926392985740752,
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					2716827146184277,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"deleteScores"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					2025084670417267,
+					false
+					,[
+					[
+						11,
+						"currentScore1"
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					2194734096286301,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.While,
+						null,
+						0,
+						true,
+						false,
+						false,
+						3280402031977251,
+						false
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3013002514897384,
+						false
+						,[
+						[
+							11,
+							"currentScore1"
+						]
+,						[
+							8,
+							3
+						]
+,						[
+							7,
+							[
+								23,
+								"MAXSCORES"
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
+						null,
+						0,
+						false,
+						false,
+						false,
+						246477603806719,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCORENAME"
+								]
+								,[
+									23,
+									"currentScore1"
+								]
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						30,
+						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
+						null,
+						8686943429417027,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCORENAME"
+								]
+								,[
+									23,
+									"currentScore1"
+								]
+							]
+						]
+						]
+					]
+,					[
+						30,
+						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
+						null,
+						6759804980509709,
+						false
+						,[
+						[
+							1,
+							[
+								10,
+								[
+									23,
+									"MAXSCOREPOINTS"
+								]
+								,[
+									23,
+									"currentScore1"
+								]
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.AddVar,
+						null,
+						453667509740132,
+						false
+						,[
+						[
+							11,
+							"currentScore1"
 						]
 ,						[
 							7,
@@ -28378,6 +30367,53 @@ false,false,137819117408848,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			5763700730826748,
+			[
+			[
+				2,
+				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+				null,
+				1,
+				false,
+				false,
+				false,
+				3991762150562131,
+				false
+				,[
+				[
+					4,
+					38
+				]
+				]
+			]
+			],
+			[
+			[
+				4,
+				cr.plugins_.Function.prototype.acts.CallFunction,
+				null,
+				9573208474145952,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"deleteScores"
+					]
+				]
+,				[
+					13,
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 	],
@@ -28394,7 +30430,7 @@ false,false,137819117408848,false
 	true,
 	2,
 	2,
-	40,
+	44,
 	false,
 	true,
 	[

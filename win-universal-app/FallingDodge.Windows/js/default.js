@@ -3,6 +3,8 @@
     "use strict";
     var app = WinJS.Application;
     var originalH, originalW;
+
+    /* When the app is resized this function will be triggered */
     jQuery(window).resize(function () {
         var aspectRatio = jQuery(window).width() / jQuery(window).height();
         if (1.6 < aspectRatio && aspectRatio < 1.8) {
@@ -12,10 +14,9 @@
             cr_setSuspended(true);
             viewState(false);
         }
-        //cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
     });
 
-    // Start the Construct 2 project running on window load.
+    // Start routine
     jQuery(document).ready(function () {
 
         // Indicate Windows 8 platform
@@ -25,6 +26,16 @@
         cr_createRuntime("c2canvas");
 
         cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
+
+
+        var aspectRatio = jQuery(window).width() / jQuery(window).height();
+        if (1.6 < aspectRatio && aspectRatio < 1.8) {
+            cr_setSuspended(false);
+            viewState(true);
+        } else {
+            cr_setSuspended(true);
+            viewState(false);
+        }
 
         app.start();
     });
@@ -64,10 +75,10 @@
     // Populate settings charm:
     WinJS["Application"].addEventListener("settings", function (e) {
         var cmds = {};
+        // History flyout:
+        cmds["history"] = { title: "Falling Dodge", href: "/settings/history.html" };
         // Settings flyout:
         cmds["about"] = { title: "Acerca de", href: "/settings/about.html" };
-        // History flyout:
-        cmds["history"] = { title: "Historia", href: "/settings/history.html" };
 
         e.detail.applicationcommands = cmds;
         WinJS.UI.SettingsFlyout.populateSettings(e);
@@ -78,7 +89,7 @@
         cr_setSuspended(false);
     }, false);
 
-
+    // This functions hides or shows a message to the user
     function viewState(valid) {
         if (valid) {
             $("#invalidViewStateShade").hide();
@@ -88,7 +99,7 @@
         }
     }
 
-    // Center on the screen
+    // Center an element on the screen
     jQuery.fn.centerVertical = function () {
         this.css("position", "absolute");
         this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
