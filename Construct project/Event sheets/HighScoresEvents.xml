@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>HighScoresEvents</name>
+    <events>
+        <variable comment="Prefix for maxscore points" constant="0" name="MAXSCOREPOINTS" sid="829824190412893" static="0" type="text">maxScoreP</variable>
+        <variable comment="Prefix for maxscore username" constant="0" name="MAXSCORENAME" sid="1397094107719254" static="0" type="text">maxScoreUName</variable>
+        <variable comment="Number of max scores to keep track of" constant="1" name="MAXSCORES" sid="6804083586070575" static="0" type="number">10</variable>
+        <event-block sid="1047562254630422">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="2978388809368693" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Call function" sid="5737543505202141" type="functions">
+                    <param id="0" name="Name">&quot;fillScoreboard&quot;</param>
+                    <param id="1" name="Parameter {n}"></param>
+                </action>
+            </actions>
+        </event-block>
+        <event-group description="" sid="470153861156153" title="Functions">
+            <sub-events>
+                <variable constant="0" name="curScoreName" sid="1206227577633036" static="0" type="text">&quot;&quot;</variable>
+                <variable constant="0" name="currentScore" sid="137819117408848" static="0" type="number">1</variable>
+                <event-block sid="5633705744667694">
+                    <conditions>
+                        <condition id="0" name="On function" sid="1480419637118747" type="functions">
+                            <param id="0" name="Name">&quot;fillScoreboard&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="6367142101071641" type="System">
+                            <param id="0" name="Variable">currentScore</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="8735216911659403">
+                            <conditions>
+                                <condition id="-23" name="While" sid="2370518549337235" type="System" />
+                                <condition id="-14" name="Compare variable" sid="6053472234805542" type="System">
+                                    <param id="0" name="Variable">currentScore</param>
+                                    <param id="1" name="Comparison">3</param>
+                                    <param id="2" name="Value">MAXSCORES</param>
+                                </condition>
+                                <condition id="3" name="Local key exists" sid="9301190473351835" type="storage">
+                                    <param id="0" name="Key">MAXSCORENAME&amp;currentScore</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-3" name="Create object" sid="5178119531293362" type="System">
+                                    <param id="0" name="Object to create">hudFont</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="X">200</param>
+                                    <param id="3" name="Y">55*currentScore</param>
+                                </action>
+                                <action id="0" name="Set text" sid="7869880355172389" type="hudFont">
+                                    <param id="0" name="Text">storage.LocalValue(MAXSCORENAME&amp;currentScore) &amp; &quot; &quot; &amp; storage.LocalValue(MAXSCOREPOINTS&amp;currentScore)</param>
+                                </action>
+                                <action id="-10" name="Add to" sid="8230507871545415" type="System">
+                                    <param id="0" name="Variable">currentScore</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <variable constant="0" name="currentScore1" sid="8571747330113035" static="0" type="number">1</variable>
+                <event-block sid="6926392985740752">
+                    <conditions>
+                        <condition id="0" name="On function" sid="2716827146184277" type="functions">
+                            <param id="0" name="Name">&quot;deleteScores&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="2025084670417267" type="System">
+                            <param id="0" name="Variable">currentScore1</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="2194734096286301">
+                            <conditions>
+                                <condition id="-23" name="While" sid="3280402031977251" type="System" />
+                                <condition id="-14" name="Compare variable" sid="3013002514897384" type="System">
+                                    <param id="0" name="Variable">currentScore1</param>
+                                    <param id="1" name="Comparison">3</param>
+                                    <param id="2" name="Value">MAXSCORES</param>
+                                </condition>
+                                <condition id="3" name="Local key exists" sid="246477603806719" type="storage">
+                                    <param id="0" name="Key">MAXSCORENAME&amp;currentScore1</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="2" name="Remove local value" sid="8686943429417027" type="storage">
+                                    <param id="0" name="Key">MAXSCORENAME&amp;currentScore1</param>
+                                </action>
+                                <action id="2" name="Remove local value" sid="6759804980509709" type="storage">
+                                    <param id="0" name="Key">MAXSCOREPOINTS&amp;currentScore1</param>
+                                </action>
+                                <action id="-10" name="Add to" sid="453667509740132" type="System">
+                                    <param id="0" name="Variable">currentScore1</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-block sid="7878270951107792">
+            <conditions>
+                <condition id="3" name="On touched object" sid="5292979064155417" type="touchInput">
+                    <param id="0" name="Object">backButton</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-2" name="Go to layout" sid="2616680685320864" type="System">
+                    <param id="0" name="Layout">MenuLayout</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="5763700730826748">
+            <conditions>
+                <condition id="3" name="On touched object" sid="3991762150562131" type="touchInput">
+                    <param id="0" name="Object">deleteScores</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="0" name="Call function" sid="9573208474145952" type="functions">
+                    <param id="0" name="Name">&quot;deleteScores&quot;</param>
+                    <param id="1" name="Parameter {n}"></param>
+                </action>
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>
