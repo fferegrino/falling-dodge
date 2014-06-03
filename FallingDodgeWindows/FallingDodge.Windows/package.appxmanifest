@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+  <Identity Name="14107fferegrino.FallingDodge" Version="1.1.0.0" Publisher="CN=8BD20898-9E0A-4C13-AC37-E9D349AF4781" />
+  <Properties>
+    <DisplayName>Falling Dodge</DisplayName>
+    <Description>Falling Dodge The Game FTW!</Description>
+    <PublisherDisplayName>fferegrino</PublisherDisplayName>
+    <Logo>images\storelogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.0</OSMinVersion>
+    <OSMaxVersionTested>6.3.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" StartPage="index-win.html">
+      <m2:VisualElements DisplayName="Falling Dodge" Description="Sam se encontró en una ciudad llena desierta y a lo lejos se bosquejaban unas ruinas, el miraba a lo lejos cuando de pronto comenzaron a caer bloques de colores, era lo que llamaban una lluvia. Llovía a menudo por eso era difícil mantener a las ciudades a salvo y una vez que una ciudad era destruida las lluvias se agudizaban en aquel punto de Marte." ForegroundText="light" BackgroundColor="#000000" Square150x150Logo="images\Logo.png" Square30x30Logo="images\SmallLogo.png">
+        <m2:DefaultTile ShortName="Falling Dodge">
+        </m2:DefaultTile>
+        <m2:SplashScreen Image="images\splashscreen.png" BackgroundColor="#000000" />
+        <m2:InitialRotationPreference>
+          <m2:Rotation Preference="landscape" />
+          <m2:Rotation Preference="landscapeFlipped" />
+        </m2:InitialRotationPreference>
+      </m2:VisualElements>
+    </Application>
+  </Applications>
+</Package>

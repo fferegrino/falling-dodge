@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Privacidad</title>
+    <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet">
+    <!-- <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet"> -->
+</head>
+<body>
+    <!-- BEGINSETTINGFLYOUT -->
+    <div id="privacy" data-win-control="WinJS.UI.SettingsFlyout" data-win-options="{settingsCommandId:'privacy',width:'narrow'}">
+
+        <!-- Use either 'win-ui-light' or 'win-ui-dark' depending on the contrast between the header title and background color -->
+        <div class="win-ui-dark win-header">
+            <!-- Background color reflects app's personality -->
+            <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+            <div class="win-label">Privacidad</div>
+        </div>
+        <div class="win-content">
+            <h2>Privacidad</h2>
+            <p>Esta aplicación no recopila información sobre el usuario ni el dispositivo que este usa, el compartir información acerca de las puntuaciones, niveles, personajes y cualquier otro elemento del juego es responsabilidad del usuario y no se realizará sin su previo consentimiento.</p>
+        </div>
+    </div>
+    <!-- ENDSETTINGSFLYOUT  -->
+</body>
+</html>
