@@ -176,3 +176,4 @@ FakesAssemblies/
 # Construct 2
 *.autosave
 *.backup*
+*.uistate.xml
