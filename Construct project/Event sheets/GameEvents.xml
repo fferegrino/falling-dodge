@@ -50,7 +50,7 @@
         <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <variable constant="0" name="regexVal" sid="3265711371229401" static="0" type="number">-1</variable>
-                <event-block collapsed="1" sid="6850927034263637">
+                <event-block sid="6850927034263637">
                     <conditions>
                         <condition id="3" name="On touched object" sid="6518172368453073" type="touchInput">
                             <param id="0" name="Object">playButton</param>
@@ -385,7 +385,6 @@
                         </event-block>
                     </sub-events>
                 </event-block>
-                <variable constant="0" name="placesito" sid="2927331587099801" static="0" type="number">0</variable>
                 <event-block sid="2443671993534644">
                     <conditions>
                         <condition id="0" name="On collision with another object" sid="2605921727028014" type="block">
@@ -396,10 +395,6 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Set value" sid="1822226189272911" type="System">
-                            <param id="0" name="Variable">placesito</param>
-                            <param id="1" name="Value">int( functions.Call(&quot;findHighScore&quot;))</param>
-                        </action>
                         <action id="0" name="Set text" sid="8435312442375802" type="debugText">
                             <param id="0" name="Text">&quot;Lugar &quot; &amp;retVal &amp; &quot; &quot; &amp; userPlaying</param>
                         </action>
@@ -408,31 +403,10 @@
                             <param id="1" name="Parameter {n}"></param>
                         </action>
                     </actions>
-                    <sub-events>
-                        <event-block sid="3192309084801396">
-                            <conditions>
-                                <condition id="-14" name="Compare variable" sid="5375361275856679" type="System">
-                                    <param id="0" name="Variable">placesito</param>
-                                    <param id="1" name="Comparison">3</param>
-                                    <param id="2" name="Value">MAXSCORES</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action disabled="1" id="0" name="Call function" sid="1537677194008456" type="functions">
-                                    <param id="0" name="Name">&quot;shiftScores&quot;</param>
-                                    <param id="1" name="Parameter {n}"></param>
-                                </action>
-                                <action id="0" name="Call function" sid="1550921531760346" type="functions">
-                                    <param id="0" name="Name">&quot;saveScore&quot;</param>
-                                    <param id="1" name="Parameter {n}">retVal{###}fallenBLocks</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
+        <event-group description="" sid="6892984352352811" title="Game functions">
             <sub-events>
                 <event-block collapsed="1" sid="4529963049937661">
                     <conditions>
@@ -573,143 +547,6 @@
                             <param id="1" name="Visibility">1</param>
                         </action>
                     </actions>
-                </event-block>
-                <variable constant="0" name="returnValue" sid="5079001095005062" static="0" type="number">1</variable>
-                <variable constant="0" name="found" sid="9212322293282646" static="0" type="number">0</variable>
-                <event-block collapsed="1" sid="3829158571183133">
-                    <conditions>
-                        <condition id="0" name="On function" sid="7652931994913868" type="functions">
-                            <param id="0" name="Name">&quot;findHighScore&quot;</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-9" name="Set value" sid="9151108201612363" type="System">
-                            <param id="0" name="Variable">found</param>
-                            <param id="1" name="Value">0</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="5430756294378804" type="System">
-                            <param id="0" name="Variable">retVal</param>
-                            <param id="1" name="Value">1</param>
-                        </action>
-                    </actions>
-                    <sub-events>
-                        <event-block sid="8126266272336303">
-                            <conditions>
-                                <condition id="-23" name="While" sid="4777099071806221" type="System" />
-                                <condition id="-14" name="Compare variable" sid="5496947037786941" type="System">
-                                    <param id="0" name="Variable">retVal</param>
-                                    <param id="1" name="Comparison">3</param>
-                                    <param id="2" name="Value">MAXSCORES+1</param>
-                                </condition>
-                                <condition id="3" name="Local key exists" sid="5342181132399628" type="storage">
-                                    <param id="0" name="Key">MAXSCORENAME&amp;retVal</param>
-                                </condition>
-                                <condition id="7" name="Compare key value (as number)" sid="1084129611076859" type="storage">
-                                    <param id="0" name="Key">MAXSCOREPOINTS&amp;retVal</param>
-                                    <param id="1" name="Comparison">4</param>
-                                    <param id="2" name="Value">fallenBLocks</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="-10" name="Add to" sid="2659070680749623" type="System">
-                                    <param id="0" name="Variable">retVal</param>
-                                    <param id="1" name="Value">1</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
-                </event-block>
-                <variable constant="0" name="userName" sid="905082637867006" static="0" type="text">&quot;YOLODevs&quot;</variable>
-                <variable constant="0" name="place" sid="8868845151871732" static="0" type="number">0</variable>
-                <variable constant="0" name="points" sid="8417681627499555" static="0" type="number">0</variable>
-                <event-block sid="1094542759768871">
-                    <conditions>
-                        <condition id="0" name="On function" sid="991972176338056" type="functions">
-                            <param id="0" name="Name">&quot;saveScore&quot;</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-9" name="Set value" sid="61880516686833" type="System">
-                            <param id="0" name="Variable">place</param>
-                            <param id="1" name="Value">functions.Param(0)</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="4152590772617986" type="System">
-                            <param id="0" name="Variable">points</param>
-                            <param id="1" name="Value">functions.Param(1)</param>
-                        </action>
-                        <action id="0" name="Set local value" sid="9058747147768846" type="storage">
-                            <param id="0" name="Key">MAXSCORENAME&amp;place</param>
-                            <param id="1" name="Value">userPlaying</param>
-                        </action>
-                        <action id="0" name="Set local value" sid="6428116723411778" type="storage">
-                            <param id="0" name="Key">MAXSCOREPOINTS&amp;place</param>
-                            <param id="1" name="Value">points</param>
-                        </action>
-                    </actions>
-                </event-block>
-                <variable constant="0" name="localCurrentName" sid="9834037491259728" static="0" type="text"></variable>
-                <variable constant="0" name="localCurrentPoints" sid="5010579868977193" static="0" type="number">0</variable>
-                <variable constant="0" name="localRetVal" sid="8661820777727452" static="0" type="number">0</variable>
-                <event-block sid="2220242816492659">
-                    <conditions>
-                        <condition id="0" name="On function" sid="5424961043356554" type="functions">
-                            <param id="0" name="Name">&quot;shiftScores&quot;</param>
-                        </condition>
-                        <condition id="3" name="Local key exists" sid="7651229221874669" type="storage">
-                            <param id="0" name="Key">MAXSCORENAME&amp;retVal</param>
-                        </condition>
-                    </conditions>
-                    <actions>
-                        <action id="-9" name="Set value" sid="7619741835924297" type="System">
-                            <param id="0" name="Variable">localRetVal</param>
-                            <param id="1" name="Value">retVal</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="1407660398132977" type="System">
-                            <param id="0" name="Variable">localCurrentPoints</param>
-                            <param id="1" name="Value">storage.LocalValue(MAXSCOREPOINTS&amp;localRetVal)</param>
-                        </action>
-                        <action id="-9" name="Set value" sid="7197096187700603" type="System">
-                            <param id="0" name="Variable">localCurrentName</param>
-                            <param id="1" name="Value">storage.LocalValue(MAXSCORENAME&amp;localRetVal)</param>
-                        </action>
-                    </actions>
-                    <sub-events>
-                        <event-block sid="9062082883887535">
-                            <conditions>
-                                <condition id="-23" name="While" sid="968116502869482" type="System" />
-                                <condition id="-14" name="Compare variable" sid="861609266871346" type="System">
-                                    <param id="0" name="Variable">localRetVal</param>
-                                    <param id="1" name="Comparison">3</param>
-                                    <param id="2" name="Value">MAXSCORES-1</param>
-                                </condition>
-                                <condition id="3" name="Local key exists" sid="4555550458529736" type="storage">
-                                    <param id="0" name="Key">MAXSCORENAME&amp;(localRetVal+1)</param>
-                                </condition>
-                            </conditions>
-                            <actions>
-                                <action id="0" name="Set local value" sid="7458978504730912" type="storage">
-                                    <param id="0" name="Key">MAXSCORENAME&amp;localRetVal</param>
-                                    <param id="1" name="Value">localCurrentName</param>
-                                </action>
-                                <action id="0" name="Set local value" sid="6174225638257592" type="storage">
-                                    <param id="0" name="Key">MAXSCOREPOINTS</param>
-                                    <param id="1" name="Value">localCurrentPoints</param>
-                                </action>
-                                <action id="-9" name="Set value" sid="3585363745845527" type="System">
-                                    <param id="0" name="Variable">localCurrentPoints</param>
-                                    <param id="1" name="Value">storage.LocalValue(MAXSCOREPOINTS&amp;localRetVal+1)</param>
-                                </action>
-                                <action id="-9" name="Set value" sid="2882200805507982" type="System">
-                                    <param id="0" name="Variable">localCurrentName</param>
-                                    <param id="1" name="Value">storage.LocalValue(MAXSCORENAME&amp;localRetVal+1)</param>
-                                </action>
-                                <action id="-10" name="Add to" sid="6468527878712024" type="System">
-                                    <param id="0" name="Variable">localRetVal</param>
-                                    <param id="1" name="Value">1</param>
-                                </action>
-                            </actions>
-                        </event-block>
-                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>

@@ -5,15 +5,9 @@
     var originalH, originalW;
 
     /* When the app is resized this function will be triggered */
+
     jQuery(window).resize(function () {
-        var aspectRatio = jQuery(window).width() / jQuery(window).height();
-        if (1.6 < aspectRatio && aspectRatio < 1.8) {
-            cr_setSuspended(false);
-            viewState(true);
-        } else {
-            cr_setSuspended(true);
-            viewState(false);
-        }
+
     });
 
     // Start routine
@@ -27,16 +21,6 @@
 
         cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
 
-
-        var aspectRatio = jQuery(window).width() / jQuery(window).height();
-        if (1.6 < aspectRatio && aspectRatio < 1.8) {
-            cr_setSuspended(false);
-            viewState(true);
-        } else {
-            cr_setSuspended(true);
-            viewState(false);
-        }
-
         app.start();
     });
 
@@ -46,15 +30,7 @@
         if (args.detail.kind === activation.ActivationKind.launch) {
             originalW = jQuery(window).width();
             if (args.detail.previousExecutionState !== activation.ApplicationExecutionState.terminated) {
-                // TODO: This application has been newly launched.
-                var aspectRatio = jQuery(window).width() / jQuery(window).height();
-                if (1.6 < aspectRatio && aspectRatio < 1.8) {
-                    cr_setSuspended(false);
-                    viewState(true);
-                } else {
-                    cr_setSuspended(true);
-                    viewState(false);
-                }
+
             }
             else {
                 // This application has been reactivated from suspension.

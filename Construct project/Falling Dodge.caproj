@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <c2project>
-    <name>Falling Dodge </name>
+    <name>Falling Dodge</name>
     <description>Falling Dodge The Game FTW!</description>
     <version>1.0.1.1</version>
     <author>YOLOdevs</author>
@@ -473,6 +473,7 @@
         <event-sheet>MenuEvents.xml</event-sheet>
         <event-sheet>SettingsEvents.xml</event-sheet>
         <event-sheet>HighScoresEvents.xml</event-sheet>
+        <event-sheet>ScoreEvents.xml</event-sheet>
     </event-folder>
     <global-instances>
         <global-instance type="touchInput" uid="2">
