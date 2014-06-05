@@ -24464,6 +24464,20 @@ cr.getProjectModel = function() { return [
 		[
 		[
 			1,
+			"FALSE",
+			0,
+			0,
+false,true,6614626720628774,false
+		]
+,		[
+			1,
+			"TRUE",
+			0,
+			1,
+false,true,1821422092927874,false
+		]
+,		[
+			1,
 			"gamePaused",
 			0,
 			1,
@@ -24482,13 +24496,6 @@ false,false,4842143167677704,false
 			0,
 			0,
 false,false,8661402681645313,false
-		]
-,		[
-			1,
-			"userPlaying",
-			1,
-			"",
-false,false,9091896386734875,false
 		]
 ,		[
 			1,
@@ -24816,6 +24823,13 @@ false,false,6451482555671282,false
 					]
 ,					[
 						13,
+													[
+								7,
+								[
+									23,
+									"FALSE"
+								]
+							]
 					]
 					]
 				]
@@ -24926,29 +24940,6 @@ false,false,6451482555671282,false
 ,					[
 						3,
 						0
-					]
-					]
-				]
-,				[
-					33,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					449381304605679,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								2,
-								"Rval: "
-							]
-							,[
-								23,
-								"userPlaying"
-							]
-						]
 					]
 					]
 				]
@@ -25257,6 +25248,13 @@ false,false,6451482555671282,false
 					]
 ,					[
 						13,
+													[
+								7,
+								[
+									23,
+									"TRUE"
+								]
+							]
 					]
 					]
 				]
@@ -25745,6 +25743,64 @@ false,false,6451482555671282,false
 					]
 					]
 				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					3806278567749429,
+					[
+					[
+						36,
+						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
+						null,
+						0,
+						false,
+						false,
+						false,
+						6266887876882937,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"16:9"
+							]
+						]
+,						[
+							0,
+							[
+								1,
+								0.5
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						3789347355460409,
+						false
+						,[
+						[
+							11,
+							"validScreenSize"
+						]
+,						[
+							7,
+							[
+								23,
+								"TRUE"
+							]
+						]
+						]
+					]
+					]
+				]
 				]
 			]
 ,			[
@@ -25819,9 +25875,35 @@ false,false,6451482555671282,false
 ,						[
 							7,
 							[
-								0,
-								1
+								23,
+								"TRUE"
 							]
+						]
+						]
+					]
+,					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						3035286106247116,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"pause"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										23,
+										"FALSE"
+									]
+								]
 						]
 						]
 					]
@@ -25861,9 +25943,35 @@ false,false,6451482555671282,false
 ,						[
 							7,
 							[
-								0,
-								0
+								23,
+								"FALSE"
 							]
+						]
+						]
+					]
+,					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						1364380349908681,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"pause"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										23,
+										"TRUE"
+									]
+								]
 						]
 						]
 					]
@@ -26183,6 +26291,31 @@ false,false,6451482555671282,false
 				]
 				],
 				[
+				[
+					33,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					9727649319043863,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							4,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+					]
+				]
 				]
 				,[
 				[
@@ -26193,8 +26326,8 @@ false,false,6451482555671282,false
 					1572159212993434,
 					[
 					[
-						-1,
-						cr.system_object.prototype.cnds.CompareVar,
+						4,
+						cr.plugins_.Function.prototype.cnds.CompareParam,
 						null,
 						0,
 						false,
@@ -26204,8 +26337,11 @@ false,false,6451482555671282,false
 						false
 						,[
 						[
-							11,
-							"gamePaused"
+							0,
+							[
+								0,
+								0
+							]
 						]
 ,						[
 							8,
@@ -26214,8 +26350,36 @@ false,false,6451482555671282,false
 ,						[
 							7,
 							[
-								0,
-								1
+								23,
+								"FALSE"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						2781348952521025,
+						false
+						,[
+						[
+							11,
+							"validScreenSize"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								23,
+								"TRUE"
 							]
 						]
 						]
@@ -26305,7 +26469,7 @@ false,false,6451482555671282,false
 					null,
 					false,
 					null,
-					466273100537636,
+					1845237708883124,
 					[
 					[
 						-1,
@@ -26315,84 +26479,128 @@ false,false,6451482555671282,false
 						false,
 						false,
 						false,
-						1108498563771494,
+						9756036810985232,
 						false
 					]
 					],
 					[
+					]
+					,[
 					[
-						-1,
-						cr.system_object.prototype.acts.SetVar,
+						0,
 						null,
-						2316554929340387,
-						false
-						,[
-						[
-							11,
-							"gamePaused"
-						]
-,						[
-							7,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetLayerVisible,
+						false,
 						null,
-						361123103298716,
-						false
-						,[
+						466273100537636,
 						[
-							5,
-							[
-								0,
-								2
-							]
-						]
-,						[
-							3,
-							1
-						]
-						]
-					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetTimescale,
-						null,
-						51497198361133,
-						false
-						,[
 						[
+							4,
+							cr.plugins_.Function.prototype.cnds.CompareParam,
+							null,
 							0,
+							false,
+							false,
+							false,
+							1108498563771494,
+							false
+							,[
 							[
 								0,
+								[
+									0,
+									0
+								]
+							]
+,							[
+								8,
 								0
 							]
+,							[
+								7,
+								[
+									23,
+									"TRUE"
+								]
+							]
+							]
 						]
-						]
-					]
-,					[
-						5,
-						cr.plugins_.Audio.prototype.acts.SetPaused,
-						null,
-						4312313641861344,
-						false
-						,[
+						],
 						[
-							1,
+						[
+							-1,
+							cr.system_object.prototype.acts.SetVar,
+							null,
+							2316554929340387,
+							false
+							,[
 							[
-								2,
-								"bgMusic"
+								11,
+								"gamePaused"
+							]
+,							[
+								7,
+								[
+									0,
+									1
+								]
+							]
 							]
 						]
 ,						[
-							3,
-							0
+							-1,
+							cr.system_object.prototype.acts.SetLayerVisible,
+							null,
+							361123103298716,
+							false
+							,[
+							[
+								5,
+								[
+									0,
+									2
+								]
+							]
+,							[
+								3,
+								1
+							]
+							]
+						]
+,						[
+							-1,
+							cr.system_object.prototype.acts.SetTimescale,
+							null,
+							51497198361133,
+							false
+							,[
+							[
+								0,
+								[
+									0,
+									0
+								]
+							]
+							]
+						]
+,						[
+							5,
+							cr.plugins_.Audio.prototype.acts.SetPaused,
+							null,
+							4312313641861344,
+							false
+							,[
+							[
+								1,
+								[
+									2,
+									"bgMusic"
+								]
+							]
+,							[
+								3,
+								0
+							]
+							]
 						]
 						]
 					]
@@ -26827,82 +27035,6 @@ false,false,3096662099478148,false
 		]
 ,		[
 			0,
-			[true, "Dev stuff"],
-			false,
-			null,
-			1810439807518077,
-			[
-			[
-				-1,
-				cr.system_object.prototype.cnds.IsGroupActive,
-				null,
-				0,
-				false,
-				false,
-				false,
-				1810439807518077,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"Dev stuff"
-					]
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				6752909749617707,
-				[
-				[
-					17,
-					cr.plugins_.Button.prototype.cnds.OnClicked,
-					null,
-					1,
-					false,
-					false,
-					false,
-					9388533168967536,
-					false
-				]
-				],
-				[
-				[
-					-1,
-					cr.system_object.prototype.acts.RestartLayout,
-					null,
-					756102657171289,
-					false
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.ResetGlobals,
-					null,
-					8927364921324384,
-					false
-				]
-,				[
-					5,
-					cr.plugins_.Audio.prototype.acts.StopAll,
-					null,
-					1642731255443809,
-					false
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
 			[true, "Windows 8 stuff"],
 			false,
 			null,
@@ -26995,6 +27127,82 @@ false,false,3096662099478148,false
 						]
 					]
 					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			[true, "Dev stuff"],
+			false,
+			null,
+			1810439807518077,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
+				null,
+				0,
+				false,
+				false,
+				false,
+				1810439807518077,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Dev stuff"
+					]
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				6752909749617707,
+				[
+				[
+					17,
+					cr.plugins_.Button.prototype.cnds.OnClicked,
+					null,
+					1,
+					false,
+					false,
+					false,
+					9388533168967536,
+					false
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.RestartLayout,
+					null,
+					756102657171289,
+					false
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.ResetGlobals,
+					null,
+					8927364921324384,
+					false
+				]
+,				[
+					5,
+					cr.plugins_.Audio.prototype.acts.StopAll,
+					null,
+					1642731255443809,
+					false
 				]
 				]
 			]
@@ -27902,7 +28110,7 @@ false,false,8571747330113035,false
 	false,
 	1366,
 	768,
-	4,
+	1,
 	true,
 	true,
 	true,

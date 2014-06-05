@@ -44,7 +44,7 @@
     <configuration-settings>
         <prop name="Clear background">Yes</prop>
         <prop name="Enable WebGL">On</prop>
-        <prop name="Fullscreen in browser">Letterbox scale</prop>
+        <prop name="Fullscreen in browser">Crop</prop>
         <prop name="Hide address bar">No</prop>
         <prop name="Loader style">Percentage text</prop>
         <prop name="Orientations">Landscape</prop>

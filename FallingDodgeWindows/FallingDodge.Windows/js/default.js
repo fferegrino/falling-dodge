@@ -4,6 +4,14 @@
     var app = WinJS.Application;
     var originalH, originalW;
 
+    window.addEventListener("blur", function () {
+        //cr_setSuspended(true);
+    });
+
+    window.addEventListener("focus", function () {
+        //cr_setSuspended(false);
+    });
+
     /* When the app is resized this function will be triggered */
 
     jQuery(window).resize(function () {

@@ -3,13 +3,14 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>GameEvents</name>
     <events>
+        <variable comment="false constant" constant="1" name="FALSE" sid="6614626720628774" static="0" type="number">0</variable>
+        <variable comment="true constant" constant="1" name="TRUE" sid="1821422092927874" static="0" type="number">1</variable>
         <variable comment="We use this flag to know whether the game is paused" constant="0" name="gamePaused" sid="3552970546163114" static="0" type="number">1</variable>
         <variable comment="This flag indicates if the game has been started or not" constant="0" name="gameStarted" sid="4842143167677704" static="0" type="number">0</variable>
         <variable comment="This variable tell us if the app is running in a valid screen size" constant="0" name="validScreenSize" sid="8661402681645313" static="0" type="number">0</variable>
-        <variable comment="Name of the playing user" constant="0" name="userPlaying" sid="9091896386734875" static="0" type="text"></variable>
-        <variable comment="Difficulty" constant="0" name="level" sid="740642952620509" static="0" type="number">1</variable>
+        <variable comment="Difficulty level" constant="0" name="level" sid="740642952620509" static="0" type="number">1</variable>
         <variable comment="This number indicates the amount of blocks that made it to the ground" constant="0" name="fallenBLocks" sid="6451482555671282" static="0" type="number">0</variable>
-        <event-group description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -47,7 +48,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -70,7 +71,7 @@
                         </action>
                         <action id="0" name="Call function" sid="257838061224168" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
-                            <param id="1" name="Parameter {n}"></param>
+                            <param id="1" name="Parameter {n}">FALSE</param>
                         </action>
                         <action id="0" name="Call function" sid="1291250886079508" type="functions">
                             <param id="0" name="Name">&quot;createBlock&quot;</param>
@@ -93,9 +94,6 @@
                         <action id="-4" name="Set layer visible" sid="8007747374278507" type="System">
                             <param id="0" name="Layer">4</param>
                             <param id="1" name="Visibility">0</param>
-                        </action>
-                        <action id="0" name="Set text" sid="449381304605679" type="debugText">
-                            <param id="0" name="Text">&quot;Rval: &quot; &amp; userPlaying</param>
                         </action>
                     </actions>
                 </event-block>
@@ -170,7 +168,7 @@
                     <actions>
                         <action id="0" name="Call function" sid="7288347965461481" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
-                            <param id="1" name="Parameter {n}"></param>
+                            <param id="1" name="Parameter {n}">TRUE</param>
                         </action>
                     </actions>
                 </event-block>
@@ -246,7 +244,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <event-block collapsed="1" sid="9057028426807635">
+                <event-block sid="9057028426807635">
                     <conditions>
                         <condition id="-2" name="On start of layout" sid="8531110950400594" type="System" />
                     </conditions>
@@ -283,6 +281,20 @@
                                 </action>
                             </actions>
                         </event-block>
+                        <event-block sid="3806278567749429">
+                            <conditions>
+                                <condition id="1" name="Test if the screen has the specified aspect ratio" sid="6266887876882937" type="wpc2">
+                                    <param id="0" name="Aspect ratio">&quot;16:9&quot;</param>
+                                    <param id="1" name="Tolerance in aspect ratio">0.5</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="3789347355460409" type="System">
+                                    <param id="0" name="Variable">validScreenSize</param>
+                                    <param id="1" name="Value">TRUE</param>
+                                </action>
+                            </actions>
+                        </event-block>
                     </sub-events>
                 </event-block>
                 <event-block sid="6659338750621825">
@@ -301,7 +313,11 @@
                             <actions>
                                 <action id="-9" name="Set value" sid="2885450267530923" type="System">
                                     <param id="0" name="Variable">validScreenSize</param>
-                                    <param id="1" name="Value">1</param>
+                                    <param id="1" name="Value">TRUE</param>
+                                </action>
+                                <action id="0" name="Call function" sid="3035286106247116" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">FALSE</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -312,7 +328,11 @@
                             <actions>
                                 <action id="-9" name="Set value" sid="815962373163018" type="System">
                                     <param id="0" name="Variable">validScreenSize</param>
-                                    <param id="1" name="Value">0</param>
+                                    <param id="1" name="Value">FALSE</param>
+                                </action>
+                                <action id="0" name="Call function" sid="1364380349908681" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">TRUE</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -320,7 +340,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="8086918785451181" title="Block actions">
+        <event-group collapsed="1" description="" sid="8086918785451181" title="Block actions">
             <sub-events>
                 <event-block sid="17435870339364">
                     <conditions>
@@ -381,14 +401,24 @@
                             <param id="0" name="Name">&quot;pause&quot;</param>
                         </condition>
                     </conditions>
-                    <actions />
+                    <actions>
+                        <action id="0" name="Set text" sid="9727649319043863" type="debugText">
+                            <param id="0" name="Text">functions.Param(0)</param>
+                        </action>
+                    </actions>
                     <sub-events>
+                        <comment>Checi if the parameter is FALSE &amp; check if the screen size is valid</comment>
                         <event-block sid="1572159212993434">
                             <conditions>
-                                <condition id="-14" name="Compare variable" sid="1220386145237775" type="System">
-                                    <param id="0" name="Variable">gamePaused</param>
+                                <condition id="1" name="Compare parameter" sid="1220386145237775" type="functions">
+                                    <param id="0" name="Index">0</param>
                                     <param id="1" name="Comparison">0</param>
-                                    <param id="2" name="Value">1</param>
+                                    <param id="2" name="Value">FALSE</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="2781348952521025" type="System">
+                                    <param id="0" name="Variable">validScreenSize</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
                                 </condition>
                             </conditions>
                             <actions>
@@ -409,27 +439,39 @@
                                 </action>
                             </actions>
                         </event-block>
-                        <event-block sid="466273100537636">
+                        <event-block sid="1845237708883124">
                             <conditions>
-                                <condition id="-22" name="Else" sid="1108498563771494" type="System" />
+                                <condition id="-22" name="Else" sid="9756036810985232" type="System" />
                             </conditions>
-                            <actions>
-                                <action id="-9" name="Set value" sid="2316554929340387" type="System">
-                                    <param id="0" name="Variable">gamePaused</param>
-                                    <param id="1" name="Value">1</param>
-                                </action>
-                                <action id="-4" name="Set layer visible" sid="361123103298716" type="System">
-                                    <param id="0" name="Layer">2</param>
-                                    <param id="1" name="Visibility">1</param>
-                                </action>
-                                <action id="-13" name="Set time scale" sid="51497198361133" type="System">
-                                    <param id="0" name="Time scale">0</param>
-                                </action>
-                                <action id="22" name="Set paused" sid="4312313641861344" type="sound">
-                                    <param id="0" name="Tag">&quot;bgMusic&quot;</param>
-                                    <param id="1" name="State">0</param>
-                                </action>
-                            </actions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="466273100537636">
+                                    <conditions>
+                                        <condition id="1" name="Compare parameter" sid="1108498563771494" type="functions">
+                                            <param id="0" name="Index">0</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">TRUE</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Set value" sid="2316554929340387" type="System">
+                                            <param id="0" name="Variable">gamePaused</param>
+                                            <param id="1" name="Value">1</param>
+                                        </action>
+                                        <action id="-4" name="Set layer visible" sid="361123103298716" type="System">
+                                            <param id="0" name="Layer">2</param>
+                                            <param id="1" name="Visibility">1</param>
+                                        </action>
+                                        <action id="-13" name="Set time scale" sid="51497198361133" type="System">
+                                            <param id="0" name="Time scale">0</param>
+                                        </action>
+                                        <action id="22" name="Set paused" sid="4312313641861344" type="sound">
+                                            <param id="0" name="Tag">&quot;bgMusic&quot;</param>
+                                            <param id="1" name="State">0</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                     </sub-events>
                 </event-block>
@@ -515,20 +557,6 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="1810439807518077" title="Dev stuff">
-            <sub-events>
-                <event-block sid="6752909749617707">
-                    <conditions>
-                        <condition id="0" name="On clicked" sid="9388533168967536" type="resetButon" />
-                    </conditions>
-                    <actions>
-                        <action id="-26" name="Restart layout" sid="756102657171289" type="System" />
-                        <action id="-21" name="Reset global variables" sid="8927364921324384" type="System" />
-                        <action id="33" name="Stop all" sid="1642731255443809" type="sound" />
-                    </actions>
-                </event-block>
-            </sub-events>
-        </event-group>
         <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
                 <event-block sid="2853135243079618">
@@ -541,6 +569,20 @@
                             <param id="1" name="Description">&quot;Comparte tu puntuación en las redes sociales&quot;</param>
                             <param id="2" name="Text">&quot;He esquivado &quot; &amp; fallenBLocks &amp; &quot; bloques jugando Falling Dodge para Windows 8&quot;</param>
                         </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group description="" sid="1810439807518077" title="Dev stuff">
+            <sub-events>
+                <event-block sid="6752909749617707">
+                    <conditions>
+                        <condition id="0" name="On clicked" sid="9388533168967536" type="resetButon" />
+                    </conditions>
+                    <actions>
+                        <action id="-26" name="Restart layout" sid="756102657171289" type="System" />
+                        <action id="-21" name="Reset global variables" sid="8927364921324384" type="System" />
+                        <action id="33" name="Stop all" sid="1642731255443809" type="sound" />
                     </actions>
                 </event-block>
             </sub-events>
