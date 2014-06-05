@@ -177,3 +177,5 @@ FakesAssemblies/
 *.autosave
 *.backup*
 *.uistate.xml
+*.uistate.*
+*.db
