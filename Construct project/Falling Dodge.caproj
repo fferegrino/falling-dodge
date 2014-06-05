@@ -238,7 +238,37 @@
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="852301849363525" speed="5">
+                <animation framecount="1" loop="0" name="a1" pingpong="0" repeatcount="1" repeatto="0" sid="852301849363525" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.015625" y="0.015625" />
+                            <point x="0.984375" y="0.015625" />
+                            <point x="0.984375" y="0.984375" />
+                            <point x="0.015625" y="0.984375" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+                <animation framecount="1" loop="0" name="a2" pingpong="0" repeatcount="1" repeatto="0" sid="4348213810207964" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.015625" y="0.015625" />
+                            <point x="0.984375" y="0.015625" />
+                            <point x="0.984375" y="0.984375" />
+                            <point x="0.015625" y="0.984375" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+                <animation framecount="1" loop="0" name="a3" pingpong="0" repeatcount="1" repeatto="0" sid="8707211411594908" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.015625" y="0.015625" />
+                            <point x="0.984375" y="0.015625" />
+                            <point x="0.984375" y="0.984375" />
+                            <point x="0.0078125" y="0.984375" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+                <animation framecount="1" loop="0" name="a4" pingpong="0" repeatcount="1" repeatto="0" sid="3450365868400927" speed="5">
                     <frame duration="1" hotspotX="0.5" hotspotY="0.5">
                         <collision-poly>
                             <point x="0.015625" y="0.015625" />
@@ -326,19 +356,11 @@
         <object-type global="1" name="blocksArray" sid="9490642858370472">
             <plugin id="Arr" />
         </object-type>
-        <object-type name="Sprite" sid="5190511818048177">
-            <plugin id="Sprite" />
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="9321314978594403" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
-                </animation>
-            </animation-folder>
-        </object-type>
         <object-type name="bgMenuScreen" sid="2524328815119954">
             <plugin id="Sprite" />
             <animation-folder expanded="1">
                 <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3993983395645484" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.50065" />
                 </animation>
             </animation-folder>
         </object-type>
@@ -375,25 +397,9 @@
         <object-type name="storage" sid="128556809337902">
             <plugin id="WebStorage" />
         </object-type>
-        <object-type name="soundButton" sid="9652897734584828">
-            <plugin id="Sprite" />
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8198586363099346" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
-                </animation>
-            </animation-folder>
-        </object-type>
         <object-type name="soundSetting" sid="7885197264036889">
             <plugin id="SpriteFontPlus" />
             <texture />
-        </object-type>
-        <object-type name="Sprite2" sid="6457942945861518">
-            <plugin id="Sprite" />
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="4111280440930051" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.5" />
-                </animation>
-            </animation-folder>
         </object-type>
         <object-type name="backSettingsButton" sid="1988146745001644">
             <plugin id="Sprite" />

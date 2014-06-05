@@ -38,13 +38,13 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>683</x>
-                        <y>540</y>
+                        <y>384.999969482</y>
                         <z>0</z>
-                        <width>1920</width>
-                        <height>1080</height>
+                        <width>1366</width>
+                        <height>769</height>
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
+                        <hotspotY>0.500650167</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
@@ -66,50 +66,6 @@
             <blend-mode>0</blend-mode>
             <effect-fallback>0</effect-fallback>
             <instances>
-                <instance type="configButton" uid="26">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>683</x>
-                        <y>590</y>
-                        <z>0</z>
-                        <width>50</width>
-                        <height>48</height>
-                        <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="leaderboardButton" uid="27">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>603</x>
-                        <y>590</y>
-                        <z>0</z>
-                        <width>50</width>
-                        <height>48</height>
-                        <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
                 <instance type="playButton" uid="28">
                     <properties>
                         <initial-visibility>Visible</initial-visibility>
@@ -128,157 +84,6 @@
                         <depth>0</depth>
                         <hotspotX>0.5</hotspotX>
                         <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="shareButton" uid="29">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>763</x>
-                        <y>590</y>
-                        <z>0</z>
-                        <width>50</width>
-                        <height>48</height>
-                        <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-            </instances>
-            <effects />
-        </layer>
-        <layer name="settingsLayout" sid="9017429269657096">
-            <initially-visible>0</initially-visible>
-            <background-color>255,255,255</background-color>
-            <transparent>1</transparent>
-            <parallax>
-                <x>1</x>
-                <y>1</y>
-            </parallax>
-            <zoom-rate>1</zoom-rate>
-            <opacity>1</opacity>
-            <force-own-texture>0</force-own-texture>
-            <blend-mode>0</blend-mode>
-            <effect-fallback>0</effect-fallback>
-            <instances>
-                <instance type="9FinalPatch" uid="32">
-                    <properties>
-                        <left-margin>9</left-margin>
-                        <right-margin>9</right-margin>
-                        <top-margin>9</top-margin>
-                        <bottom-margin>9</bottom-margin>
-                        <edges>Stretch</edges>
-                        <fill>Tile</fill>
-                        <initial-visibility>Visible</initial-visibility>
-                        <hotspot>Top-left</hotspot>
-                        <seams>Overlap</seams>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>383</x>
-                        <y>164</y>
-                        <z>0</z>
-                        <width>600</width>
-                        <height>466</height>
-                        <depth>0</depth>
-                        <hotspotX>0</hotspotX>
-                        <hotspotY>0</hotspotY>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="soundSetting" uid="33">
-                    <properties>
-                        <character-width>50</character-width>
-                        <character-height>68</character-height>
-                        <character-set>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#&quot;&apos;&amp;()[]|`\/@°+=*$£€&lt;&gt;</character-set>
-                        <text>Musica: On</text>
-                        <scale>1</scale>
-                        <initial-visibility>Visible</initial-visibility>
-                        <horizontal-alignment>Center</horizontal-alignment>
-                        <vertical-alignment>Top</vertical-alignment>
-                        <hotspot>Top-left</hotspot>
-                        <wrapping>Word</wrapping>
-                        <character-spacing>0</character-spacing>
-                        <line-height>0</line-height>
-                        <char-width-json>{&quot;&quot;c2array&quot;&quot;:true,&quot;&quot;size&quot;&quot;:[2,32,1],&quot;&quot;data&quot;&quot;:[[[9],[10],[11],[12],[13],[14],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[38],[39],[40],[43],[47],[48]],[[&quot;&quot;.&apos;|&quot;&quot;],[&quot;&quot;l:&quot;&quot;],[&quot;&quot;Ii,&quot;&quot;],[&quot;&quot;!&quot;&quot;],[&quot;&quot;;&quot;&quot;],[&quot;&quot;`&quot;&quot;],[&quot;&quot;[]&quot;&quot;],[&quot;&quot;-\&quot;&quot;°&quot;&quot;],[&quot;&quot;()&quot;&quot;],[&quot;&quot;t&quot;&quot;],[&quot;&quot;?&quot;&quot;],[&quot;&quot;rs*&quot;&quot;],[&quot;&quot;\\/&quot;&quot;],[&quot;&quot;ce1_&quot;&quot;],[&quot;&quot;juvxy3567$&lt;&gt;&quot;&quot;],[&quot;&quot;bhnz89£&quot;&quot;],[&quot;&quot;Fao4~+=&quot;&quot;],[&quot;&quot;BLPSgk2&quot;&quot;],[&quot;&quot;EYdfp0&quot;&quot;],[&quot;&quot;GKTq&quot;&quot;],[&quot;&quot;CJR€&quot;&quot;],[&quot;&quot;U&quot;&quot;],[&quot;&quot;AVXZ&quot;&quot;],[&quot;&quot;DH&quot;&quot;],[&quot;&quot;N&amp;&quot;&quot;],[&quot;&quot;O&quot;&quot;],[&quot;&quot;Qw&quot;&quot;],[&quot;&quot;#&quot;&quot;],[&quot;&quot;Mm&quot;&quot;],[&quot;&quot;%&quot;&quot;],[&quot;&quot;@&quot;&quot;],[&quot;&quot;W&quot;&quot;]]]}</char-width-json>
-                        <space-char-width>-1</space-char-width>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>508</x>
-                        <y>247</y>
-                        <z>0</z>
-                        <width>350</width>
-                        <height>68</height>
-                        <depth>0</depth>
-                        <hotspotX>0</hotspotX>
-                        <hotspotY>0</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="backSettingsButton" uid="34">
-                    <properties>
-                        <initial-visibility>Visible</initial-visibility>
-                        <initial-animation>Default</initial-animation>
-                        <initial-frame>0</initial-frame>
-                        <collisions>Enabled</collisions>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>683</x>
-                        <y>545</y>
-                        <z>0</z>
-                        <width>80</width>
-                        <height>80</height>
-                        <depth>0</depth>
-                        <hotspotX>0.5</hotspotX>
-                        <hotspotY>0.5</hotspotY>
-                        <angle>0</angle>
-                        <opacity>1</opacity>
-                    </world>
-                </instance>
-                <instance type="soundFXSetting" uid="36">
-                    <properties>
-                        <character-width>50</character-width>
-                        <character-height>68</character-height>
-                        <character-set>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#&quot;&apos;&amp;()[]|`\/@°+=*$£€&lt;&gt;</character-set>
-                        <text>Sonidos: On</text>
-                        <scale>1</scale>
-                        <initial-visibility>Visible</initial-visibility>
-                        <horizontal-alignment>Center</horizontal-alignment>
-                        <vertical-alignment>Top</vertical-alignment>
-                        <hotspot>Top-left</hotspot>
-                        <wrapping>Word</wrapping>
-                        <character-spacing>0</character-spacing>
-                        <line-height>0</line-height>
-                        <char-width-json>{&quot;&quot;c2array&quot;&quot;:true,&quot;&quot;size&quot;&quot;:[2,32,1],&quot;&quot;data&quot;&quot;:[[[9],[10],[11],[12],[13],[14],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[38],[39],[40],[43],[47],[48]],[[&quot;&quot;.&apos;|&quot;&quot;],[&quot;&quot;l:&quot;&quot;],[&quot;&quot;Ii,&quot;&quot;],[&quot;&quot;!&quot;&quot;],[&quot;&quot;;&quot;&quot;],[&quot;&quot;`&quot;&quot;],[&quot;&quot;[]&quot;&quot;],[&quot;&quot;-\&quot;&quot;°&quot;&quot;],[&quot;&quot;()&quot;&quot;],[&quot;&quot;t&quot;&quot;],[&quot;&quot;?&quot;&quot;],[&quot;&quot;rs*&quot;&quot;],[&quot;&quot;\\/&quot;&quot;],[&quot;&quot;ce1_&quot;&quot;],[&quot;&quot;juvxy3567$&lt;&gt;&quot;&quot;],[&quot;&quot;bhnz89£&quot;&quot;],[&quot;&quot;Fao4~+=&quot;&quot;],[&quot;&quot;BLPSgk2&quot;&quot;],[&quot;&quot;EYdfp0&quot;&quot;],[&quot;&quot;GKTq&quot;&quot;],[&quot;&quot;CJR€&quot;&quot;],[&quot;&quot;U&quot;&quot;],[&quot;&quot;AVXZ&quot;&quot;],[&quot;&quot;DH&quot;&quot;],[&quot;&quot;N&amp;&quot;&quot;],[&quot;&quot;O&quot;&quot;],[&quot;&quot;Qw&quot;&quot;],[&quot;&quot;#&quot;&quot;],[&quot;&quot;Mm&quot;&quot;],[&quot;&quot;%&quot;&quot;],[&quot;&quot;@&quot;&quot;],[&quot;&quot;W&quot;&quot;]]]}</char-width-json>
-                        <space-char-width>-1</space-char-width>
-                    </properties>
-                    <blend-mode>0</blend-mode>
-                    <effect-fallback>0</effect-fallback>
-                    <world>
-                        <x>500.5</x>
-                        <y>349</y>
-                        <z>0</z>
-                        <width>365</width>
-                        <height>68</height>
-                        <depth>0</depth>
-                        <hotspotX>0</hotspotX>
-                        <hotspotY>0</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>

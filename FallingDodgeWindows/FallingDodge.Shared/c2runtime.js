@@ -21449,6 +21449,7 @@ cr.plugins_.win8 = function(runtime)
 			return;
 		var self = this;
 		var productLicenses = this.currentApp["licenseInformation"]["productLicenses"];
+		window.
 		this.currentApp["requestProductPurchaseAsync"](productid_, false).then(
 			function () {
 				if (productLicenses["hasKey"](productid_) && productLicenses["lookup"](productid_)["isActive"])
@@ -22664,18 +22665,6 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Arr,
 		false,
 		false,
@@ -22736,6 +22725,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.NinePatch,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22772,19 +22773,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.TiledBg,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
-		cr.plugins_.win8,
+		cr.plugins_.Touch,
 		true,
 		false,
 		false,
@@ -22808,6 +22797,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.win8,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.wpc2,
 		true,
 		false,
@@ -22820,16 +22821,16 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Touch,
+		cr.plugins_.TiledBg,
+		false,
 		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 	],
 	[
@@ -23211,7 +23212,7 @@ cr.getProjectModel = function() { return [
 		null,
 		[
 			[
-			"Default",
+			"a1",
 			5,
 			false,
 			1,
@@ -23219,7 +23220,43 @@ cr.getProjectModel = function() { return [
 			false,
 			852301849363525,
 			[
-				["images/assetsC2/block-sheet0.png", 6425, 0, 0, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],1]
+				["images/assetsC2/block-sheet0.png", 1777, 1, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+			]
+			]
+,			[
+			"a2",
+			5,
+			false,
+			1,
+			0,
+			false,
+			4348213810207964,
+			[
+				["images/assetsC2/block-sheet0.png", 1777, 66, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+			]
+			]
+,			[
+			"a3",
+			5,
+			false,
+			1,
+			0,
+			false,
+			8707211411594908,
+			[
+				["images/assetsC2/block-sheet0.png", 1777, 131, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.4921875,0.484375],0]
+			]
+			]
+,			[
+			"a4",
+			5,
+			false,
+			1,
+			0,
+			false,
+			3450365868400927,
+			[
+				["images/assetsC2/block-sheet0.png", 1777, 1, 66, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 		],
@@ -23287,7 +23324,7 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		6615853364536828,
 		[],
 		null
@@ -23398,7 +23435,7 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		6560596110360127,
 		[],
 		null
@@ -23466,39 +23503,9 @@ cr.getProjectModel = function() { return [
 			1,
 			0,
 			false,
-			9321314978594403,
-			[
-				["images/assetsC2/sprite-sheet0.png", 168, 0, 0, 250, 250, 1, 0.5, 0.5,[],[],3]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		5190511818048177,
-		[],
-		null
-	]
-,	[
-		"t27",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
 			3993983395645484,
 			[
-				["images/assetsC2/bgmenuscreen-sheet0.png", 964531, 0, 0, 1920, 1080, 1, 0.5, 0.5,[],[],1]
+				["images/assetsC2/bgmenuscreen-sheet0.png", 577987, 0, 0, 1366, 769, 1, 0.5, 0.50065016746521,[],[],1]
 			]
 			]
 		],
@@ -23511,7 +23518,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t28",
+		"t27",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23535,13 +23542,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		8975347241436733,
 		[],
 		null
 	]
 ,	[
-		"t29",
+		"t28",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23565,13 +23572,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		2750758357211208,
 		[],
 		null
 	]
 ,	[
-		"t30",
+		"t29",
 		cr.plugins_.WebStorage,
 		false,
 		[],
@@ -23589,37 +23596,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t31",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			8198586363099346,
-			[
-				["images/assetsC2/block-sheet0.png", 6425, 0, 0, 64, 64, 1, 0.5, 0.5,[],[],1]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		9652897734584828,
-		[],
-		null
-	]
-,	[
-		"t32",
+		"t30",
 		cr.plugins_.SpriteFontPlus,
 		false,
 		[],
@@ -23630,43 +23607,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		7885197264036889,
 		[],
 		null
 	]
 ,	[
-		"t33",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			4111280440930051,
-			[
-				["images/assetsC2/sprite-sheet0.png", 168, 0, 0, 250, 250, 1, 0.5, 0.5,[],[],3]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		6457942945861518,
-		[],
-		null
-	]
-,	[
-		"t34",
+		"t31",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23690,13 +23637,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		1988146745001644,
 		[],
 		null
 	]
 ,	[
-		"t35",
+		"t32",
 		cr.plugins_.SpriteFontPlus,
 		false,
 		[],
@@ -23707,13 +23654,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		true,
+		false,
 		5946533577447993,
 		[],
 		null
 	]
 ,	[
-		"t36",
+		"t33",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23730,7 +23677,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t37",
+		"t34",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23760,7 +23707,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t38",
+		"t35",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23790,7 +23737,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t39",
+		"t36",
 		cr.plugins_.wpc2,
 		false,
 		[],
@@ -24315,7 +24262,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[475, 9, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
-				36,
+				33,
 				37,
 				[
 				],
@@ -24379,8 +24326,8 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				27,
+				[683, 384.9999694824219, 0, 1366, 769, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
+				26,
 				25,
 				[
 				],
@@ -24412,36 +24359,6 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[683, 590, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				28,
-				26,
-				[
-				],
-				[
-				],
-				[
-					0,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
-				[603, 590, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				29,
-				27,
-				[
-				],
-				[
-				],
-				[
-					0,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
 				[683, 393, 0, 256, 256, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				1,
 				28,
@@ -24454,124 +24371,6 @@ cr.getProjectModel = function() { return [
 					"Default",
 					0,
 					1
-				]
-			]
-,			[
-				[763, 590, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				23,
-				29,
-				[
-				],
-				[
-				],
-				[
-					0,
-					"Default",
-					0,
-					1
-				]
-			]
-			],
-			[			]
-		]
-,		[
-			"settingsLayout",
-			2,
-			9017429269657096,
-			false,
-			[255, 255, 255],
-			true,
-			1,
-			1,
-			1,
-			false,
-			1,
-			0,
-			0,
-			[
-			[
-				[383, 164, 0, 600, 466, 0, 0, 1, 0, 0, 0, 0, []],
-				18,
-				32,
-				[
-				],
-				[
-				],
-				[
-					9,
-					9,
-					9,
-					9,
-					1,
-					0,
-					0,
-					0,
-					1
-				]
-			]
-,			[
-				[508, 247, 0, 350, 68, 0, 0, 1, 0, 0, 0, 0, []],
-				32,
-				33,
-				[
-				],
-				[
-				],
-				[
-					50,
-					68,
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#\"'&()[]|`\\/@°+=*$£€<>",
-					"Musica: On",
-					1,
-					0,
-					1,
-					0,
-					0,
-					0,
-					0,
-					0,
-					"{\"\"c2array\"\":true,\"\"size\"\":[2,32,1],\"\"data\"\":[[[9],[10],[11],[12],[13],[14],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[38],[39],[40],[43],[47],[48]],[[\"\".'|\"\"],[\"\"l:\"\"],[\"\"Ii,\"\"],[\"\"!\"\"],[\"\";\"\"],[\"\"`\"\"],[\"\"[]\"\"],[\"\"-\\\"\"°\"\"],[\"\"()\"\"],[\"\"t\"\"],[\"\"?\"\"],[\"\"rs*\"\"],[\"\"\\\\/\"\"],[\"\"ce1_\"\"],[\"\"juvxy3567$<>\"\"],[\"\"bhnz89£\"\"],[\"\"Fao4~+=\"\"],[\"\"BLPSgk2\"\"],[\"\"EYdfp0\"\"],[\"\"GKTq\"\"],[\"\"CJR€\"\"],[\"\"U\"\"],[\"\"AVXZ\"\"],[\"\"DH\"\"],[\"\"N&\"\"],[\"\"O\"\"],[\"\"Qw\"\"],[\"\"#\"\"],[\"\"Mm\"\"],[\"\"%\"\"],[\"\"@\"\"],[\"\"W\"\"]]]}",
-					-1
-				]
-			]
-,			[
-				[683, 545, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				34,
-				34,
-				[
-				],
-				[
-				],
-				[
-					0,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
-				[500.5, 349, 0, 365, 68, 0, 0, 1, 0, 0, 0, 0, []],
-				35,
-				36,
-				[
-				],
-				[
-				],
-				[
-					50,
-					68,
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,;:?!-_~#\"'&()[]|`\\/@°+=*$£€<>",
-					"Sonidos: On",
-					1,
-					0,
-					1,
-					0,
-					0,
-					0,
-					0,
-					0,
-					"{\"\"c2array\"\":true,\"\"size\"\":[2,32,1],\"\"data\"\":[[[9],[10],[11],[12],[13],[14],[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35],[36],[38],[39],[40],[43],[47],[48]],[[\"\".'|\"\"],[\"\"l:\"\"],[\"\"Ii,\"\"],[\"\"!\"\"],[\"\";\"\"],[\"\"`\"\"],[\"\"[]\"\"],[\"\"-\\\"\"°\"\"],[\"\"()\"\"],[\"\"t\"\"],[\"\"?\"\"],[\"\"rs*\"\"],[\"\"\\\\/\"\"],[\"\"ce1_\"\"],[\"\"juvxy3567$<>\"\"],[\"\"bhnz89£\"\"],[\"\"Fao4~+=\"\"],[\"\"BLPSgk2\"\"],[\"\"EYdfp0\"\"],[\"\"GKTq\"\"],[\"\"CJR€\"\"],[\"\"U\"\"],[\"\"AVXZ\"\"],[\"\"DH\"\"],[\"\"N&\"\"],[\"\"O\"\"],[\"\"Qw\"\"],[\"\"#\"\"],[\"\"Mm\"\"],[\"\"%\"\"],[\"\"@\"\"],[\"\"W\"\"]]]}",
-					-1
 				]
 			]
 			],
@@ -24606,8 +24405,8 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				27,
+				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
+				26,
 				38,
 				[
 				],
@@ -24622,7 +24421,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 80, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				37,
+				34,
 				39,
 				[
 				],
@@ -24637,7 +24436,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 200, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				38,
+				35,
 				40,
 				[
 				],
@@ -25131,7 +24930,7 @@ false,false,6451482555671282,false
 					]
 				]
 ,				[
-					36,
+					33,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					449381304605679,
@@ -25956,7 +25755,7 @@ false,false,6451482555671282,false
 				6659338750621825,
 				[
 				[
-					39,
+					36,
 					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
 					null,
 					1,
@@ -25978,7 +25777,7 @@ false,false,6451482555671282,false
 					5496232568047831,
 					[
 					[
-						39,
+						36,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -26182,6 +25981,62 @@ false,false,6451482555671282,false
 					]
 				]
 ,				[
+					5,
+					cr.plugins_.Audio.prototype.acts.PlayAtObject,
+					null,
+					5645537972273429,
+					false
+					,[
+					[
+						2,
+						["explosion_dull",false]
+					]
+,					[
+						3,
+						0
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						4,
+						15
+					]
+,					[
+						0,
+						[
+							0,
+							360
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							360
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"groundHit"
+						]
+					]
+					]
+				]
+,				[
 					4,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
@@ -26197,103 +26052,6 @@ false,false,6451482555671282,false
 					]
 ,					[
 						13,
-					]
-					]
-				]
-				]
-				,[
-				[
-					0,
-					null,
-					false,
-					null,
-					9431430876882848,
-					[
-					[
-						-1,
-						cr.system_object.prototype.cnds.CompareVar,
-						null,
-						0,
-						false,
-						false,
-						false,
-						6842775396765255,
-						false
-						,[
-						[
-							11,
-							"SoundFXOn"
-						]
-,						[
-							8,
-							0
-						]
-,						[
-							7,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-					],
-					[
-					[
-						5,
-						cr.plugins_.Audio.prototype.acts.PlayAtObject,
-						null,
-						5645537972273429,
-						false
-						,[
-						[
-							2,
-							["explosion_dull",false]
-						]
-,						[
-							3,
-							0
-						]
-,						[
-							0,
-							[
-								0,
-								0
-							]
-						]
-,						[
-							4,
-							15
-						]
-,						[
-							0,
-							[
-								0,
-								360
-							]
-						]
-,						[
-							0,
-							[
-								0,
-								360
-							]
-						]
-,						[
-							0,
-							[
-								0,
-								0
-							]
-						]
-,						[
-							1,
-							[
-								2,
-								"groundHit"
-							]
-						]
-						]
 					]
 					]
 				]
@@ -26785,6 +26543,49 @@ false,false,3096662099478148,false
 					]
 					]
 				]
+,				[
+					15,
+					cr.plugins_.Sprite.prototype.acts.SetAnim,
+					null,
+					5469284865587942,
+					false
+					,[
+					[
+						1,
+						[
+							10,
+							[
+								2,
+								"a"
+							]
+							,[
+								19,
+								cr.system_object.prototype.exps.floor
+								,[
+[
+									19,
+									cr.system_object.prototype.exps.random
+									,[
+[
+										0,
+										1
+									]
+,[
+										0,
+										4
+									]
+									]
+								]
+								]
+							]
+						]
+					]
+,					[
+						3,
+						1
+					]
+					]
+				]
 				]
 				,[
 				[
@@ -26896,12 +26697,12 @@ false,false,3096662099478148,false
 						[
 							10,
 							[
-								2,
-								"Bloques esquivados: "
-							]
-							,[
 								23,
 								"fallenBLocks"
+							]
+							,[
+								2,
+								" bloques esquivados"
 							]
 						]
 					]
@@ -26948,8 +26749,15 @@ false,false,3096662099478148,false
 					[
 						7,
 						[
-							23,
-							"fallenBLocks"
+							10,
+							[
+								23,
+								"fallenBLocks"
+							]
+							,[
+								2,
+								" bloques esquivados"
+							]
 						]
 					]
 					]
@@ -27226,34 +27034,6 @@ false,false,3096662099478148,false
 				]
 				]
 			]
-,			[
-				-1,
-				cr.system_object.prototype.cnds.CompareVar,
-				null,
-				0,
-				false,
-				false,
-				false,
-				6832528448491442,
-				false
-				,[
-				[
-					11,
-					"settingsVisible"
-				]
-,				[
-					8,
-					0
-				]
-,				[
-					7,
-					[
-						0,
-						0
-					]
-				]
-				]
-			]
 			],
 			[
 			[
@@ -27291,7 +27071,7 @@ false,false,3096662099478148,false
 				,[
 				[
 					4,
-					28
+					27
 				]
 				]
 			]
@@ -27314,26 +27094,6 @@ false,false,3096662099478148,false
 ,				[
 					3,
 					1
-				]
-				]
-			]
-,			[
-				-1,
-				cr.system_object.prototype.acts.SetVar,
-				null,
-				9212991770584013,
-				false
-				,[
-				[
-					11,
-					"settingsVisible"
-				]
-,				[
-					7,
-					[
-						0,
-						1
-					]
 				]
 				]
 			]
@@ -27446,7 +27206,7 @@ false,false,3096662099478148,false
 				,[
 				[
 					4,
-					29
+					28
 				]
 				]
 			]
@@ -27472,900 +27232,6 @@ false,false,3096662099478148,false
 ,	[
 		"SettingsEvents",
 		[
-		[
-			1,
-			"settingsVisible",
-			0,
-			0,
-false,false,581275244824666,false
-		]
-,		[
-			1,
-			"SOUNDFXONTEXT",
-			1,
-			"Sonidos: On",
-false,true,8439086007461203,false
-		]
-,		[
-			1,
-			"SOUNDFXOFFTEXT",
-			1,
-			"Sonidos: Off",
-false,true,5453377095321351,false
-		]
-,		[
-			1,
-			"MUSICOFFTEXT",
-			1,
-			"Musica: Off",
-false,true,6467143179782354,false
-		]
-,		[
-			1,
-			"MUSICONTEXT",
-			1,
-			"Musica: On",
-false,true,2956025558200366,false
-		]
-,		[
-			1,
-			"MusicOn",
-			0,
-			0,
-false,false,976668901125946,false
-		]
-,		[
-			1,
-			"SoundFXOn",
-			0,
-			0,
-false,false,3652255639891808,false
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			4257941143752778,
-			[
-			[
-				-1,
-				cr.system_object.prototype.cnds.OnLayoutStart,
-				null,
-				1,
-				false,
-				false,
-				false,
-				9462327632902891,
-				false
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				[true, "Music"],
-				false,
-				null,
-				8856442705268053,
-				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.IsGroupActive,
-					null,
-					0,
-					false,
-					false,
-					false,
-					8856442705268053,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"Music"
-						]
-					]
-					]
-				]
-				],
-				[
-				]
-				,[
-				[
-					0,
-					null,
-					false,
-					null,
-					8768002845951396,
-					[
-					[
-						30,
-						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
-						null,
-						0,
-						false,
-						false,
-						false,
-						3291263262696905,
-						false
-						,[
-						[
-							1,
-							[
-								2,
-								"music"
-							]
-						]
-						]
-					]
-,					[
-						30,
-						cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
-						null,
-						0,
-						false,
-						false,
-						false,
-						3240710768811689,
-						false
-						,[
-						[
-							1,
-							[
-								2,
-								"music"
-							]
-						]
-,						[
-							8,
-							0
-						]
-,						[
-							0,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-					],
-					[
-					[
-						32,
-						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-						null,
-						26175547998293,
-						false
-						,[
-						[
-							7,
-							[
-								23,
-								"MUSICONTEXT"
-							]
-						]
-						]
-					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetVar,
-						null,
-						1760472810680859,
-						false
-						,[
-						[
-							11,
-							"MusicOn"
-						]
-,						[
-							7,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-					]
-				]
-,				[
-					0,
-					null,
-					false,
-					null,
-					6741417824384658,
-					[
-					[
-						-1,
-						cr.system_object.prototype.cnds.Else,
-						null,
-						0,
-						false,
-						false,
-						false,
-						7285687439922048,
-						false
-					]
-					],
-					[
-					[
-						32,
-						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-						null,
-						686320781101247,
-						false
-						,[
-						[
-							7,
-							[
-								23,
-								"MUSICOFFTEXT"
-							]
-						]
-						]
-					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetVar,
-						null,
-						6664541516240287,
-						false
-						,[
-						[
-							11,
-							"MusicOn"
-						]
-,						[
-							7,
-							[
-								0,
-								0
-							]
-						]
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				[true, "Sound effects"],
-				false,
-				null,
-				5260744070574762,
-				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.IsGroupActive,
-					null,
-					0,
-					false,
-					false,
-					false,
-					5260744070574762,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"Sound effects"
-						]
-					]
-					]
-				]
-				],
-				[
-				]
-				,[
-				[
-					0,
-					null,
-					false,
-					null,
-					614801186587341,
-					[
-					[
-						30,
-						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
-						null,
-						0,
-						false,
-						false,
-						false,
-						1947576083545557,
-						false
-						,[
-						[
-							1,
-							[
-								2,
-								"soundFX"
-							]
-						]
-						]
-					]
-,					[
-						30,
-						cr.plugins_.WebStorage.prototype.cnds.CompareKeyNumber,
-						null,
-						0,
-						false,
-						false,
-						false,
-						9380389218592028,
-						false
-						,[
-						[
-							1,
-							[
-								2,
-								"soundFX"
-							]
-						]
-,						[
-							8,
-							0
-						]
-,						[
-							0,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-					],
-					[
-					[
-						35,
-						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-						null,
-						5218299296329196,
-						false
-						,[
-						[
-							7,
-							[
-								23,
-								"SOUNDFXONTEXT"
-							]
-						]
-						]
-					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetVar,
-						null,
-						1217278547224759,
-						false
-						,[
-						[
-							11,
-							"SoundFXOn"
-						]
-,						[
-							7,
-							[
-								0,
-								1
-							]
-						]
-						]
-					]
-					]
-				]
-,				[
-					0,
-					null,
-					false,
-					null,
-					4809899572563723,
-					[
-					[
-						-1,
-						cr.system_object.prototype.cnds.Else,
-						null,
-						0,
-						false,
-						false,
-						false,
-						3860755605895918,
-						false
-					]
-					],
-					[
-					[
-						35,
-						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-						null,
-						3550393530639046,
-						false
-						,[
-						[
-							7,
-							[
-								23,
-								"SOUNDFXOFFTEXT"
-							]
-						]
-						]
-					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetVar,
-						null,
-						1020955972788256,
-						false
-						,[
-						[
-							11,
-							"SoundFXOn"
-						]
-,						[
-							7,
-							[
-								0,
-								0
-							]
-						]
-						]
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			9985408363480715,
-			[
-			[
-				2,
-				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				5528438554966611,
-				false
-				,[
-				[
-					4,
-					35
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				513643605117927,
-				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.CompareVar,
-					null,
-					0,
-					false,
-					false,
-					false,
-					8617051840072461,
-					false
-					,[
-					[
-						11,
-						"SoundFXOn"
-					]
-,					[
-						8,
-						0
-					]
-,					[
-						7,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-				],
-				[
-				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					5817521745774064,
-					false
-					,[
-					[
-						11,
-						"SoundFXOn"
-					]
-,					[
-						7,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-,				[
-					35,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-					null,
-					3991800607963209,
-					false
-					,[
-					[
-						7,
-						[
-							23,
-							"SOUNDFXONTEXT"
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				8612910999688216,
-				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.Else,
-					null,
-					0,
-					false,
-					false,
-					false,
-					3559803431752306,
-					false
-				]
-				],
-				[
-				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					8604906098860497,
-					false
-					,[
-					[
-						11,
-						"SoundFXOn"
-					]
-,					[
-						7,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-,				[
-					35,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-					null,
-					387209257047729,
-					false
-					,[
-					[
-						7,
-						[
-							23,
-							"SOUNDFXOFFTEXT"
-						]
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			6124513150935324,
-			[
-			[
-				2,
-				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				7399131752368191,
-				false
-				,[
-				[
-					4,
-					32
-				]
-				]
-			]
-			],
-			[
-			]
-			,[
-			[
-				0,
-				null,
-				false,
-				null,
-				1300858391272706,
-				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.CompareVar,
-					null,
-					0,
-					false,
-					false,
-					false,
-					6593226376605808,
-					false
-					,[
-					[
-						11,
-						"MusicOn"
-					]
-,					[
-						8,
-						0
-					]
-,					[
-						7,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-				],
-				[
-				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					6376344191620954,
-					false
-					,[
-					[
-						11,
-						"MusicOn"
-					]
-,					[
-						7,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-,				[
-					32,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-					null,
-					1080890278408612,
-					false
-					,[
-					[
-						7,
-						[
-							23,
-							"MUSICONTEXT"
-						]
-					]
-					]
-				]
-				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				1678531605931018,
-				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.Else,
-					null,
-					0,
-					false,
-					false,
-					false,
-					867586375691305,
-					false
-				]
-				],
-				[
-				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					9213269354024573,
-					false
-					,[
-					[
-						11,
-						"MusicOn"
-					]
-,					[
-						7,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-,				[
-					32,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-					null,
-					5193999160374095,
-					false
-					,[
-					[
-						7,
-						[
-							23,
-							"MUSICOFFTEXT"
-						]
-					]
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			7130123448238514,
-			[
-			[
-				2,
-				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				9785321111890622,
-				false
-				,[
-				[
-					4,
-					34
-				]
-				]
-			]
-			],
-			[
-			[
-				-1,
-				cr.system_object.prototype.acts.SetLayerVisible,
-				null,
-				7274334891007972,
-				false
-				,[
-				[
-					5,
-					[
-						20,
-						34,
-						cr.plugins_.Sprite.prototype.exps.LayerNumber,
-						false,
-						null
-					]
-				]
-,				[
-					3,
-					0
-				]
-				]
-			]
-,			[
-				-1,
-				cr.system_object.prototype.acts.SetVar,
-				null,
-				5313623412057005,
-				false
-				,[
-				[
-					11,
-					"settingsVisible"
-				]
-,				[
-					7,
-					[
-						0,
-						0
-					]
-				]
-				]
-			]
-,			[
-				30,
-				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
-				null,
-				2120588372374614,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"soundFX"
-					]
-				]
-,				[
-					7,
-					[
-						23,
-						"SoundFXOn"
-					]
-				]
-				]
-			]
-,			[
-				30,
-				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
-				null,
-				8582466439884336,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"music"
-					]
-				]
-,				[
-					7,
-					[
-						23,
-						"MusicOn"
-					]
-				]
-				]
-			]
-			]
-		]
 		]
 	]
 ,	[
@@ -28576,7 +27442,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						30,
+						29,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -28660,7 +27526,7 @@ false,false,137819117408848,false
 									10,
 									[
 										20,
-										30,
+										29,
 										cr.plugins_.WebStorage.prototype.exps.LocalValue,
 										true,
 										null
@@ -28685,7 +27551,7 @@ false,false,137819117408848,false
 								]
 								,[
 									20,
-									30,
+									29,
 									cr.plugins_.WebStorage.prototype.exps.LocalValue,
 									true,
 									null
@@ -28836,7 +27702,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						30,
+						29,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -28865,7 +27731,7 @@ false,false,8571747330113035,false
 					],
 					[
 					[
-						30,
+						29,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						8686943429417027,
@@ -28888,7 +27754,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						30,
+						29,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						6759804980509709,
@@ -28956,7 +27822,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					37
+					34
 				]
 				]
 			]
@@ -28997,7 +27863,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					38
+					35
 				]
 				]
 			]

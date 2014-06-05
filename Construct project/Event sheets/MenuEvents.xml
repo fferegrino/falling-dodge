@@ -9,11 +9,6 @@
                 <condition id="3" name="On touched object" sid="4761762538065575" type="touchInput">
                     <param id="0" name="Object">playButton</param>
                 </condition>
-                <condition id="-14" name="Compare variable" sid="6832528448491442" type="System">
-                    <param id="0" name="Variable">settingsVisible</param>
-                    <param id="1" name="Comparison">0</param>
-                    <param id="2" name="Value">0</param>
-                </condition>
             </conditions>
             <actions>
                 <action id="-2" name="Go to layout" sid="5932579197045594" type="System">
@@ -31,10 +26,6 @@
                 <action id="-4" name="Set layer visible" sid="4587821778947775" type="System">
                     <param id="0" name="Layer">2</param>
                     <param id="1" name="Visibility">1</param>
-                </action>
-                <action id="-9" name="Set value" sid="9212991770584013" type="System">
-                    <param id="0" name="Variable">settingsVisible</param>
-                    <param id="1" name="Value">1</param>
                 </action>
             </actions>
         </event-block>

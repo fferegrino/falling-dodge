@@ -59,7 +59,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
-    <Content Include="images\ui\cursor1.png" />
     <Content Include="js\default.js" />
     <Content Include="page.html" />
     <Content Include="settings\history.html" />

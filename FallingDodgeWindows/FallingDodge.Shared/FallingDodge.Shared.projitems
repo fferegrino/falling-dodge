@@ -34,11 +34,5 @@
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
     <Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
-    <Content Include="$(MSBuildThisFileDirectory)icon-16.png" />
-    <Content Include="$(MSBuildThisFileDirectory)icon-32.png" />
-    <Content Include="$(MSBuildThisFileDirectory)icon-114.png" />
-    <Content Include="$(MSBuildThisFileDirectory)icon-128.png" />
-    <Content Include="$(MSBuildThisFileDirectory)icon-256.png" />
-    <Content Include="$(MSBuildThisFileDirectory)loading-logo.png" />
   </ItemGroup>
 </Project>
