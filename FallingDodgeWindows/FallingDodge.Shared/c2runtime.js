@@ -21154,20 +21154,6 @@ cr.plugins_.win8 = function(runtime)
 			this.currentApp["licenseInformation"].addEventListener("licensechanged", function() {
 				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnLicenseChanged, self);
 			});
-			//if (this.showAbout || this.showSupport || this.showPrivacy)
-			//{
-			//	WinJS["Application"].addEventListener("settings", function (e) {
-			//		var cmds = {};
-			//		if (self.showAbout)
-			//			cmds["about"] = { "title": "About", "href": "/about.html" };
-			//		if (self.showSupport)
-			//			cmds["support"] = { "title": "Support", "href": "/support.html" };
-			//		if (self.showPrivacy)
-			//			cmds["privacy"] = { "title": "Privacy Policy", "href": "/privacy.html" };
-			//		e["detail"]["applicationcommands"] = cmds;
-			//		WinJS["UI"]["SettingsFlyout"]["populateSettings"](e);
-			//	});
-			//}
 			if (this.isTestMode)
 			{
 				Windows["ApplicationModel"]["Package"]["current"]["installedLocation"]["getFileAsync"]("WindowsStoreProxy.xml").done(
@@ -21463,7 +21449,6 @@ cr.plugins_.win8 = function(runtime)
 			return;
 		var self = this;
 		var productLicenses = this.currentApp["licenseInformation"]["productLicenses"];
-		window.
 		this.currentApp["requestProductPurchaseAsync"](productid_, false).then(
 			function () {
 				if (productLicenses["hasKey"](productid_) && productLicenses["lookup"](productid_)["isActive"])
@@ -21552,6 +21537,85 @@ cr.plugins_.win8 = function(runtime)
 		if (this.isWindows8 && this.lastProductListings && this.lastProductListings["hasKey"](productid_))
 			result = this.lastProductListings["lookup"](productid_)["formattedPrice"];
 		ret.set_string(result);
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
+cr.plugins_.wpc2 = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.wpc2.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		this.isWindows8 = this.runtime.isWindows8App;
+		var self = this;
+		if (this.isWindows8)
+		{
+			window.addEventListener('resize', function(){
+				self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnResizec2, self);
+			});
+		}
+	};
+	instanceProto.onDestroy = function ()
+	{
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return {
+		};
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function (glw)
+	{
+	};
+	function Cnds() {};
+	Cnds.prototype.OnResizec2 = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.CheckAspect = function (stringAspect, threshold)
+	{
+		var wh = stringAspect.split(":");
+		if(wh.length == 2){
+			var sysAspect = window.innerWidth / window.innerHeight;
+			var speAspect = parseFloat(wh[0]) / parseFloat(wh[1]);
+			return (Math.abs(sysAspect - speAspect) < threshold);
+		}
+		return true;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.WindowWidth = function (ret){
+		ret.set_int(window.innerWidth);
+	};
+	Exps.prototype.WindowHeight = function (ret){
+		ret.set_int(window.innerHeight);
 	};
 	pluginProto.exps = new Exps();
 }());
@@ -22600,6 +22664,18 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
+		cr.plugins_.NinePatch,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Arr,
 		false,
 		false,
@@ -22648,18 +22724,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Keyboard,
 		true,
 		false,
@@ -22696,18 +22760,6 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.Text,
 		false,
 		true,
@@ -22717,6 +22769,30 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		false
+	]
+,	[
+		cr.plugins_.TiledBg,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.win8,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -22732,7 +22808,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.win8,
+		cr.plugins_.wpc2,
 		true,
 		false,
 		false,
@@ -22744,16 +22820,16 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.TiledBg,
+		cr.plugins_.Touch,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
 	]
 	],
 	[
@@ -23715,7 +23791,7 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t39",
-		cr.plugins_.Text,
+		cr.plugins_.wpc2,
 		false,
 		[],
 		0,
@@ -23726,9 +23802,10 @@ cr.getProjectModel = function() { return [
 		],
 		false,
 		false,
-		8715136937947407,
+		8403940385879478,
 		[],
 		null
+		,[]
 	]
 	],
 	[
@@ -24069,26 +24146,6 @@ cr.getProjectModel = function() { return [
 					"Default",
 					0,
 					1
-				]
-			]
-,			[
-				[483, 107.6234588623047, 0, 400, 42.48094177246094, 0, 0, 1, 0, 0, 0, 0, []],
-				39,
-				43,
-				[
-				],
-				[
-				],
-				[
-					"Error en el nombre de usuario",
-					1,
-					"20pt Segoe UI Light",
-					"rgb(255,255,255)",
-					1,
-					0,
-					0,
-					0,
-					0
 				]
 			]
 			],
@@ -24608,17 +24665,10 @@ cr.getProjectModel = function() { return [
 		[
 		[
 			1,
-			"userPlaying",
-			1,
-			"",
-false,false,9091896386734875,false
-		]
-,		[
-			1,
-			"retVal",
+			"gamePaused",
 			0,
-			0,
-false,false,6526169856898472,false
+			1,
+false,false,3552970546163114,false
 		]
 ,		[
 			1,
@@ -24626,6 +24676,20 @@ false,false,6526169856898472,false
 			0,
 			0,
 false,false,4842143167677704,false
+		]
+,		[
+			1,
+			"validScreenSize",
+			0,
+			0,
+false,false,8661402681645313,false
+		]
+,		[
+			1,
+			"userPlaying",
+			1,
+			"",
+false,false,9091896386734875,false
 		]
 ,		[
 			1,
@@ -24640,13 +24704,6 @@ false,false,740642952620509,false
 			0,
 			0,
 false,false,6451482555671282,false
-		]
-,		[
-			1,
-			"gameOn",
-			0,
-			0,
-false,false,3552970546163114,false
 		]
 ,		[
 			0,
@@ -24716,7 +24773,7 @@ false,false,3552970546163114,false
 					,[
 					[
 						11,
-						"gameOn"
+						"gamePaused"
 					]
 ,					[
 						8,
@@ -24726,7 +24783,7 @@ false,false,3552970546163114,false
 						7,
 						[
 							0,
-							1
+							0
 						]
 					]
 					]
@@ -24785,7 +24842,7 @@ false,false,3552970546163114,false
 					,[
 					[
 						11,
-						"gameOn"
+						"gamePaused"
 					]
 ,					[
 						8,
@@ -24795,7 +24852,7 @@ false,false,3552970546163114,false
 						7,
 						[
 							0,
-							1
+							0
 						]
 					]
 					]
@@ -24851,13 +24908,6 @@ false,false,3552970546163114,false
 			]
 			,[
 			[
-				1,
-				"regexVal",
-				0,
-				-1,
-false,false,3265711371229401,false
-			]
-,			[
 				0,
 				null,
 				false,
@@ -24878,6 +24928,54 @@ false,false,3265711371229401,false
 					[
 						4,
 						1
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					7431443129552794,
+					false
+					,[
+					[
+						11,
+						"gameStarted"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.LayerVisible,
+					null,
+					0,
+					false,
+					false,
+					false,
+					7593140028469117,
+					false
+					,[
+					[
+						5,
+						[
+							0,
+							4
+						]
 					]
 					]
 				]
@@ -24914,7 +25012,7 @@ false,false,3265711371229401,false
 						1,
 						[
 							2,
-							"pauseEvent"
+							"pause"
 						]
 					]
 ,					[
@@ -25055,19 +25153,6 @@ false,false,3265711371229401,false
 					]
 					]
 				]
-,				[
-					39,
-					cr.plugins_.Text.prototype.acts.SetVisible,
-					null,
-					2430232970693072,
-					false
-					,[
-					[
-						3,
-						0
-					]
-					]
-				]
 				]
 			]
 ,			[
@@ -25107,7 +25192,7 @@ false,false,3265711371229401,false
 					,[
 					[
 						11,
-						"gameOn"
+						"gamePaused"
 					]
 ,					[
 						8,
@@ -25117,7 +25202,7 @@ false,false,3265711371229401,false
 						7,
 						[
 							0,
-							1
+							0
 						]
 					]
 					]
@@ -25189,7 +25274,7 @@ false,false,3265711371229401,false
 					,[
 					[
 						11,
-						"gameOn"
+						"gamePaused"
 					]
 ,					[
 						8,
@@ -25199,7 +25284,7 @@ false,false,3265711371229401,false
 						7,
 						[
 							0,
-							1
+							0
 						]
 					]
 					]
@@ -25258,7 +25343,7 @@ false,false,3265711371229401,false
 					,[
 					[
 						11,
-						"gameOn"
+						"gamePaused"
 					]
 ,					[
 						8,
@@ -25268,7 +25353,7 @@ false,false,3265711371229401,false
 						7,
 						[
 							0,
-							1
+							0
 						]
 					]
 					]
@@ -25368,7 +25453,7 @@ false,false,3265711371229401,false
 						1,
 						[
 							2,
-							"pauseEvent"
+							"pause"
 						]
 					]
 ,					[
@@ -25399,6 +25484,34 @@ false,false,3265711371229401,false
 					[
 						4,
 						23
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					6629491893649611,
+					false
+					,[
+					[
+						11,
+						"gameStarted"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
 					]
 					]
 				]
@@ -25437,23 +25550,37 @@ false,false,3265711371229401,false
 					]
 					]
 				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					6774950820975205,
+					false
+					,[
+					[
+						11,
+						"gameStarted"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
 				],
 				[
 				[
-					-1,
-					cr.system_object.prototype.acts.RestartLayout,
-					null,
-					9942792702837133,
-					false
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.ResetGlobals,
-					null,
-					9344755708335695,
-					false
-				]
-,				[
 					-1,
 					cr.system_object.prototype.acts.SetLayerVisible,
 					null,
@@ -25472,6 +25599,20 @@ false,false,3265711371229401,false
 						0
 					]
 					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.ResetGlobals,
+					null,
+					9344755708335695,
+					false
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.RestartLayout,
+					null,
+					9942792702837133,
+					false
 				]
 				]
 			]
@@ -25496,6 +25637,34 @@ false,false,3265711371229401,false
 					[
 						4,
 						24
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					5214615213040161,
+					false
+					,[
+					[
+						11,
+						"gameStarted"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
 					]
 					]
 				]
@@ -25639,22 +25808,6 @@ false,false,3265711371229401,false
 				],
 				[
 				[
-					-1,
-					cr.system_object.prototype.acts.SetTimescale,
-					null,
-					7558943542064589,
-					false
-					,[
-					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-					]
-				]
-,				[
 					4,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
@@ -25670,6 +25823,22 @@ false,false,3265711371229401,false
 					]
 ,					[
 						13,
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetTimescale,
+					null,
+					7558943542064589,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							0
+						]
 					]
 					]
 				]
@@ -25772,6 +25941,130 @@ false,false,3265711371229401,false
 ,						[
 							3,
 							1
+						]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				6659338750621825,
+				[
+				[
+					39,
+					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
+					null,
+					1,
+					false,
+					false,
+					false,
+					35228877243867,
+					false
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					5496232568047831,
+					[
+					[
+						39,
+						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
+						null,
+						0,
+						false,
+						false,
+						false,
+						8363235173909818,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"16:9"
+							]
+						]
+,						[
+							0,
+							[
+								1,
+								0.5
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						2885450267530923,
+						false
+						,[
+						[
+							11,
+							"validScreenSize"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					5553655795525089,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.Else,
+						null,
+						0,
+						false,
+						false,
+						false,
+						8031223345994968,
+						false
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						815962373163018,
+						false
+						,[
+						[
+							11,
+							"validScreenSize"
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
 						]
 						]
 					]
@@ -26050,43 +26343,6 @@ false,false,3265711371229401,false
 				],
 				[
 				[
-					36,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					8435312442375802,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								10,
-								[
-									10,
-									[
-										2,
-										"Lugar "
-									]
-									,[
-										23,
-										"retVal"
-									]
-								]
-								,[
-									2,
-									" "
-								]
-							]
-							,[
-								23,
-								"userPlaying"
-							]
-						]
-					]
-					]
-				]
-,				[
 					4,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
@@ -26162,7 +26418,7 @@ false,false,3265711371229401,false
 						1,
 						[
 							2,
-							"pauseEvent"
+							"pause"
 						]
 					]
 					]
@@ -26191,7 +26447,7 @@ false,false,3265711371229401,false
 						,[
 						[
 							11,
-							"gameOn"
+							"gamePaused"
 						]
 ,						[
 							8,
@@ -26201,7 +26457,7 @@ false,false,3265711371229401,false
 							7,
 							[
 								0,
-								0
+								1
 							]
 						]
 						]
@@ -26217,13 +26473,13 @@ false,false,3265711371229401,false
 						,[
 						[
 							11,
-							"gameOn"
+							"gamePaused"
 						]
 ,						[
 							7,
 							[
 								0,
-								1
+								0
 							]
 						]
 						]
@@ -26315,13 +26571,13 @@ false,false,3265711371229401,false
 						,[
 						[
 							11,
-							"gameOn"
+							"gamePaused"
 						]
 ,						[
 							7,
 							[
 								0,
-								0
+								1
 							]
 						]
 						]
@@ -26640,15 +26896,8 @@ false,false,3096662099478148,false
 						[
 							10,
 							[
-								10,
-								[
-									23,
-									"userPlaying"
-								]
-								,[
-									2,
-									": "
-								]
+								2,
+								"Bloques esquivados: "
 							]
 							,[
 								23,
@@ -26716,7 +26965,7 @@ false,false,3096662099478148,false
 						1,
 						[
 							2,
-							"pauseEvent"
+							"pause"
 						]
 					]
 ,					[
@@ -28796,7 +29045,7 @@ false,false,8571747330113035,false
 	true,
 	2,
 	2,
-	44,
+	42,
 	false,
 	true,
 	[

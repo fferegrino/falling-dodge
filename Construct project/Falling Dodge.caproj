@@ -19,11 +19,11 @@
         <plugin author="Scirra" id="Sprite" version="1">Sprite</plugin>
         <plugin author="Chris Kent" id="SpriteFontPlus" version="1">SpriteFont+</plugin>
         <plugin author="Scirra" id="Text" version="1">Text</plugin>
-        <plugin author="Scirra" id="TextBox" version="1">Text box</plugin>
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
         <plugin author="Scirra.com" id="win8" version="1">Windows 8</plugin>
+        <plugin author="@fferegrino" id="wpc2" version="1">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Platform" version="1">Platform</behavior>
@@ -455,11 +455,8 @@
                 </animation>
             </animation-folder>
         </object-type>
-        <object-type name="userNameTextbox" sid="1129908358552672">
-            <plugin id="TextBox" />
-        </object-type>
-        <object-type name="errText" sid="8715136937947407">
-            <plugin id="Text" />
+        <object-type name="wpc2" sid="8403940385879478">
+            <plugin id="wpc2" />
         </object-type>
     </object-folder>
     <families />
@@ -507,6 +504,7 @@
         </global-instance>
         <global-instance type="keyboard" uid="14" />
         <global-instance type="storage" uid="30" />
+        <global-instance type="wpc2" uid="41" />
     </global-instances>
     <sounds-folder expanded="0">
         <file name="explosion_dull.ogg" />
