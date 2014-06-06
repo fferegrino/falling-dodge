@@ -11,7 +11,7 @@ The core project, it is being made with Construct2 Personal with the help of the
  - [Windows + C2][2]
 
 ### FallingDodgeWindows
-Originallyt intended to contain the Windows Store App, with the support of Universal Apps now the folder holds both Windows 8.1 and Windows Phone 8.1
+Originally intended to contain the Windows Store App, with the support of Universal Apps now the folder holds both Windows 8.1 and Windows Phone 8.1 projects
  
 
   [1]: http://spritefontplus.codeplex.com/
