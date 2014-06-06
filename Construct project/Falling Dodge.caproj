@@ -10,7 +10,6 @@
     <unique-id>1emck729oxl52</unique-id>
     <saved-with-version>16800</saved-with-version>
     <used-plugins>
-        <plugin author="Scirra" id="Arr" version="1">Array</plugin>
         <plugin author="Scirra" id="Audio" version="1">Audio</plugin>
         <plugin author="Scirra" id="Button" version="1">Button</plugin>
         <plugin author="Scirra" id="Function" version="1">Function</plugin>
@@ -44,7 +43,7 @@
     <configuration-settings>
         <prop name="Clear background">Yes</prop>
         <prop name="Enable WebGL">On</prop>
-        <prop name="Fullscreen in browser">Crop</prop>
+        <prop name="Fullscreen in browser">Scale inner</prop>
         <prop name="Hide address bar">No</prop>
         <prop name="Loader style">Percentage text</prop>
         <prop name="Orientations">Landscape</prop>
@@ -287,7 +286,7 @@
         <object-type name="resetButon" sid="7548425840822744">
             <plugin id="Button" />
         </object-type>
-        <object-type name="9FinalPatch" sid="6615853364536828">
+        <object-type name="alert9patch" sid="6615853364536828">
             <plugin id="NinePatch" />
             <texture />
         </object-type>
@@ -353,9 +352,6 @@
                 </animation>
             </animation-folder>
         </object-type>
-        <object-type global="1" name="blocksArray" sid="9490642858370472">
-            <plugin id="Arr" />
-        </object-type>
         <object-type name="bgMenuScreen" sid="2524328815119954">
             <plugin id="Sprite" />
             <animation-folder expanded="1">
@@ -397,10 +393,6 @@
         <object-type name="storage" sid="128556809337902">
             <plugin id="WebStorage" />
         </object-type>
-        <object-type name="soundSetting" sid="7885197264036889">
-            <plugin id="SpriteFontPlus" />
-            <texture />
-        </object-type>
         <object-type name="backSettingsButton" sid="1988146745001644">
             <plugin id="Sprite" />
             <animation-folder expanded="1">
@@ -419,10 +411,6 @@
                     </frame>
                 </animation>
             </animation-folder>
-        </object-type>
-        <object-type name="soundFXSetting" sid="5946533577447993">
-            <plugin id="SpriteFontPlus" />
-            <texture />
         </object-type>
         <object-type name="debugText" sid="5794892183316289">
             <plugin id="Text" />
@@ -463,6 +451,9 @@
         </object-type>
         <object-type name="wpc2" sid="8403940385879478">
             <plugin id="wpc2" />
+        </object-type>
+        <object-type name="invalidScreenText" sid="9794662573896967">
+            <plugin id="Text" />
         </object-type>
     </object-folder>
     <families />

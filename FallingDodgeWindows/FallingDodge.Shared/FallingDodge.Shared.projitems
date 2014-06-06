@@ -7,7 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)c2runtime.js" />
-    <Content Include="$(MSBuildThisFileDirectory)images\ui\cursor.png" />
     <Content Include="$(MSBuildThisFileDirectory)jquery-2.0.0.min.js" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamebackground.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\playbutton-sheet0.png" />
@@ -22,7 +21,7 @@
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pausebutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\block-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\hudfont.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\9finalpatch.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\alert9patch.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\replaybutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\sharebutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\quitgame-sheet0.png" />

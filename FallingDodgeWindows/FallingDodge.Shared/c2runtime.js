@@ -12570,684 +12570,6 @@ cr.system_object.prototype.loadFromJSON = function (o)
 cr.shaders = {};
 ;
 ;
-cr.plugins_.Arr = function(runtime)
-{
-	this.runtime = runtime;
-};
-(function ()
-{
-	var pluginProto = cr.plugins_.Arr.prototype;
-	pluginProto.Type = function(plugin)
-	{
-		this.plugin = plugin;
-		this.runtime = plugin.runtime;
-	};
-	var typeProto = pluginProto.Type.prototype;
-	typeProto.onCreate = function()
-	{
-	};
-	pluginProto.Instance = function(type)
-	{
-		this.type = type;
-		this.runtime = type.runtime;
-	};
-	var instanceProto = pluginProto.Instance.prototype;
-	var arrCache = [];
-	function allocArray()
-	{
-		if (arrCache.length)
-			return arrCache.pop();
-		else
-			return [];
-	};
-	if (!Array.isArray)
-	{
-		Array.isArray = function (vArg) {
-			return Object.prototype.toString.call(vArg) === "[object Array]";
-		};
-	}
-	function freeArray(a)
-	{
-		var i, len;
-		for (i = 0, len = a.length; i < len; i++)
-		{
-			if (Array.isArray(a[i]))
-				freeArray(a[i]);
-		}
-		a.length = 0;
-		arrCache.push(a);
-	};
-	instanceProto.onCreate = function()
-	{
-		this.cx = this.properties[0];
-		this.cy = this.properties[1];
-		this.cz = this.properties[2];
-		if (!this.recycled)
-			this.arr = allocArray();
-		var a = this.arr;
-		a.length = this.cx;
-		var x, y, z;
-		for (x = 0; x < this.cx; x++)
-		{
-			if (!a[x])
-				a[x] = allocArray();
-			a[x].length = this.cy;
-			for (y = 0; y < this.cy; y++)
-			{
-				if (!a[x][y])
-					a[x][y] = allocArray();
-				a[x][y].length = this.cz;
-				for (z = 0; z < this.cz; z++)
-					a[x][y][z] = 0;
-			}
-		}
-		this.forX = 0;
-		this.forY = 0;
-		this.forZ = 0;
-	};
-	instanceProto.onDestroy = function ()
-	{
-		var x;
-		for (x = 0; x < this.cx; x++)
-			freeArray(this.arr[x]);		// will recurse down and recycle other arrays
-		this.arr.length = 0;
-	};
-	instanceProto.at = function (x, y, z)
-	{
-		x = Math.floor(x);
-		y = Math.floor(y);
-		z = Math.floor(z);
-		if (isNaN(x) || x < 0 || x > this.cx - 1)
-			return 0;
-		if (isNaN(y) || y < 0 || y > this.cy - 1)
-			return 0;
-		if (isNaN(z) || z < 0 || z > this.cz - 1)
-			return 0;
-		return this.arr[x][y][z];
-	};
-	instanceProto.set = function (x, y, z, val)
-	{
-		x = Math.floor(x);
-		y = Math.floor(y);
-		z = Math.floor(z);
-		if (isNaN(x) || x < 0 || x > this.cx - 1)
-			return;
-		if (isNaN(y) || y < 0 || y > this.cy - 1)
-			return;
-		if (isNaN(z) || z < 0 || z > this.cz - 1)
-			return;
-		this.arr[x][y][z] = val;
-	};
-	instanceProto.getAsJSON = function ()
-	{
-		return JSON.stringify({
-			"c2array": true,
-			"size": [this.cx, this.cy, this.cz],
-			"data": this.arr
-		});
-	};
-	instanceProto.saveToJSON = function ()
-	{
-		return {
-			"size": [this.cx, this.cy, this.cz],
-			"data": this.arr
-		};
-	};
-	instanceProto.loadFromJSON = function (o)
-	{
-		var sz = o["size"];
-		this.cx = sz[0];
-		this.cy = sz[1];
-		this.cz = sz[2];
-		this.arr = o["data"];
-	};
-	instanceProto.setSize = function (w, h, d)
-	{
-		if (w < 0) w = 0;
-		if (h < 0) h = 0;
-		if (d < 0) d = 0;
-		if (this.cx === w && this.cy === h && this.cz === d)
-			return;		// no change
-		this.cx = w;
-		this.cy = h;
-		this.cz = d;
-		var x, y, z;
-		var a = this.arr;
-		a.length = w;
-		for (x = 0; x < this.cx; x++)
-		{
-			if (cr.is_undefined(a[x]))
-				a[x] = allocArray();
-			a[x].length = h;
-			for (y = 0; y < this.cy; y++)
-			{
-				if (cr.is_undefined(a[x][y]))
-					a[x][y] = allocArray();
-				a[x][y].length = d;
-				for (z = 0; z < this.cz; z++)
-				{
-					if (cr.is_undefined(a[x][y][z]))
-						a[x][y][z] = 0;
-				}
-			}
-		}
-	};
-	function Cnds() {};
-	Cnds.prototype.CompareX = function (x, cmp, val)
-	{
-		return cr.do_cmp(this.at(x, 0, 0), cmp, val);
-	};
-	Cnds.prototype.CompareXY = function (x, y, cmp, val)
-	{
-		return cr.do_cmp(this.at(x, y, 0), cmp, val);
-	};
-	Cnds.prototype.CompareXYZ = function (x, y, z, cmp, val)
-	{
-		return cr.do_cmp(this.at(x, y, z), cmp, val);
-	};
-	instanceProto.doForEachTrigger = function (current_event)
-	{
-		this.runtime.pushCopySol(current_event.solModifiers);
-		current_event.retrigger();
-		this.runtime.popSol(current_event.solModifiers);
-	};
-	Cnds.prototype.ArrForEach = function (dims)
-	{
-        var current_event = this.runtime.getCurrentEventStack().current_event;
-		this.forX = 0;
-		this.forY = 0;
-		this.forZ = 0;
-		switch (dims) {
-		case 0:
-			for (this.forX = 0; this.forX < this.cx; this.forX++)
-			{
-				for (this.forY = 0; this.forY < this.cy; this.forY++)
-				{
-					for (this.forZ = 0; this.forZ < this.cz; this.forZ++)
-					{
-						this.doForEachTrigger(current_event);
-					}
-				}
-			}
-			break;
-		case 1:
-			for (this.forX = 0; this.forX < this.cx; this.forX++)
-			{
-				for (this.forY = 0; this.forY < this.cy; this.forY++)
-				{
-					this.doForEachTrigger(current_event);
-				}
-			}
-			break;
-		case 2:
-			for (this.forX = 0; this.forX < this.cx; this.forX++)
-			{
-				this.doForEachTrigger(current_event);
-			}
-			break;
-		}
-		this.forX = 0;
-		this.forY = 0;
-		this.forZ = 0;
-		return false;
-	};
-	Cnds.prototype.CompareCurrent = function (cmp, val)
-	{
-		return cr.do_cmp(this.at(this.forX, this.forY, this.forZ), cmp, val);
-	};
-	Cnds.prototype.Contains = function(val)
-	{
-		var x, y, z;
-		for (x = 0; x < this.cx; x++)
-		{
-			for (y = 0; y < this.cy; y++)
-			{
-				for (z = 0; z < this.cz; z++)
-				{
-					if (this.arr[x][y][z] === val)
-						return true;
-				}
-			}
-		}
-		return false;
-	};
-	Cnds.prototype.IsEmpty = function ()
-	{
-		return this.cx === 0 || this.cy === 0 || this.cz === 0;
-	};
-	Cnds.prototype.CompareSize = function (axis, cmp, value)
-	{
-		var s = 0;
-		switch (axis) {
-		case 0:
-			s = this.cx;
-			break;
-		case 1:
-			s = this.cy;
-			break;
-		case 2:
-			s = this.cz;
-			break;
-		}
-		return cr.do_cmp(s, cmp, value);
-	};
-	pluginProto.cnds = new Cnds();
-	function Acts() {};
-	Acts.prototype.Clear = function ()
-	{
-		var x, y, z;
-		for (x = 0; x < this.cx; x++)
-			for (y = 0; y < this.cy; y++)
-				for (z = 0; z < this.cz; z++)
-					this.arr[x][y][z] = 0;
-	};
-	Acts.prototype.SetSize = function (w, h, d)
-	{
-		this.setSize(w, h, d);
-	};
-	Acts.prototype.SetX = function (x, val)
-	{
-		this.set(x, 0, 0, val);
-	};
-	Acts.prototype.SetXY = function (x, y, val)
-	{
-		this.set(x, y, 0, val);
-	};
-	Acts.prototype.SetXYZ = function (x, y, z, val)
-	{
-		this.set(x, y, z, val);
-	};
-	Acts.prototype.Push = function (where, value, axis)
-	{
-		var x = 0, y = 0, z = 0;
-		var a = this.arr;
-		switch (axis) {
-		case 0:	// X axis
-			if (where === 0)	// back
-			{
-				x = a.length;
-				a.push(allocArray());
-			}
-			else				// front
-			{
-				x = 0;
-				a.unshift(allocArray());
-			}
-			a[x].length = this.cy;
-			for ( ; y < this.cy; y++)
-			{
-				a[x][y] = allocArray();
-				a[x][y].length = this.cz;
-				for (z = 0; z < this.cz; z++)
-					a[x][y][z] = value;
-			}
-			this.cx++;
-			break;
-		case 1: // Y axis
-			for ( ; x < this.cx; x++)
-			{
-				if (where === 0)	// back
-				{
-					y = a[x].length;
-					a[x].push(allocArray());
-				}
-				else				// front
-				{
-					y = 0;
-					a[x].unshift(allocArray());
-				}
-				a[x][y].length = this.cz;
-				for (z = 0; z < this.cz; z++)
-					a[x][y][z] = value;
-			}
-			this.cy++;
-			break;
-		case 2:	// Z axis
-			for ( ; x < this.cx; x++)
-			{
-				for (y = 0; y < this.cy; y++)
-				{
-					if (where === 0)	// back
-					{
-						a[x][y].push(value);
-					}
-					else				// front
-					{
-						a[x][y].unshift(value);
-					}
-				}
-			}
-			this.cz++;
-			break;
-		}
-	};
-	Acts.prototype.Pop = function (where, axis)
-	{
-		var x = 0, y = 0, z = 0;
-		var a = this.arr;
-		switch (axis) {
-		case 0:	// X axis
-			if (this.cx === 0)
-				break;
-			if (where === 0)	// back
-			{
-				freeArray(a.pop());
-			}
-			else				// front
-			{
-				freeArray(a.shift());
-			}
-			this.cx--;
-			break;
-		case 1: // Y axis
-			if (this.cy === 0)
-				break;
-			for ( ; x < this.cx; x++)
-			{
-				if (where === 0)	// back
-				{
-					freeArray(a[x].pop());
-				}
-				else				// front
-				{
-					freeArray(a[x].shift());
-				}
-			}
-			this.cy--;
-			break;
-		case 2:	// Z axis
-			if (this.cz === 0)
-				break;
-			for ( ; x < this.cx; x++)
-			{
-				for (y = 0; y < this.cy; y++)
-				{
-					if (where === 0)	// back
-					{
-						a[x][y].pop();
-					}
-					else				// front
-					{
-						a[x][y].shift();
-					}
-				}
-			}
-			this.cz--;
-			break;
-		}
-	};
-	Acts.prototype.Reverse = function (axis)
-	{
-		var x = 0, y = 0, z = 0;
-		var a = this.arr;
-		if (this.cx === 0 || this.cy === 0 || this.cz === 0)
-			return;		// no point reversing empty array
-		switch (axis) {
-		case 0:	// X axis
-			a.reverse();
-			break;
-		case 1: // Y axis
-			for ( ; x < this.cx; x++)
-				a[x].reverse();
-			break;
-		case 2:	// Z axis
-			for ( ; x < this.cx; x++)
-				for (y = 0; y < this.cy; y++)
-					a[x][y].reverse();
-			this.cz--;
-			break;
-		}
-	};
-	function compareValues(va, vb)
-	{
-		if (cr.is_number(va) && cr.is_number(vb))
-			return va - vb;
-		else
-		{
-			var sa = "" + va;
-			var sb = "" + vb;
-			if (sa < sb)
-				return -1;
-			else if (sa > sb)
-				return 1;
-			else
-				return 0;
-		}
-	}
-	Acts.prototype.Sort = function (axis)
-	{
-		var x = 0, y = 0, z = 0;
-		var a = this.arr;
-		if (this.cx === 0 || this.cy === 0 || this.cz === 0)
-			return;		// no point sorting empty array
-		switch (axis) {
-		case 0:	// X axis
-			a.sort(function (a, b) {
-				return compareValues(a[0][0], b[0][0]);
-			});
-			break;
-		case 1: // Y axis
-			for ( ; x < this.cx; x++)
-			{
-				a[x].sort(function (a, b) {
-					return compareValues(a[0], b[0]);
-				});
-			}
-			break;
-		case 2:	// Z axis
-			for ( ; x < this.cx; x++)
-			{
-				for (y = 0; y < this.cy; y++)
-				{
-					a[x][y].sort(compareValues);
-				}
-			}
-			break;
-		}
-	};
-	Acts.prototype.Delete = function (index, axis)
-	{
-		var x = 0, y = 0, z = 0;
-		index = Math.floor(index);
-		var a = this.arr;
-		if (index < 0)
-			return;
-		switch (axis) {
-		case 0:	// X axis
-			if (index >= this.cx)
-				break;
-			freeArray(a[index]);
-			a.splice(index, 1);
-			this.cx--;
-			break;
-		case 1: // Y axis
-			if (index >= this.cy)
-				break;
-			for ( ; x < this.cx; x++)
-			{
-				freeArray(a[x][index]);
-				a[x].splice(index, 1);
-			}
-			this.cy--;
-			break;
-		case 2:	// Z axis
-			if (index >= this.cz)
-				break;
-			for ( ; x < this.cx; x++)
-			{
-				for (y = 0; y < this.cy; y++)
-				{
-					a[x][y].splice(index, 1);
-				}
-			}
-			this.cz--;
-			break;
-		}
-	};
-	Acts.prototype.Insert = function (value, index, axis)
-	{
-		var x = 0, y = 0, z = 0;
-		index = Math.floor(index);
-		var a = this.arr;
-		if (index < 0)
-			return;
-		switch (axis) {
-		case 0:	// X axis
-			if (index > this.cx)
-				return;
-			x = index;
-			a.splice(x, 0, allocArray());
-			a[x].length = this.cy;
-			for ( ; y < this.cy; y++)
-			{
-				a[x][y] = allocArray();
-				a[x][y].length = this.cz;
-				for (z = 0; z < this.cz; z++)
-					a[x][y][z] = value;
-			}
-			this.cx++;
-			break;
-		case 1: // Y axis
-			if (index > this.cy)
-				return;
-			for ( ; x < this.cx; x++)
-			{
-				y = index;
-				a[x].splice(y, 0, allocArray());
-				a[x][y].length = this.cz;
-				for (z = 0; z < this.cz; z++)
-					a[x][y][z] = value;
-			}
-			this.cy++;
-			break;
-		case 2:	// Z axis
-			if (index > this.cz)
-				return;
-			for ( ; x < this.cx; x++)
-			{
-				for (y = 0; y < this.cy; y++)
-				{
-					a[x][y].splice(index, 0, value);
-				}
-			}
-			this.cz++;
-			break;
-		}
-	};
-	Acts.prototype.JSONLoad = function (json_)
-	{
-		var o;
-		try {
-			o = JSON.parse(json_);
-		}
-		catch(e) { return; }
-		if (!o["c2array"])		// presumably not a c2array object
-			return;
-		var sz = o["size"];
-		this.cx = sz[0];
-		this.cy = sz[1];
-		this.cz = sz[2];
-		this.arr = o["data"];
-	};
-	Acts.prototype.JSONDownload = function (filename)
-	{
-		var a = document.createElement("a");
-		if (typeof a.download === "undefined")
-		{
-			var str = 'data:text/html,' + encodeURIComponent("<p><a download='" + filename + "' href=\"data:application/json,"
-				+ encodeURIComponent(this.getAsJSON())
-				+ "\">Download link</a></p>");
-			window.open(str);
-		}
-		else
-		{
-			var body = document.getElementsByTagName("body")[0];
-			a.textContent = filename;
-			a.href = "data:application/json," + encodeURIComponent(this.getAsJSON());
-			a.download = filename;
-			body.appendChild(a);
-			var clickEvent = document.createEvent("MouseEvent");
-			clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			a.dispatchEvent(clickEvent);
-			body.removeChild(a);
-		}
-	};
-	pluginProto.acts = new Acts();
-	function Exps() {};
-	Exps.prototype.At = function (ret, x, y_, z_)
-	{
-		var y = y_ || 0;
-		var z = z_ || 0;
-		ret.set_any(this.at(x, y, z));
-	};
-	Exps.prototype.Width = function (ret)
-	{
-		ret.set_int(this.cx);
-	};
-	Exps.prototype.Height = function (ret)
-	{
-		ret.set_int(this.cy);
-	};
-	Exps.prototype.Depth = function (ret)
-	{
-		ret.set_int(this.cz);
-	};
-	Exps.prototype.CurX = function (ret)
-	{
-		ret.set_int(this.forX);
-	};
-	Exps.prototype.CurY = function (ret)
-	{
-		ret.set_int(this.forY);
-	};
-	Exps.prototype.CurZ = function (ret)
-	{
-		ret.set_int(this.forZ);
-	};
-	Exps.prototype.CurValue = function (ret)
-	{
-		ret.set_any(this.at(this.forX, this.forY, this.forZ));
-	};
-	Exps.prototype.Front = function (ret)
-	{
-		ret.set_any(this.at(0, 0, 0));
-	};
-	Exps.prototype.Back = function (ret)
-	{
-		ret.set_any(this.at(this.cx - 1, 0, 0));
-	};
-	Exps.prototype.IndexOf = function (ret, v)
-	{
-		for (var i = 0; i < this.cx; i++)
-		{
-			if (this.arr[i][0][0] === v)
-			{
-				ret.set_int(i);
-				return;
-			}
-		}
-		ret.set_int(-1);
-	};
-	Exps.prototype.LastIndexOf = function (ret, v)
-	{
-		for (var i = this.cx - 1; i >= 0; i--)
-		{
-			if (this.arr[i][0][0] === v)
-			{
-				ret.set_int(i);
-				return;
-			}
-		}
-		ret.set_int(-1);
-	};
-	Exps.prototype.AsJSON = function (ret)
-	{
-		ret.set_string(this.getAsJSON());
-	};
-	pluginProto.exps = new Exps();
-}());
-;
-;
 cr.plugins_.Audio = function(runtime)
 {
 	this.runtime = runtime;
@@ -22665,16 +21987,16 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
-		cr.plugins_.Arr,
+		cr.plugins_.NinePatch,
 		false,
+		true,
+		true,
+		true,
 		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
+		true,
+		true,
+		true,
+		true
 	]
 ,	[
 		cr.plugins_.Audio,
@@ -22725,18 +22047,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22761,30 +22071,6 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.WebStorage,
 		true,
 		false,
@@ -22794,6 +22080,30 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false,
+		false
+	]
+,	[
+		cr.plugins_.TiledBg,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 		false
 	]
 ,	[
@@ -22821,16 +22131,16 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.TiledBg,
+		cr.plugins_.Touch,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
 	]
 	],
 	[
@@ -23319,7 +22629,7 @@ cr.getProjectModel = function() { return [
 		[],
 		0,
 		0,
-		["images/assetsC2/9finalpatch.png", 236, 0],
+		["images/assetsC2/alert9patch.png", 236, 0],
 		null,
 		[
 		],
@@ -23472,23 +22782,6 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t25",
-		cr.plugins_.Arr,
-		false,
-		[],
-		0,
-		0,
-		null,
-		null,
-		[
-		],
-		true,
-		false,
-		9490642858370472,
-		[],
-		null
-	]
-,	[
-		"t26",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23518,7 +22811,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t27",
+		"t26",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23548,7 +22841,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t28",
+		"t27",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23578,7 +22871,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t29",
+		"t28",
 		cr.plugins_.WebStorage,
 		false,
 		[],
@@ -23596,24 +22889,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t30",
-		cr.plugins_.SpriteFontPlus,
-		false,
-		[],
-		0,
-		0,
-		["images/assetsC2/hudfont.png", 26477, 0],
-		null,
-		[
-		],
-		false,
-		false,
-		7885197264036889,
-		[],
-		null
-	]
-,	[
-		"t31",
+		"t29",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23643,24 +22919,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t32",
-		cr.plugins_.SpriteFontPlus,
-		false,
-		[],
-		0,
-		0,
-		["images/assetsC2/hudfont.png", 26477, 0],
-		null,
-		[
-		],
-		false,
-		false,
-		5946533577447993,
-		[],
-		null
-	]
-,	[
-		"t33",
+		"t30",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23677,7 +22936,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t34",
+		"t31",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23707,7 +22966,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t35",
+		"t32",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23737,7 +22996,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t36",
+		"t33",
 		cr.plugins_.wpc2,
 		false,
 		[],
@@ -23753,6 +23012,23 @@ cr.getProjectModel = function() { return [
 		[],
 		null
 		,[]
+	]
+,	[
+		"t34",
+		cr.plugins_.Text,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		9794662573896967,
+		[],
+		null
 	]
 	],
 	[
@@ -24227,8 +23503,59 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"dev",
+			"snappedLayer",
 			6,
+			2052866894104606,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
+				3,
+				26,
+				[
+				],
+				[
+				],
+				[
+					0,
+					0
+				]
+			]
+,			[
+				[523, 234, 0, 320, 300, 0, 0, 1, 0, 0, 0, 0, []],
+				34,
+				18,
+				[
+				],
+				[
+				],
+				[
+					"Falling Dodge no puede funcionar con esta resolución",
+					0,
+					"36pt Segoe UI Light",
+					"rgb(255,255,255)",
+					1,
+					0,
+					0,
+					0,
+					0
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"dev",
+			7,
 			8624842650525384,
 			false,
 			[255, 255, 255],
@@ -24262,7 +23589,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[475, 9, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
-				33,
+				30,
 				37,
 				[
 				],
@@ -24285,20 +23612,6 @@ cr.getProjectModel = function() { return [
 		]
 		],
 		[
-			[
-				null,
-				25,
-				18,
-				[
-				],
-				[
-				],
-				[
-					22,
-					1,
-					1
-				]
-			]
 		],
 		[]
 	]
@@ -24327,7 +23640,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[683, 384.9999694824219, 0, 1366, 769, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
-				26,
+				25,
 				25,
 				[
 				],
@@ -24406,7 +23719,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
-				26,
+				25,
 				38,
 				[
 				],
@@ -24421,7 +23734,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 80, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				34,
+				31,
 				39,
 				[
 				],
@@ -24436,7 +23749,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 200, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				35,
+				32,
 				40,
 				[
 				],
@@ -24781,6 +24094,34 @@ false,false,6451482555671282,false
 						[
 							0,
 							4
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					4940223381180073,
+					false
+					,[
+					[
+						11,
+						"validScreenSize"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							23,
+							"TRUE"
 						]
 					]
 					]
@@ -25751,7 +25092,7 @@ false,false,6451482555671282,false
 					3806278567749429,
 					[
 					[
-						36,
+						33,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25799,6 +25140,26 @@ false,false,6451482555671282,false
 						]
 						]
 					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						6800898661642,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								6
+							]
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
 					]
 				]
 				]
@@ -25811,7 +25172,7 @@ false,false,6451482555671282,false
 				6659338750621825,
 				[
 				[
-					36,
+					33,
 					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
 					null,
 					1,
@@ -25833,7 +25194,7 @@ false,false,6451482555671282,false
 					5496232568047831,
 					[
 					[
-						36,
+						33,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25907,6 +25268,26 @@ false,false,6451482555671282,false
 						]
 						]
 					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						9563527460121805,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								6
+							]
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
 					]
 				]
 ,				[
@@ -25972,6 +25353,26 @@ false,false,6451482555671282,false
 										"TRUE"
 									]
 								]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						5523545736089331,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								6
+							]
+						]
+,						[
+							3,
+							1
 						]
 						]
 					]
@@ -26292,7 +25693,7 @@ false,false,6451482555671282,false
 				],
 				[
 				[
-					33,
+					30,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					9727649319043863,
@@ -26986,6 +26387,13 @@ false,false,3096662099478148,false
 					]
 ,					[
 						13,
+													[
+								7,
+								[
+									23,
+									"TRUE"
+								]
+							]
 					]
 					]
 				]
@@ -27279,7 +26687,7 @@ false,false,3096662099478148,false
 				,[
 				[
 					4,
-					27
+					26
 				]
 				]
 			]
@@ -27414,7 +26822,7 @@ false,false,3096662099478148,false
 				,[
 				[
 					4,
-					28
+					27
 				]
 				]
 			]
@@ -27650,7 +27058,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						29,
+						28,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27734,7 +27142,7 @@ false,false,137819117408848,false
 									10,
 									[
 										20,
-										29,
+										28,
 										cr.plugins_.WebStorage.prototype.exps.LocalValue,
 										true,
 										null
@@ -27759,7 +27167,7 @@ false,false,137819117408848,false
 								]
 								,[
 									20,
-									29,
+									28,
 									cr.plugins_.WebStorage.prototype.exps.LocalValue,
 									true,
 									null
@@ -27910,7 +27318,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						29,
+						28,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27939,7 +27347,7 @@ false,false,8571747330113035,false
 					],
 					[
 					[
-						29,
+						28,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						8686943429417027,
@@ -27962,7 +27370,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						29,
+						28,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						6759804980509709,
@@ -28030,7 +27438,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					34
+					31
 				]
 				]
 			]
@@ -28071,7 +27479,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					35
+					32
 				]
 				]
 			]
@@ -28110,7 +27518,7 @@ false,false,8571747330113035,false
 	false,
 	1366,
 	768,
-	1,
+	2,
 	true,
 	true,
 	true,

@@ -62,7 +62,7 @@
         // History flyout:
         cmds["history"] = { title: "Falling Dodge", href: "/settings/history.html" };
         // Settings flyout:
-        cmds["about"] = { title: "Acerca de", href: "/settings/about.html" };
+        cmds["privacy"] = { title: "Privacidad", href: "/settings/privacy.html" };
 
         e.detail.applicationcommands = cmds;
         WinJS.UI.SettingsFlyout.populateSettings(e);
