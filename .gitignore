@@ -175,7 +175,10 @@ FakesAssemblies/
 
 # Construct 2
 *.autosave
-*.backup*
 *.uistate.xml
 *.uistate.*
+*.backup*
+
+# More stuff
 *.db
+Package.StoreAssociation.xml
