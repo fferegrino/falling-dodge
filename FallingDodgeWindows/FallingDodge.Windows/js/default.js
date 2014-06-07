@@ -2,15 +2,6 @@
 (function () {
     "use strict";
     var app = WinJS.Application;
-    var originalH, originalW;
-
-    window.addEventListener("blur", function () {
-        //cr_setSuspended(true);
-    });
-
-    window.addEventListener("focus", function () {
-        //cr_setSuspended(false);
-    });
 
     /* When the app is resized this function will be triggered */
 
@@ -72,16 +63,6 @@
     Windows.UI.WebUI.WebUIApplication.addEventListener("resuming", function () {
         cr_setSuspended(false);
     }, false);
-
-    // This functions hides or shows a message to the user
-    function viewState(valid) {
-        if (valid) {
-            $("#invalidViewStateShade").hide();
-        } else {
-            $("#invalidViewStateShade").show();
-            $("#viewStateMessage").centerVertical();
-        }
-    }
 
     // Center an element on the screen
     jQuery.fn.centerVertical = function () {
