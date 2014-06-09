@@ -63,6 +63,7 @@
     <Content Include="js\default.js" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="page.html" />
+    <Content Include="settings\thanks.html" />
     <Content Include="settings\history.html" />
     <Content Include="settings\privacy.html" />
     <Content Include="settings\about.html" />

@@ -10,7 +10,7 @@
         <variable comment="This variable tell us if the app is running in a valid screen size" constant="0" name="validScreenSize" sid="8661402681645313" static="0" type="number">0</variable>
         <variable comment="Difficulty level" constant="0" name="level" sid="740642952620509" static="0" type="number">1</variable>
         <variable comment="This number indicates the amount of blocks that made it to the ground" constant="0" name="fallenBLocks" sid="6451482555671282" static="0" type="number">0</variable>
-        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -20,7 +20,7 @@
                         <condition id="-14" name="Compare variable" sid="8125689960951239" type="System">
                             <param id="0" name="Variable">gamePaused</param>
                             <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">0</param>
+                            <param id="2" name="Value">FALSE</param>
                         </condition>
                     </conditions>
                     <actions>
@@ -37,7 +37,7 @@
                         <condition id="-14" name="Compare variable" sid="7782676866445375" type="System">
                             <param id="0" name="Variable">gamePaused</param>
                             <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">0</param>
+                            <param id="2" name="Value">FALSE</param>
                         </condition>
                     </conditions>
                     <actions>
@@ -46,9 +46,80 @@
                         </action>
                     </actions>
                 </event-block>
+                <event-block sid="467136003080307">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="7811136937093181" type="keyboard">
+                            <param id="0" name="Key">27 (Esc)</param>
+                        </condition>
+                        <condition id="-14" name="Compare variable" sid="9590352895456656" type="System">
+                            <param id="0" name="Variable">gameStarted</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">TRUE</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Call function" sid="9259483886248807" type="functions">
+                            <param id="0" name="Name">&quot;pause&quot;</param>
+                            <param id="1" name="Parameter {n}">TRUE</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="4249613776624188">
+                    <conditions>
+                        <condition id="0" name="On key pressed" sid="8655715815586046" type="keyboard">
+                            <param id="0" name="Key">13 (Return)</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="3141079365910159">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="3195669275589268" type="System">
+                                    <param id="0" name="Variable">gameStarted</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                                <condition id="-9" name="Layer is visible" sid="9352373931178743" type="System">
+                                    <param id="0" name="Layer">4</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="2012067022884067" type="System">
+                                    <param id="0" name="Variable">validScreenSize</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="3337271623805569" type="functions">
+                                    <param id="0" name="Name">&quot;startGame&quot;</param>
+                                    <param id="1" name="Parameter {n}"></param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="2396999055326416">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="861967774094749" type="System">
+                                    <param id="0" name="Variable">gamePaused</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                                <condition id="-14" name="Compare variable" sid="3519624160366118" type="System">
+                                    <param id="0" name="Variable">gameStarted</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="9469041645061757" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">FALSE</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -70,35 +141,9 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Set value" sid="5268918686339841" type="System">
-                            <param id="0" name="Variable">gameStarted</param>
-                            <param id="1" name="Value">1</param>
-                        </action>
-                        <action id="0" name="Call function" sid="257838061224168" type="functions">
-                            <param id="0" name="Name">&quot;pause&quot;</param>
-                            <param id="1" name="Parameter {n}">FALSE</param>
-                        </action>
-                        <action id="0" name="Call function" sid="1291250886079508" type="functions">
-                            <param id="0" name="Name">&quot;createBlock&quot;</param>
+                        <action id="0" name="Call function" sid="9528892287767684" type="functions">
+                            <param id="0" name="Name">&quot;startGame&quot;</param>
                             <param id="1" name="Parameter {n}"></param>
-                        </action>
-                        <action id="0" name="Play" sid="3439103678991077" type="sound">
-                            <param id="0" name="Audio file">BackgroundMattOglseby</param>
-                            <param id="2" name="Loop">1</param>
-                            <param id="3" name="Volume">0</param>
-                            <param id="1" name="Tag (optional)">&quot;bgMusic&quot;</param>
-                        </action>
-                        <action id="-4" name="Set layer visible" sid="1165388705747247" type="System">
-                            <param id="0" name="Layer">1</param>
-                            <param id="1" name="Visibility">1</param>
-                        </action>
-                        <action id="-4" name="Set layer visible" sid="2975036557479989" type="System">
-                            <param id="0" name="Layer">3</param>
-                            <param id="1" name="Visibility">1</param>
-                        </action>
-                        <action id="-4" name="Set layer visible" sid="8007747374278507" type="System">
-                            <param id="0" name="Layer">4</param>
-                            <param id="1" name="Visibility">0</param>
                         </action>
                     </actions>
                 </event-block>
@@ -304,6 +349,16 @@
                                 </action>
                             </actions>
                         </event-block>
+                        <event-block sid="5997188881816523">
+                            <conditions>
+                                <condition id="6" name="Device has touch input" sid="9645525326302612" type="wpc2" />
+                            </conditions>
+                            <actions>
+                                <action id="-15" name="Set visible" sid="9728335691694453" type="TouchControls">
+                                    <param id="0" name="Visibility">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
                     </sub-events>
                 </event-block>
                 <event-block sid="6659338750621825">
@@ -410,7 +465,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
+        <event-group description="" sid="6892984352352811" title="Game functions">
             <sub-events>
                 <event-block sid="4529963049937661">
                     <conditions>
@@ -569,6 +624,45 @@
                         <action id="-4" name="Set layer visible" sid="5896943213938683" type="System">
                             <param id="0" name="Layer">5</param>
                             <param id="1" name="Visibility">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="9350054527896243">
+                    <conditions>
+                        <condition id="0" name="On function" sid="2993082177040484" type="functions">
+                            <param id="0" name="Name">&quot;startGame&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="802856628933862" type="System">
+                            <param id="0" name="Variable">gameStarted</param>
+                            <param id="1" name="Value">1</param>
+                        </action>
+                        <action id="0" name="Call function" sid="7250668812011254" type="functions">
+                            <param id="0" name="Name">&quot;pause&quot;</param>
+                            <param id="1" name="Parameter {n}">FALSE</param>
+                        </action>
+                        <action id="0" name="Call function" sid="8801401297541201" type="functions">
+                            <param id="0" name="Name">&quot;createBlock&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
+                        <action id="0" name="Play" sid="4821684711443013" type="sound">
+                            <param id="0" name="Audio file">BackgroundMattOglseby</param>
+                            <param id="2" name="Loop">1</param>
+                            <param id="3" name="Volume">0</param>
+                            <param id="1" name="Tag (optional)">&quot;bgMusic&quot;</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" sid="2733156267784808" type="System">
+                            <param id="0" name="Layer">1</param>
+                            <param id="1" name="Visibility">1</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" sid="733286670454913" type="System">
+                            <param id="0" name="Layer">3</param>
+                            <param id="1" name="Visibility">1</param>
+                        </action>
+                        <action id="-4" name="Set layer visible" sid="4802481956974068" type="System">
+                            <param id="0" name="Layer">4</param>
+                            <param id="1" name="Visibility">0</param>
                         </action>
                     </actions>
                 </event-block>

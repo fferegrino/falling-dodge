@@ -20935,7 +20935,7 @@ cr.plugins_.wpc2 = function(runtime)
 			var speAspect = parseFloat(wh[0]) / parseFloat(wh[1]);
 			return (Math.abs(sysAspect - speAspect) < threshold);
 		}
-		return true;
+		return false;
 	};
 	Cnds.prototype.OnFocus = function (){
 		return true;
@@ -20948,6 +20948,12 @@ cr.plugins_.wpc2 = function(runtime)
 	}
 	Cnds.prototype.Button2Click = function(){
 		return true;
+	}
+	Cnds.prototype.HasTouchInput = function (){
+		if(this.isWindows8){
+			return (new Windows["Devices"]["Input"]["TouchCapabilities"]())["touchPresent"];
+		}
+		return false;
 	}
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
@@ -22043,18 +22049,6 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Audio,
 		true,
 		false,
@@ -22091,6 +22085,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.NinePatch,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Keyboard,
 		true,
 		false,
@@ -22101,6 +22107,18 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 ,	[
 		cr.plugins_.Sprite,
@@ -22115,7 +22133,31 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.SpriteFontPlus,
+		cr.plugins_.win8,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.TiledBg,
 		false,
 		true,
 		true,
@@ -22125,6 +22167,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
+	]
+,	[
+		cr.plugins_.WebStorage,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
 	]
 ,	[
 		cr.plugins_.wpc2,
@@ -22149,54 +22203,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		false
-	]
-,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.WebStorage,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.win8,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.TiledBg,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
 	]
 	],
 	[
@@ -23086,8 +23092,26 @@ cr.getProjectModel = function() { return [
 		[],
 		null
 	]
+,	[
+		"t35",
+		cr.plugins_.Sprite,
+		true,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		3367200240305971,
+		[],
+		null
+	]
 	],
 	[
+		[35,6,12,7,8]
 	],
 	[
 	[
@@ -23335,7 +23359,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					0,
+					1,
 					"Default",
 					0,
 					1
@@ -23350,7 +23374,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					0,
+					1,
 					"Default",
 					0,
 					1
@@ -23365,7 +23389,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					0,
+					1,
 					"Default",
 					0,
 					1
@@ -23380,7 +23404,7 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					0,
+					1,
 					"Default",
 					0,
 					1
@@ -23645,7 +23669,7 @@ cr.getProjectModel = function() { return [
 			"dev",
 			7,
 			8624842650525384,
-			true,
+			false,
 			[255, 255, 255],
 			true,
 			1,
@@ -25161,7 +25185,7 @@ false,false,6451482555671282,false
 							5,
 							[
 								0,
-								6
+								7
 							]
 						]
 ,						[
@@ -25245,6 +25269,41 @@ false,false,6451482555671282,false
 ,						[
 							3,
 							0
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					5997188881816523,
+					[
+					[
+						33,
+						cr.plugins_.wpc2.prototype.cnds.HasTouchInput,
+						null,
+						0,
+						false,
+						false,
+						false,
+						9645525326302612,
+						false
+					]
+					],
+					[
+					[
+						35,
+						cr.plugins_.Sprite.prototype.acts.SetVisible,
+						null,
+						9728335691694453,
+						false
+						,[
+						[
+							3,
+							1
 						]
 						]
 					]

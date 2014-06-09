@@ -31,7 +31,6 @@
 
             }
             else {
-                // This application has been reactivated from suspension.
                 cr_setSuspended(false);
             }
 
@@ -53,6 +52,8 @@
         cmds["history"] = { title: "Falling Dodge", href: "/settings/history.html" };
         // Settings flyout:
         cmds["privacy"] = { title: "Privacidad", href: "/settings/privacy.html" };
+        // Special thanks flyout:
+        cmds["thanks"] = { title: "Agradecimientos", href: "/settings/thanks.html" };
 
         e.detail.applicationcommands = cmds;
         WinJS.UI.SettingsFlyout.populateSettings(e);
