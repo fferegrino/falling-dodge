@@ -20891,10 +20891,17 @@ cr.plugins_.wpc2 = function(runtime)
 	{
 		this.isWindows8 = this.runtime.isWindows8App;
 		var self = this;
+		this.appBarId = this.properties[0];
 		if (this.isWindows8)
 		{
 			window.addEventListener('resize', function(){
 				self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnResizec2, self);
+			});
+			window.addEventListener("blur", function () {
+				self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnBlur, self);
+			});
+			window.addEventListener("focus", function () {
+				self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnFocus, self);
 			});
 		}
 	};
@@ -20930,8 +20937,57 @@ cr.plugins_.wpc2 = function(runtime)
 		}
 		return true;
 	};
+	Cnds.prototype.OnFocus = function (){
+		return true;
+	};
+	Cnds.prototype.OnBlur = function (){
+		return true;
+	};
+	Cnds.prototype.Button1Click = function(){
+		return true;
+	}
+	Cnds.prototype.Button2Click = function(){
+		return true;
+	}
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
+	Acts.prototype.PopDialog1 = function (title_, content_, btext_)
+	{
+		if (this.isWindows8)
+		{
+			var self = this;
+			var msg = new Windows["UI"]["Popups"]["MessageDialog"](title_, content_);
+			msg["commands"]["append"](new Windows["UI"]["Popups"]["UICommand"](
+				btext_, function () {
+					self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.Button1Click, self);
+				}));
+			msg["showAsync"]();
+		}
+	}
+	Acts.prototype.PopDialog2 = function (title_, content_, btext1_, btext2_)
+	{
+		if (this.isWindows8)
+		{
+			var self = this;
+			var msg = new Windows["UI"]["Popups"]["MessageDialog"](title_, content_);
+			msg["commands"]["append"](new Windows["UI"]["Popups"]["UICommand"](
+				btext1_, function () {
+					self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.Button1Click, self);
+				}));
+			msg["commands"]["append"](new Windows["UI"]["Popups"]["UICommand"](
+				btext2_, function () {
+					self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.Button2Click, self);
+				}));
+			msg["showAsync"]();
+		}
+	}
+	Acts.prototype.ShowAppBar = function ()
+	{
+		if (this.isWindows8 && this.appBarId)
+		{
+			document.getElementById(this.appBarId)["winControl"]["show"]();
+		}
+	};
 	pluginProto.acts = new Acts();
 	function Exps() {};
 	Exps.prototype.WindowWidth = function (ret){
@@ -22071,7 +22127,55 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
+		cr.plugins_.wpc2,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.WebStorage,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.win8,
 		true,
 		false,
 		false,
@@ -22093,54 +22197,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
-	]
-,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.win8,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.wpc2,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
 	]
 	],
 	[
@@ -22359,7 +22415,7 @@ cr.getProjectModel = function() { return [
 		[],
 		1,
 		0,
-		["images/assetsC2/gamefloor.png", 93, 1],
+		["images/assetsC2/gamefloor.png", 106, 0],
 		null,
 		[
 		[
@@ -23011,7 +23067,7 @@ cr.getProjectModel = function() { return [
 		8403940385879478,
 		[],
 		null
-		,[]
+		,["appBar"]
 	]
 ,	[
 		"t34",
@@ -23089,7 +23145,7 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[-2, 768, 0, 1370, 70, 0, 0, 1, 0, 0, 0, 0, []],
+				[0, 768, 0, 1366, 70, 0, 0, 1, 0, 0, 0, 0, []],
 				9,
 				9,
 				[
@@ -23105,7 +23161,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[-67, 647, 0, 96, 128, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[-198, 642, 0, 96, 128, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				10,
 				10,
 				[
@@ -23148,7 +23204,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[-41, 754, 0, 64, 64, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[-107, 669, 0, 64, 64, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				15,
 				15,
 				[
@@ -23174,6 +23230,38 @@ cr.getProjectModel = function() { return [
 					"Default",
 					0,
 					1
+				]
+			]
+,			[
+				[11, 0, 0, 768, 70, 0, 1.570796370506287, 1, 0, 0, 0, 0, []],
+				9,
+				27,
+				[
+				],
+				[
+				[
+					1
+				]
+				],
+				[
+					0,
+					0
+				]
+			]
+,			[
+				[1355, 768, 0, 768, 70, 0, -1.570796489715576, 1, 0, 0, 0, 0, []],
+				9,
+				29,
+				[
+				],
+				[
+				[
+					1
+				]
+				],
+				[
+					0,
+					0
 				]
 			]
 			],
@@ -23557,7 +23645,7 @@ cr.getProjectModel = function() { return [
 			"dev",
 			7,
 			8624842650525384,
-			false,
+			true,
 			[255, 255, 255],
 			true,
 			1,
@@ -26072,7 +26160,7 @@ false,false,3096662099478148,false
 								]
 ,[
 									0,
-									22
+									21
 								]
 								]
 							]
@@ -26102,14 +26190,21 @@ false,false,3096662099478148,false
 ,					[
 						0,
 						[
-							6,
+							4,
 							[
-								23,
-								"blockPosition"
+								6,
+								[
+									23,
+									"blockPosition"
+								]
+								,[
+									0,
+									64
+								]
 							]
 							,[
 								0,
-								64
+								43
 							]
 						]
 					]

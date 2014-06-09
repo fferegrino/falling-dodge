@@ -22,7 +22,7 @@
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
         <plugin author="Scirra.com" id="win8" version="1">Windows 8</plugin>
-        <plugin author="@fferegrino" id="wpc2" version="1">Windows + c2</plugin>
+        <plugin author="@fferegrino" id="wpc2" version="1.299999952">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Platform" version="1">Platform</behavior>
@@ -501,7 +501,11 @@
         </global-instance>
         <global-instance type="keyboard" uid="14" />
         <global-instance type="storage" uid="30" />
-        <global-instance type="wpc2" uid="41" />
+        <global-instance type="wpc2" uid="41">
+            <properties>
+                <appbar-id>appBar</appbar-id>
+            </properties>
+        </global-instance>
     </global-instances>
     <sounds-folder expanded="0">
         <file name="explosion_dull.ogg" />

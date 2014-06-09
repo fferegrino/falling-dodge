@@ -281,14 +281,14 @@
                             </conditions>
                             <actions>
                                 <action id="-4" name="Set layer visible" sid="5375946118147812" type="System">
-                                    <param id="0" name="Layer">6</param>
+                                    <param id="0" name="Layer">7</param>
                                     <param id="1" name="Visibility">1</param>
                                 </action>
                             </actions>
                         </event-block>
                         <event-block sid="3806278567749429">
                             <conditions>
-                                <condition id="1" name="Test if the screen has the specified aspect ratio" sid="6266887876882937" type="wpc2">
+                                <condition id="1" name="Screen has the specified aspect ratio" sid="6266887876882937" type="wpc2">
                                     <param id="0" name="Aspect ratio">&quot;16:9&quot;</param>
                                     <param id="1" name="Tolerance in aspect ratio">0.5</param>
                                 </condition>
@@ -308,13 +308,13 @@
                 </event-block>
                 <event-block sid="6659338750621825">
                     <conditions>
-                        <condition id="0" name="An action that ocurrs when the user resizes the screen" sid="35228877243867" type="wpc2" />
+                        <condition id="0" name="On window resize" sid="35228877243867" type="wpc2" />
                     </conditions>
                     <actions />
                     <sub-events>
                         <event-block sid="5496232568047831">
                             <conditions>
-                                <condition id="1" name="Test if the screen has the specified aspect ratio" sid="8363235173909818" type="wpc2">
+                                <condition id="1" name="Screen has the specified aspect ratio" sid="8363235173909818" type="wpc2">
                                     <param id="0" name="Aspect ratio">&quot;16:9&quot;</param>
                                     <param id="1" name="Tolerance in aspect ratio">0.5</param>
                                 </condition>
@@ -410,7 +410,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="6892984352352811" title="Game functions">
+        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
             <sub-events>
                 <event-block sid="4529963049937661">
                     <conditions>
@@ -502,12 +502,12 @@
                     <actions>
                         <action id="-9" name="Set value" sid="7332720202326143" type="System">
                             <param id="0" name="Variable">blockPosition</param>
-                            <param id="1" name="Value">floor(random(0,22))</param>
+                            <param id="1" name="Value">floor(random(0,21))</param>
                         </action>
                         <action id="-3" name="Create object" sid="1031608927621318" type="System">
                             <param id="0" name="Object to create">block</param>
                             <param id="1" name="Layer">1</param>
-                            <param id="2" name="X">blockPosition*64</param>
+                            <param id="2" name="X">(blockPosition*64) + 43</param>
                             <param id="3" name="Y">-32</param>
                         </action>
                         <action behavior="Platform" id="2" name="Set acceleration" sid="9062918358726788" type="block">
@@ -574,7 +574,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
+        <event-group collapsed="1" description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
                 <event-block sid="2853135243079618">
                     <conditions>
@@ -590,7 +590,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="1810439807518077" title="Dev stuff">
+        <event-group collapsed="1" description="" sid="1810439807518077" title="Dev stuff">
             <sub-events>
                 <event-block sid="6752909749617707">
                     <conditions>
