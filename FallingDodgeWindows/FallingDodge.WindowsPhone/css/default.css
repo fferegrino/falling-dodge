@@ -1,0 +1,19 @@
+﻿/*
+* {
+    padding: 0;
+    margin: 0;
+}
+*/
+body {
+    background: #000;
+    color: #fff;
+    overflow: hidden;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+canvas {
+    position: fixed;
+    -ms-touch-action: none;
+    touch-action: none;
+}

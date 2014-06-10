@@ -20439,6 +20439,7 @@ cr.plugins_.win8 = function(runtime)
 	instanceProto.onCreate = function()
 	{
 		this.isWindows8 = this.runtime.isWindows8App;
+		this.isWindowsPhone8 = this.runtime.isWindowsPhone81;
 		this.triggerViewState = 0;
 		this.isTestMode = (this.properties[0] !== 0);
 		this.showAbout = (this.properties[1] !== 0);
@@ -20448,6 +20449,16 @@ cr.plugins_.win8 = function(runtime)
 		this.lastProductListings = null;
 		this.currentApp = null;
 		var self = this;
+		if (this.isWindows8 || this.isWindowsPhone8){
+			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["getForCurrentView"]().addEventListener("datarequested", function (e) {
+				dataRequestEvent = e;
+				wasShareHandled = false;
+				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnShare, self);
+				dataRequestEvent = null;
+				if (!wasShareHandled)
+					e["request"]["failWithDisplayText"]("Try selecting a different option before sharing.");
+			});
+		}
 		if (this.isWindows8)
 		{
 			var winStore = Windows["ApplicationModel"]["Store"];
@@ -20465,6 +20476,7 @@ cr.plugins_.win8 = function(runtime)
 			{
 				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnDataChanged, self);
 			});
+			/*
 			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["getForCurrentView"]().addEventListener("datarequested", function (e) {
 				dataRequestEvent = e;
 				wasShareHandled = false;
@@ -20473,6 +20485,7 @@ cr.plugins_.win8 = function(runtime)
 				if (!wasShareHandled)
 					e["request"]["failWithDisplayText"]("Try selecting a different option before sharing.");
 			});
+			*/
 			this.currentApp["licenseInformation"].addEventListener("licensechanged", function() {
 				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnLicenseChanged, self);
 			});
@@ -20601,7 +20614,7 @@ cr.plugins_.win8 = function(runtime)
 	};
 	Acts.prototype.ShareText = function (title_, description_, text_)
 	{
-		if (this.isWindows8 && dataRequestEvent)
+		if ((this.isWindows8  || this.isWindowsPhone8 )&& dataRequestEvent)
 		{
 			var request = dataRequestEvent["request"];
 			request["data"]["properties"]["title"] = title_;
@@ -20771,7 +20784,6 @@ cr.plugins_.win8 = function(runtime)
 			return;
 		var self = this;
 		var productLicenses = this.currentApp["licenseInformation"]["productLicenses"];
-		window.
 		this.currentApp["requestProductPurchaseAsync"](productid_, false).then(
 			function () {
 				if (productLicenses["hasKey"](productid_) && productLicenses["lookup"](productid_)["isActive"])
@@ -20890,9 +20902,10 @@ cr.plugins_.wpc2 = function(runtime)
 	instanceProto.onCreate = function()
 	{
 		this.isWindows8 = this.runtime.isWindows8App;
+		this.isWindowsPhone8 = this.runtime.isWindowsPhone81;
 		var self = this;
 		this.appBarId = this.properties[0];
-		if (this.isWindows8)
+		if (this.isWindows8 || this.isWindowsPhone8)
 		{
 			window.addEventListener('resize', function(){
 				self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnResizec2, self);
@@ -20951,9 +20964,9 @@ cr.plugins_.wpc2 = function(runtime)
 	}
 	Cnds.prototype.HasTouchInput = function (){
 		if(this.isWindows8){
-			return (new Windows["Devices"]["Input"]["TouchCapabilities"]())["touchPresent"];
+			return (new Windows["Devices"]["Input"]["TouchCapabilities"]())["touchPresent"] || this.isWindowsPhone8;
 		}
-		return false;
+		return true;
 	}
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
@@ -20993,6 +21006,11 @@ cr.plugins_.wpc2 = function(runtime)
 		{
 			document.getElementById(this.appBarId)["winControl"]["show"]();
 		}
+	};
+	Acts.prototype.ShowShareUI = function ()
+	{
+		if (this.isWindows8 || this.isWindowsPhone8) 
+			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["showShareUI"]();
 	};
 	pluginProto.acts = new Acts();
 	function Exps() {};
@@ -22109,18 +22127,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22133,27 +22139,27 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.win8,
+		cr.plugins_.SpriteFontPlus,
+		false,
 		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 ,	[
-		cr.plugins_.Touch,
+		cr.plugins_.Text,
+		false,
 		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 		false
 	]
 ,	[
@@ -22181,6 +22187,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.win8,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.wpc2,
 		true,
 		false,
@@ -22193,15 +22211,15 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.Touch,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 	],
@@ -24013,8 +24031,8 @@ false,false,6451482555671282,false
 ,					[
 						7,
 						[
-							0,
-							0
+							23,
+							"FALSE"
 						]
 					]
 					]
@@ -24082,8 +24100,8 @@ false,false,6451482555671282,false
 ,					[
 						7,
 						[
-							0,
-							0
+							23,
+							"FALSE"
 						]
 					]
 					]
@@ -24100,6 +24118,317 @@ false,false,6451482555671282,false
 					[
 						3,
 						1
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				467136003080307,
+				[
+				[
+					14,
+					cr.plugins_.Keyboard.prototype.cnds.OnKey,
+					null,
+					1,
+					false,
+					false,
+					false,
+					7811136937093181,
+					false
+					,[
+					[
+						9,
+						27
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					9590352895456656,
+					false
+					,[
+					[
+						11,
+						"gameStarted"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							23,
+							"TRUE"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					9259483886248807,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"pause"
+						]
+					]
+,					[
+						13,
+													[
+								7,
+								[
+									23,
+									"TRUE"
+								]
+							]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				4249613776624188,
+				[
+				[
+					14,
+					cr.plugins_.Keyboard.prototype.cnds.OnKey,
+					null,
+					1,
+					false,
+					false,
+					false,
+					8655715815586046,
+					false
+					,[
+					[
+						9,
+						13
+					]
+					]
+				]
+				],
+				[
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					3141079365910159,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3195669275589268,
+						false
+						,[
+						[
+							11,
+							"gameStarted"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.LayerVisible,
+						null,
+						0,
+						false,
+						false,
+						false,
+						9352373931178743,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								4
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						2012067022884067,
+						false
+						,[
+						[
+							11,
+							"validScreenSize"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								23,
+								"TRUE"
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						3337271623805569,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"startGame"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					2396999055326416,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						861967774094749,
+						false
+						,[
+						[
+							11,
+							"gamePaused"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								23,
+								"TRUE"
+							]
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3519624160366118,
+						false
+						,[
+						[
+							11,
+							"gameStarted"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								23,
+								"TRUE"
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						4,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						9469041645061757,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"pause"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										23,
+										"FALSE"
+									]
+								]
+						]
+						]
 					]
 					]
 				]
@@ -24241,158 +24570,21 @@ false,false,6451482555671282,false
 				],
 				[
 				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					5268918686339841,
-					false
-					,[
-					[
-						11,
-						"gameStarted"
-					]
-,					[
-						7,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-,				[
 					4,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
-					257838061224168,
+					9528892287767684,
 					false
 					,[
 					[
 						1,
 						[
 							2,
-							"pause"
+							"startGame"
 						]
 					]
 ,					[
 						13,
-													[
-								7,
-								[
-									23,
-									"FALSE"
-								]
-							]
-					]
-					]
-				]
-,				[
-					4,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					1291250886079508,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"createBlock"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-,				[
-					5,
-					cr.plugins_.Audio.prototype.acts.Play,
-					null,
-					3439103678991077,
-					false
-					,[
-					[
-						2,
-						["backgroundmattoglseby",true]
-					]
-,					[
-						3,
-						1
-					]
-,					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-,					[
-						1,
-						[
-							2,
-							"bgMusic"
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetLayerVisible,
-					null,
-					1165388705747247,
-					false
-					,[
-					[
-						5,
-						[
-							0,
-							1
-						]
-					]
-,					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetLayerVisible,
-					null,
-					2975036557479989,
-					false
-					,[
-					[
-						5,
-						[
-							0,
-							3
-						]
-					]
-,					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetLayerVisible,
-					null,
-					8007747374278507,
-					false
-					,[
-					[
-						5,
-						[
-							0,
-							4
-						]
-					]
-,					[
-						3,
-						0
 					]
 					]
 				]
@@ -24768,8 +24960,8 @@ false,false,6451482555671282,false
 				],
 				[
 				[
-					13,
-					cr.plugins_.win8.prototype.acts.ShowShareUI,
+					33,
+					cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 					null,
 					6635552605374377,
 					false
@@ -26588,6 +26780,193 @@ false,false,3096662099478148,false
 ,					[
 						3,
 						1
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				9350054527896243,
+				[
+				[
+					4,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					2993082177040484,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"startGame"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					802856628933862,
+					false
+					,[
+					[
+						11,
+						"gameStarted"
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+,				[
+					4,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					7250668812011254,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"pause"
+						]
+					]
+,					[
+						13,
+													[
+								7,
+								[
+									23,
+									"FALSE"
+								]
+							]
+					]
+					]
+				]
+,				[
+					4,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					8801401297541201,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"createBlock"
+						]
+					]
+,					[
+						13,
+					]
+					]
+				]
+,				[
+					5,
+					cr.plugins_.Audio.prototype.acts.Play,
+					null,
+					4821684711443013,
+					false
+					,[
+					[
+						2,
+						["backgroundmattoglseby",true]
+					]
+,					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							"bgMusic"
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetLayerVisible,
+					null,
+					2733156267784808,
+					false
+					,[
+					[
+						5,
+						[
+							0,
+							1
+						]
+					]
+,					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetLayerVisible,
+					null,
+					733286670454913,
+					false
+					,[
+					[
+						5,
+						[
+							0,
+							3
+						]
+					]
+,					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetLayerVisible,
+					null,
+					4802481956974068,
+					false
+					,[
+					[
+						5,
+						[
+							0,
+							4
+						]
+					]
+,					[
+						3,
+						0
 					]
 					]
 				]

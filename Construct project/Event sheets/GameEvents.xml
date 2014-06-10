@@ -119,7 +119,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -234,7 +234,7 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="4" name="Show share UI" sid="6635552605374377" type="windows8" />
+                        <action id="3" name="Show share UI" sid="6635552605374377" type="wpc2" />
                     </actions>
                 </event-block>
                 <event-block sid="2093607568914644">
@@ -281,7 +281,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9001218336381017" title="System">
+        <event-group collapsed="1" description="" sid="9001218336381017" title="System">
             <sub-events>
                 <event-block sid="2489494319432702">
                     <conditions>
@@ -646,7 +646,7 @@
                             <param id="0" name="Name">&quot;createBlock&quot;</param>
                             <param id="1" name="Parameter {n}"></param>
                         </action>
-                        <action id="0" name="Play" sid="4821684711443013" type="sound">
+                        <action disabled="1" id="0" name="Play" sid="4821684711443013" type="sound">
                             <param id="0" name="Audio file">BackgroundMattOglseby</param>
                             <param id="2" name="Loop">1</param>
                             <param id="3" name="Volume">0</param>
@@ -668,7 +668,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="9196677346321056" title="Windows 8 stuff">
+        <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
                 <event-block sid="2853135243079618">
                     <conditions>

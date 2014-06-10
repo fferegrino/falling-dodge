@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
-  <Identity Name="14107fferegrino.FallingDodge" Version="1.1.0.3" Publisher="CN=8BD20898-9E0A-4C13-AC37-E9D349AF4781" />
+  <Identity Name="14107fferegrino.FallingDodge" Version="1.2.0.1" Publisher="CN=8BD20898-9E0A-4C13-AC37-E9D349AF4781" />
   <Properties>
     <DisplayName>Falling Dodge</DisplayName>
     <Description>Falling Dodge The Game FTW!</Description>
