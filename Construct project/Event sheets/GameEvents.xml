@@ -119,7 +119,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -281,7 +281,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="9001218336381017" title="System">
+        <event-group description="" sid="9001218336381017" title="System">
             <sub-events>
                 <event-block sid="2489494319432702">
                     <conditions>
@@ -412,7 +412,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="8086918785451181" title="Block actions">
+        <event-group description="" sid="8086918785451181" title="Block actions">
             <sub-events>
                 <event-block sid="17435870339364">
                     <conditions>
@@ -670,21 +670,21 @@
         </event-group>
         <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
-                <event-block sid="2853135243079618">
+                <event-block sid="8782740739031961">
                     <conditions>
-                        <condition id="5" name="On share" sid="5468787704464942" type="windows8" />
+                        <condition id="10" name="On share" sid="4915647210257855" type="wpc2" />
                     </conditions>
                     <actions>
-                        <action id="5" name="Share text" sid="1596089022478286" type="windows8">
+                        <action id="4" name="Share text" sid="9872196368290069" type="wpc2">
                             <param id="0" name="Title">&quot;Comparte tu puntuación&quot;</param>
-                            <param id="1" name="Description">&quot;Comparte tu puntuación en las redes sociales&quot;</param>
-                            <param id="2" name="Text">&quot;He esquivado &quot; &amp; fallenBLocks &amp; &quot; bloques jugando Falling Dodge para Windows 8&quot;</param>
+                            <param id="1" name="Description">&quot;Comparte tu puntuación con tus amigos&quot;</param>
+                            <param id="2" name="Text">&quot;He esquivado &quot; &amp; fallenBLocks &amp; &quot; bloques en Falling Dodge para Windows&quot;</param>
                         </action>
                     </actions>
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="1810439807518077" title="Dev stuff">
+        <event-group description="" sid="1810439807518077" title="Dev stuff">
             <sub-events>
                 <event-block sid="6752909749617707">
                     <conditions>

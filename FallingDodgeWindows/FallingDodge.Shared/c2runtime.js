@@ -20412,471 +20412,6 @@ cr.plugins_.WebStorage = function(runtime)
 }());
 ;
 ;
-cr.plugins_.win8 = function(runtime)
-{
-	this.runtime = runtime;
-};
-(function ()
-{
-	var pluginProto = cr.plugins_.win8.prototype;
-	pluginProto.Type = function(plugin)
-	{
-		this.plugin = plugin;
-		this.runtime = plugin.runtime;
-	};
-	var typeProto = pluginProto.Type.prototype;
-	typeProto.onCreate = function()
-	{
-	};
-	pluginProto.Instance = function(type)
-	{
-		this.type = type;
-		this.runtime = type.runtime;
-	};
-	var instanceProto = pluginProto.Instance.prototype;
-	var dataRequestEvent = null;
-	var wasShareHandled = false;
-	instanceProto.onCreate = function()
-	{
-		this.isWindows8 = this.runtime.isWindows8App;
-		this.isWindowsPhone8 = this.runtime.isWindowsPhone81;
-		this.triggerViewState = 0;
-		this.isTestMode = (this.properties[0] !== 0);
-		this.showAbout = (this.properties[1] !== 0);
-		this.showSupport = (this.properties[2] !== 0);
-		this.showPrivacy = (this.properties[3] !== 0);
-		this.appFormattedPrice = "";
-		this.lastProductListings = null;
-		this.currentApp = null;
-		var self = this;
-		if (this.isWindows8 || this.isWindowsPhone8){
-			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["getForCurrentView"]().addEventListener("datarequested", function (e) {
-				dataRequestEvent = e;
-				wasShareHandled = false;
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnShare, self);
-				dataRequestEvent = null;
-				if (!wasShareHandled)
-					e["request"]["failWithDisplayText"]("Try selecting a different option before sharing.");
-			});
-		}
-		if (this.isWindows8)
-		{
-			var winStore = Windows["ApplicationModel"]["Store"];
-			this.currentApp = (this.isTestMode ? winStore["CurrentAppSimulator"] : winStore["CurrentApp"]);
-			if (this.isTestMode)
-			{
-				new Windows["UI"]["Popups"]["MessageDialog"]("Note: this Windows 8 app is in Test Mode, designed for testing purchases. Before publishing, be sure to set Test Mode to 'No' in the Windows 8 object's properties.")["showAsync"]();
-			}
-			window.addEventListener("resize", function ()
-			{
-				self.triggerViewState = Windows["UI"]["ViewManagement"]["ApplicationView"]["value"];
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnViewStateChange, self);
-			});
-			Windows["Storage"]["ApplicationData"]["current"]["addEventListener"]("datachanged", function ()
-			{
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnDataChanged, self);
-			});
-			/*
-			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["getForCurrentView"]().addEventListener("datarequested", function (e) {
-				dataRequestEvent = e;
-				wasShareHandled = false;
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnShare, self);
-				dataRequestEvent = null;
-				if (!wasShareHandled)
-					e["request"]["failWithDisplayText"]("Try selecting a different option before sharing.");
-			});
-			*/
-			this.currentApp["licenseInformation"].addEventListener("licensechanged", function() {
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnLicenseChanged, self);
-			});
-			if (this.isTestMode)
-			{
-				Windows["ApplicationModel"]["Package"]["current"]["installedLocation"]["getFileAsync"]("WindowsStoreProxy.xml").done(
-					function (file) {
-						Windows["ApplicationModel"]["Store"]["CurrentAppSimulator"]["reloadSimulatorAsync"](file).done(
-							function () {
-								console.log("[Construct 2] Test mode; loaded WindowsStoreProxy.xml");
-							},
-							function (msg) {
-								console.log("[Construct 2] Error loading WindowsStoreProxy.xml: " + msg);
-							});
-					},
-					function (msg) {
-						console.log("[Construct 2] Error loading WindowsStoreProxy.xml: " + msg);
-					});
-			}
-		}
-	};
-	instanceProto.roamingValues = function()
-	{
-		if (this.isWindows8)
-			return Windows["Storage"]["ApplicationData"]["current"]["roamingSettings"]["values"];
-		else
-			return null;
-	};
-	function Cnds() {};
-	Cnds.prototype.IsWindows8 = function ()
-	{
-		return this.isWindows8;
-	};
-	Cnds.prototype.OnViewStateChange = function (viewstate)
-	{
-		if (this.isWindows8)
-			return viewstate === this.triggerViewState;
-		else
-			return false;
-	};
-	Cnds.prototype.CompareViewState = function (viewstate)
-	{
-		if (this.isWindows8)
-			return Windows["UI"]["ViewManagement"]["ApplicationView"]["value"] === viewstate;
-		else
-			return false;
-	};
-	Cnds.prototype.OnDataChanged = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.RoamingKeyExists = function (key_)
-	{
-		if (this.isWindows8)
-			return this.roamingValues()["hasKey"](key_);
-		else
-			return false;
-	};
-	Cnds.prototype.OnShare = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.OnLicenseChanged = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.OnPurchaseSuccess = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.OnPurchaseFail = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.OnStoreListing = function ()
-	{
-		return true;
-	};
-	Cnds.prototype.IsTrial = function ()
-	{
-		return this.isWindows8 && this.currentApp["licenseInformation"]["isTrial"] && this.currentApp["licenseInformation"]["isActive"];
-	};
-	Cnds.prototype.IsLicensed = function ()
-	{
-		return this.isWindows8 && !this.currentApp["licenseInformation"]["isTrial"] && this.currentApp["licenseInformation"]["isActive"];
-	};
-	Cnds.prototype.IsExpiredTrial = function ()
-	{
-		return this.isWindows8 && this.currentApp["licenseInformation"]["isTrial"] && !this.currentApp["licenseInformation"]["isActive"];
-	};
-	Cnds.prototype.HasProduct = function (productid_)
-	{
-		if (!this.isWindows8)
-			return false;
-		var productLicenses = this.currentApp["licenseInformation"]["productLicenses"];
-		if (!productLicenses["hasKey"](productid_))
-			return false;
-		return productLicenses["lookup"](productid_)["isActive"];
-	};
-	pluginProto.cnds = new Cnds();
-	function Acts() {};
-	Acts.prototype.TryUnsnap = function ()
-	{
-		if (this.isWindows8)
-			Windows["UI"]["ViewManagement"]["ApplicationView"]["tryUnsnap"]();
-	};
-	Acts.prototype.SetRoamingValue = function (key_, value_)
-	{
-		if (this.isWindows8)
-			this.roamingValues()[key_] = value_.toString();
-	};
-	Acts.prototype.RemoveRoamingValue = function (key_)
-	{
-		if (this.isWindows8)
-			this.roamingValues()["remove"](key_);
-	};
-	Acts.prototype.ClearRoamingData = function ()
-	{
-		if (this.isWindows8)
-			this.roamingValues()["clear"]();
-	};
-	Acts.prototype.ShowShareUI = function ()
-	{
-		if (this.isWindows8)
-			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["showShareUI"]();
-	};
-	Acts.prototype.ShareText = function (title_, description_, text_)
-	{
-		if ((this.isWindows8  || this.isWindowsPhone8 )&& dataRequestEvent)
-		{
-			var request = dataRequestEvent["request"];
-			request["data"]["properties"]["title"] = title_;
-			request["data"]["properties"]["description"] = description_;
-			request["data"]["setText"](text_);
-			wasShareHandled = true;
-		}
-	};
-	Acts.prototype.ShareLink = function (title_, description_, uri_)
-	{
-		if (this.isWindows8 && dataRequestEvent)
-		{
-			var request = dataRequestEvent["request"];
-			request["data"]["properties"]["title"] = title_;
-			request["data"]["properties"]["description"] = description_;
-			request["data"]["setUri"](new Windows["Foundation"]["Uri"](uri_));
-			wasShareHandled = true;
-		}
-	};
-	Acts.prototype.ShareHTML = function (title_, description_, html_)
-	{
-		if (this.isWindows8 && dataRequestEvent)
-		{
-			var request = dataRequestEvent["request"];
-			request["data"]["properties"]["title"] = title_;
-			request["data"]["properties"]["description"] = description_;
-			var htmlFormat = Windows["ApplicationModel"]["DataTransfer"]["HtmlFormatHelper"]["createHtmlFormat"](html_);
-			request["data"]["setHtmlFormat"](htmlFormat);
-			wasShareHandled = true;
-		}
-	};
-	function base64_decode(data)
-	{
-		var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-		var o1, o2, o3, h1, h2, h3, h4, bits, i = 0,
-		ac = 0,
-		tmp_arr = [];
-		do {
-			h1 = b64.indexOf(data.charAt(i++));
-			h2 = b64.indexOf(data.charAt(i++));
-			h3 = b64.indexOf(data.charAt(i++));
-			h4 = b64.indexOf(data.charAt(i++));
-			bits = h1 << 18 | h2 << 12 | h3 << 6 | h4;
-			o1 = bits >> 16 & 0xff;
-			o2 = bits >> 8 & 0xff;
-			o3 = bits & 0xff;
-			tmp_arr.push(o1);
-			tmp_arr.push(o2);
-			tmp_arr.push(o3);
-		} while (i < data.length);
-		return tmp_arr;
-	}
-	function dumpDataUriImageToDisk(datauri_, callback_)
-	{
-		if (datauri_.substr(0, 5) !== "data:")
-			return false;		// not a data uri_
-		var tokens = datauri_.substring(5).split(",");
-		if (tokens.length !== 2)
-			return false;		// not valid format
-		var ext;
-		if (tokens[0].indexOf("image/png") > -1)
-			ext = "png";
-		else if (tokens[0].indexOf("image/jpeg") > -1)
-			ext = "jpg";
-		else
-			return false;		// not a known image format
-		var filename = "shareimage." + ext;
-		if (tokens[0].indexOf(";base64") === -1)
-			return false;		// only base64 format supported
-		var binarr = base64_decode(tokens[1]);
-		var applicationData = Windows["Storage"]["ApplicationData"]["current"];
-		var localFolder = applicationData["localFolder"];
-		localFolder["createFileAsync"](filename, Windows["Storage"]["CreationCollisionOption"]["replaceExisting"]).then(function(file)
-		{
-			Windows["Storage"]["FileIO"]["writeBytesAsync"](file, binarr).then(function()
-			{
-				if (callback_)
-					callback_(file);
-			});
-		});
-	};
-	Acts.prototype.ShareSpriteImage = function (title_, description_, object_)
-	{
-		if (this.isWindows8 && dataRequestEvent && object_)
-		{
-			var inst = object_.getFirstPicked();
-			if (!inst || !inst.curFrame)
-				return;
-			var datauri = inst.curFrame.getDataUri();
-			var request = dataRequestEvent["request"];
-			request["data"]["properties"]["title"] = title_;
-			request["data"]["properties"]["description"] = description_;
-			var deferral = request["getDeferral"]();
-			dumpDataUriImageToDisk(datauri, function (file_)
-			{
-				request["data"]["setBitmap"](Windows["Storage"]["Streams"]["RandomAccessStreamReference"]["createFromFile"](file_));
-				deferral.complete();
-			});
-			wasShareHandled = true;
-		}
-	};
-	Acts.prototype.ShareDataUri = function (title_, description_, datauri_)
-	{
-		if (this.isWindows8 && dataRequestEvent)
-		{
-			var request = dataRequestEvent["request"];
-			request["data"]["properties"]["title"] = title_;
-			request["data"]["properties"]["description"] = description_;
-			var deferral = request["getDeferral"]();
-			dumpDataUriImageToDisk(datauri_, function (file_)
-			{
-				request["data"]["setBitmap"](Windows["Storage"]["Streams"]["RandomAccessStreamReference"]["createFromFile"](file_));
-				deferral["complete"]();
-			});
-			wasShareHandled = true;
-		}
-	};
-	Acts.prototype.FailShare = function (msg_)
-	{
-		if (this.isWindows8 && dataRequestEvent)
-		{
-			var request = dataRequestEvent["request"];
-			request["failWithDisplayText"](msg_);
-			wasShareHandled = true;
-		}
-	};
-	var textTileTemplates = ["tileSquareBlock",
-							 "tileSquareText02",
-							 "tileSquareText04",
-							 "tileWideText03",
-							 "tileWideText04",
-							 "tileWideText09"];
-	Acts.prototype.SetLiveTileText = function (template_, text1_, text2_)
-	{
-		template_ = Math.floor(template_);
-		if (this.isWindows8 && template_ >= 0 && template_ < textTileTemplates.length)
-		{
-			var notifications = Windows["UI"]["Notifications"];
-			var tile_template = notifications["TileTemplateType"][textTileTemplates[template_]];
-	        var tile_xml = notifications["TileUpdateManager"]["getTemplateContent"](tile_template);
-	        var texts = tile_xml.getElementsByTagName("text");
-	        texts[0].appendChild(tile_xml.createTextNode(text1_));
-			if (texts.length >= 2)
-				texts[1].appendChild(tile_xml.createTextNode(text2_));
-	        var tileNotification = new notifications["TileNotification"](tile_xml);
-	        notifications["TileUpdateManager"]["createTileUpdaterForApplication"]()["update"](tileNotification);
-		}
-	};
-	Acts.prototype.PurchaseApp = function ()
-	{
-		if (!this.isWindows8)
-			return;
-		var self = this;
-		this.currentApp["requestAppPurchaseAsync"](false).then(
-			function () {
-				console.log("[Construct 2] App purchased OK");
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnPurchaseSuccess, self);
-			},
-			function (msg) {
-				console.log("[Construct 2] App purchase failed: " + msg);
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnPurchaseFail, self);
-			});
-	};
-	Acts.prototype.PurchaseProduct = function (productid_)
-	{
-		if (!this.isWindows8)
-			return;
-		var self = this;
-		var productLicenses = this.currentApp["licenseInformation"]["productLicenses"];
-		this.currentApp["requestProductPurchaseAsync"](productid_, false).then(
-			function () {
-				if (productLicenses["hasKey"](productid_) && productLicenses["lookup"](productid_)["isActive"])
-				{
-					console.log("[Construct 2] Product '" + productid_ + "' purchased OK");
-					self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnPurchaseSuccess, self);
-				}
-				else
-				{
-					console.log("[Construct 2] Product '" + productid_ + "' purchase finished but product not active (cancelled?)");
-					self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnPurchaseFail, self);
-				}
-			},
-			function (msg) {
-				console.log("[Construct 2] Product '" + productid_ + "' purchase failed: " + msg);
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnPurchaseFail, self);
-			});
-	};
-	Acts.prototype.RequestStoreListing = function ()
-	{
-		if (!this.isWindows8)
-			return;
-		var self = this;
-		this.currentApp["loadListingInformationAsync"]().then(
-			function (listing) {
-				console.log("[Construct 2] Listing information loaded");
-				self.appFormattedPrice = listing["formattedPrice"];
-				self.lastProductListings = listing["productListings"];
-				self.runtime.trigger(cr.plugins_.win8.prototype.cnds.OnStoreListing, self);
-			});
-	};
-	Acts.prototype.OpenWindowsStore = function (opt)
-	{
-		if (!this.isWindows8)
-			return;
-		var url = "ms-windows-store:";
-		var pkg = Windows["ApplicationModel"]["Package"]["current"];
-		var pkgid = pkg["id"];
-		switch (opt) {
-		case 0:		// app page
-			url += "PDP?PFN=" + pkgid["familyName"];
-			break;
-		case 1:		// publisher page
-			url += "Publisher?name=" + encodeURIComponent(pkg["publisherDisplayName"]);
-			break;
-		case 2:		// review
-			url += "REVIEW?PFN=" + pkgid["familyName"];
-			break;
-		}
-		console.log("Opening Windows Store: " + url);
-		Windows["System"]["Launcher"]["launchUriAsync"](new Windows["Foundation"]["Uri"](url));
-	};
-	pluginProto.acts = new Acts();
-	function Exps() {};
-	Exps.prototype.RoamingValue = function (ret, key_)
-	{
-		if (this.isWindows8)
-		{
-			var v = this.roamingValues()[key_];
-			ret.set_string(v ? v.toString() : "");
-		}
-		else
-			ret.set_string("");
-	};
-	Exps.prototype.TrialTimeLeft = function (ret)
-	{
-		if (this.isWindows8)
-			ret.set_float((this.currentApp["licenseInformation"]["expirationDate"].getTime() - Date.now()) / 1000.0);
-		else
-			ret.set_float(0);
-	};
-	Exps.prototype.AppFormattedPrice = function (ret)
-	{
-		ret.set_string(this.appFormattedPrice);
-	};
-	Exps.prototype.ProductName = function (ret, productid_)
-	{
-		var result = "";
-		if (this.isWindows8 && this.lastProductListings && this.lastProductListings["hasKey"](productid_))
-			result = this.lastProductListings["lookup"](productid_)["name"];
-		ret.set_string(result);
-	};
-	Exps.prototype.ProductFormattedPrice = function (ret, productid_)
-	{
-		var result = "";
-		if (this.isWindows8 && this.lastProductListings && this.lastProductListings["hasKey"](productid_))
-			result = this.lastProductListings["lookup"](productid_)["formattedPrice"];
-		ret.set_string(result);
-	};
-	pluginProto.exps = new Exps();
-}());
-;
-;
 cr.plugins_.wpc2 = function(runtime)
 {
 	this.runtime = runtime;
@@ -20899,12 +20434,15 @@ cr.plugins_.wpc2 = function(runtime)
 		this.runtime = type.runtime;
 	};
 	var instanceProto = pluginProto.Instance.prototype;
+	var dataRequestEvent = null;
+	var wasShareHandled = false;
 	instanceProto.onCreate = function()
 	{
 		this.isWindows8 = this.runtime.isWindows8App;
 		this.isWindowsPhone8 = this.runtime.isWindowsPhone81;
 		var self = this;
 		this.appBarId = this.properties[0];
+		this.shareEnabled = (this.properties[1] !== 0);
 		if (this.isWindows8 || this.isWindowsPhone8)
 		{
 			window.addEventListener('resize', function(){
@@ -20916,6 +20454,16 @@ cr.plugins_.wpc2 = function(runtime)
 			window.addEventListener("focus", function () {
 				self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnFocus, self);
 			});
+			if(this.shareEnabled){
+				Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["getForCurrentView"]().addEventListener("datarequested", function (e) {
+					dataRequestEvent = e;
+					wasShareHandled = false;
+					self.runtime.trigger(cr.plugins_.wpc2.prototype.cnds.OnShare, self);
+					dataRequestEvent = null;
+					if (!wasShareHandled)
+						e["request"]["failWithDisplayText"]("Try selecting a different option before sharing.");
+				});
+			}
 		}
 	};
 	instanceProto.onDestroy = function ()
@@ -20963,11 +20511,24 @@ cr.plugins_.wpc2 = function(runtime)
 		return true;
 	}
 	Cnds.prototype.HasTouchInput = function (){
-		if(this.isWindows8){
+		if(this.isWindows8 || this.isWindowsPhone8){
 			return (new Windows["Devices"]["Input"]["TouchCapabilities"]())["touchPresent"] || this.isWindowsPhone8;
 		}
 		return true;
 	}
+	Cnds.prototype.IsWindowsDevice = function (){
+		return this.isWindows8 || this.isWindowsPhone8;
+	}
+	Cnds.prototype.IsWindowsPhone8 = function (){
+		return this.isWindowsPhone8;
+	}
+	Cnds.prototype.IsWindows8 = function (){
+		return this.isWindows8;
+	}
+	Cnds.prototype.OnShare = function ()
+	{
+		return true;
+	};
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
 	Acts.prototype.PopDialog1 = function (title_, content_, btext_)
@@ -21009,8 +20570,19 @@ cr.plugins_.wpc2 = function(runtime)
 	};
 	Acts.prototype.ShowShareUI = function ()
 	{
-		if (this.isWindows8 || this.isWindowsPhone8) 
+		if (this.isWindows8 || this.isWindowsPhone8)
 			Windows["ApplicationModel"]["DataTransfer"]["DataTransferManager"]["showShareUI"]();
+	};
+	Acts.prototype.ShareText = function (title_, description_, text_)
+	{
+		if (this.isWindows8 && dataRequestEvent)
+		{
+			var request = dataRequestEvent["request"];
+			request["data"]["properties"]["title"] = title_;
+			request["data"]["properties"]["description"] = description_;
+			request["data"]["setText"](text_);
+			wasShareHandled = true;
+		}
 	};
 	pluginProto.acts = new Acts();
 	function Exps() {};
@@ -22127,6 +21699,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22139,16 +21723,28 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.SpriteFontPlus,
+		cr.plugins_.wpc2,
+		true,
 		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.WebStorage,
 		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
 	]
 ,	[
 		cr.plugins_.Text,
@@ -22173,42 +21769,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
-	]
-,	[
-		cr.plugins_.WebStorage,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.win8,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.wpc2,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
 	]
 ,	[
 		cr.plugins_.Touch,
@@ -22558,24 +22118,6 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t13",
-		cr.plugins_.win8,
-		false,
-		[],
-		0,
-		0,
-		null,
-		null,
-		[
-		],
-		false,
-		false,
-		4069582679889189,
-		[],
-		null
-		,[0,1,0,0]
-	]
-,	[
-		"t14",
 		cr.plugins_.Keyboard,
 		false,
 		[],
@@ -22593,7 +22135,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t15",
+		"t14",
 		cr.plugins_.Sprite,
 		false,
 		[5663949309315676],
@@ -22669,7 +22211,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t16",
+		"t15",
 		cr.plugins_.SpriteFontPlus,
 		false,
 		[],
@@ -22686,7 +22228,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t17",
+		"t16",
 		cr.plugins_.Button,
 		false,
 		[],
@@ -22703,7 +22245,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t18",
+		"t17",
 		cr.plugins_.NinePatch,
 		false,
 		[],
@@ -22720,7 +22262,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t19",
+		"t18",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22737,7 +22279,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t20",
+		"t19",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22767,7 +22309,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t21",
+		"t20",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22784,7 +22326,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t22",
+		"t21",
 		cr.plugins_.Button,
 		false,
 		[],
@@ -22801,7 +22343,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t23",
+		"t22",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22831,7 +22373,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t24",
+		"t23",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22861,7 +22403,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t25",
+		"t24",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22891,7 +22433,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t26",
+		"t25",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22921,7 +22463,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t27",
+		"t26",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22951,7 +22493,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t28",
+		"t27",
 		cr.plugins_.WebStorage,
 		false,
 		[],
@@ -22969,7 +22511,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t29",
+		"t28",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22999,7 +22541,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t30",
+		"t29",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23016,7 +22558,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t31",
+		"t30",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23046,7 +22588,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t32",
+		"t31",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23076,7 +22618,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t33",
+		"t32",
 		cr.plugins_.wpc2,
 		false,
 		[],
@@ -23091,10 +22633,10 @@ cr.getProjectModel = function() { return [
 		8403940385879478,
 		[],
 		null
-		,["appBar"]
+		,["appBar",1]
 	]
 ,	[
-		"t34",
+		"t33",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23111,7 +22653,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t35",
+		"t34",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -23129,7 +22671,7 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[35,6,12,7,8]
+		[34,6,12,7,8]
 	],
 	[
 	[
@@ -23178,7 +22720,7 @@ cr.getProjectModel = function() { return [
 			true,
 			[255, 255, 255],
 			true,
-			1,
+			0,
 			1,
 			1,
 			false,
@@ -23247,7 +22789,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-107, 669, 0, 64, 64, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				15,
+				14,
 				15,
 				[
 					[1]
@@ -23316,7 +22858,7 @@ cr.getProjectModel = function() { return [
 			true,
 			[255, 255, 255],
 			true,
-			1,
+			0,
 			1,
 			1,
 			false,
@@ -23360,7 +22902,7 @@ cr.getProjectModel = function() { return [
 			true,
 			[255, 255, 255],
 			true,
-			1,
+			0,
 			1,
 			1,
 			false,
@@ -23430,7 +22972,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[30, 30, 0, 716, 72, 0, 0, 1, 0, 0, 0, 0, []],
-				16,
+				15,
 				16,
 				[
 				],
@@ -23488,7 +23030,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[683, 590, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				24,
+				23,
 				31,
 				[
 				],
@@ -23521,7 +23063,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[433, 88.222900390625, 0, 500, 357, 0, 0, 1, 0, 0, 0, 0, []],
-				18,
+				17,
 				19,
 				[
 				],
@@ -23541,7 +23083,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[433, 115, 0, 500, 100, 0, 0, 1, 0, 0, 0, 0, []],
-				21,
+				20,
 				20,
 				[
 				],
@@ -23561,7 +23103,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[433, 211, 0, 500, 77, 0, 0, 1, 0, 0, 0, 0, []],
-				16,
+				15,
 				21,
 				[
 				],
@@ -23586,7 +23128,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[833, 360, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				23,
+				22,
 				22,
 				[
 				],
@@ -23601,7 +23143,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[683, 360, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				20,
+				19,
 				23,
 				[
 				],
@@ -23616,7 +23158,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[533, 360, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				24,
+				23,
 				24,
 				[
 				],
@@ -23662,7 +23204,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[523, 234, 0, 320, 300, 0, 0, 1, 0, 0, 0, 0, []],
-				34,
+				33,
 				18,
 				[
 				],
@@ -23700,7 +23242,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[1250, 20, 0, 96, 24, 0, 0, 1, 0, 0, 0, 0, []],
-				17,
+				16,
 				17,
 				[
 				],
@@ -23719,7 +23261,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[475, 9, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
-				30,
+				29,
 				37,
 				[
 				],
@@ -23770,7 +23312,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[683, 384.9999694824219, 0, 1366, 769, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
-				25,
+				24,
 				25,
 				[
 				],
@@ -23849,7 +23391,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
-				25,
+				24,
 				38,
 				[
 				],
@@ -23864,7 +23406,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 80, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				31,
+				30,
 				39,
 				[
 				],
@@ -23879,7 +23421,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 200, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				32,
+				31,
 				40,
 				[
 				],
@@ -23993,7 +23535,7 @@ false,false,6451482555671282,false
 				7573670909184389,
 				[
 				[
-					14,
+					13,
 					cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 					null,
 					0,
@@ -24062,7 +23604,7 @@ false,false,6451482555671282,false
 				5543514634908094,
 				[
 				[
-					14,
+					13,
 					cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 					null,
 					0,
@@ -24131,7 +23673,7 @@ false,false,6451482555671282,false
 				467136003080307,
 				[
 				[
-					14,
+					13,
 					cr.plugins_.Keyboard.prototype.cnds.OnKey,
 					null,
 					1,
@@ -24213,7 +23755,7 @@ false,false,6451482555671282,false
 				4249613776624188,
 				[
 				[
-					14,
+					13,
 					cr.plugins_.Keyboard.prototype.cnds.OnKey,
 					null,
 					1,
@@ -24925,7 +24467,7 @@ false,false,6451482555671282,false
 					,[
 					[
 						4,
-						23
+						22
 					]
 					]
 				]
@@ -24960,7 +24502,7 @@ false,false,6451482555671282,false
 				],
 				[
 				[
-					33,
+					32,
 					cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 					null,
 					6635552605374377,
@@ -24988,7 +24530,7 @@ false,false,6451482555671282,false
 					,[
 					[
 						4,
-						20
+						19
 					]
 					]
 				]
@@ -25078,7 +24620,7 @@ false,false,6451482555671282,false
 					,[
 					[
 						4,
-						24
+						23
 					]
 					]
 				]
@@ -25396,7 +24938,7 @@ false,false,6451482555671282,false
 					3806278567749429,
 					[
 					[
-						33,
+						32,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25474,7 +25016,7 @@ false,false,6451482555671282,false
 					5997188881816523,
 					[
 					[
-						33,
+						32,
 						cr.plugins_.wpc2.prototype.cnds.HasTouchInput,
 						null,
 						0,
@@ -25487,7 +25029,7 @@ false,false,6451482555671282,false
 					],
 					[
 					[
-						35,
+						34,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9728335691694453,
@@ -25511,7 +25053,7 @@ false,false,6451482555671282,false
 				6659338750621825,
 				[
 				[
-					33,
+					32,
 					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
 					null,
 					1,
@@ -25533,7 +25075,7 @@ false,false,6451482555671282,false
 					5496232568047831,
 					[
 					[
-						33,
+						32,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25760,7 +25302,7 @@ false,false,6451482555671282,false
 				17435870339364,
 				[
 				[
-					15,
+					14,
 					cr.behaviors.Platform.prototype.cnds.OnLand,
 					"Platform",
 					1,
@@ -25812,7 +25354,7 @@ false,false,6451482555671282,false
 					]
 				]
 ,				[
-					15,
+					14,
 					cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
 					null,
 					2638413201114027,
@@ -25852,7 +25394,7 @@ false,false,6451482555671282,false
 					]
 ,					[
 						4,
-						15
+						14
 					]
 ,					[
 						0,
@@ -25913,7 +25455,7 @@ false,false,6451482555671282,false
 				2443671993534644,
 				[
 				[
-					15,
+					14,
 					cr.plugins_.Sprite.prototype.cnds.OnCollision,
 					null,
 					0,
@@ -25930,7 +25472,7 @@ false,false,6451482555671282,false
 					]
 				]
 ,				[
-					15,
+					14,
 					cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
 					null,
 					0,
@@ -26032,7 +25574,7 @@ false,false,6451482555671282,false
 				],
 				[
 				[
-					30,
+					29,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					9727649319043863,
@@ -26429,7 +25971,7 @@ false,false,3096662099478148,false
 					,[
 					[
 						4,
-						15
+						14
 					]
 ,					[
 						5,
@@ -26469,7 +26011,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					15,
+					14,
 					cr.behaviors.Platform.prototype.acts.SetAcceleration,
 					"Platform",
 					9062918358726788,
@@ -26499,7 +26041,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					15,
+					14,
 					cr.plugins_.Sprite.prototype.acts.SetAnim,
 					null,
 					5469284865587942,
@@ -26641,7 +26183,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					16,
+					15,
 					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 					null,
 					641565820379818,
@@ -26695,7 +26237,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					16,
+					15,
 					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 					null,
 					4037439766683287,
@@ -26880,37 +26422,6 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					5,
-					cr.plugins_.Audio.prototype.acts.Play,
-					null,
-					4821684711443013,
-					false
-					,[
-					[
-						2,
-						["backgroundmattoglseby",true]
-					]
-,					[
-						3,
-						1
-					]
-,					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-,					[
-						1,
-						[
-							2,
-							"bgMusic"
-						]
-					]
-					]
-				]
-,				[
 					-1,
 					cr.system_object.prototype.acts.SetLayerVisible,
 					null,
@@ -27010,26 +26521,26 @@ false,false,3096662099478148,false
 				null,
 				false,
 				null,
-				2853135243079618,
+				8782740739031961,
 				[
 				[
-					13,
-					cr.plugins_.win8.prototype.cnds.OnShare,
+					32,
+					cr.plugins_.wpc2.prototype.cnds.OnShare,
 					null,
 					1,
 					false,
 					false,
 					false,
-					5468787704464942,
+					4915647210257855,
 					false
 				]
 				],
 				[
 				[
-					13,
-					cr.plugins_.win8.prototype.acts.ShareText,
+					32,
+					cr.plugins_.wpc2.prototype.acts.ShareText,
 					null,
-					1596089022478286,
+					9872196368290069,
 					false
 					,[
 					[
@@ -27043,7 +26554,7 @@ false,false,3096662099478148,false
 						1,
 						[
 							2,
-							"Comparte tu puntuación en las redes sociales"
+							"Comparte tu puntuación con tus amigos"
 						]
 					]
 ,					[
@@ -27063,7 +26574,7 @@ false,false,3096662099478148,false
 							]
 							,[
 								2,
-								" bloques jugando Falling Dodge para Windows 8"
+								" bloques en Falling Dodge para Windows"
 							]
 						]
 					]
@@ -27112,7 +26623,7 @@ false,false,3096662099478148,false
 				6752909749617707,
 				[
 				[
-					17,
+					16,
 					cr.plugins_.Button.prototype.cnds.OnClicked,
 					null,
 					1,
@@ -27205,54 +26716,6 @@ false,false,3096662099478148,false
 			null,
 			false,
 			null,
-			945764023010159,
-			[
-			[
-				2,
-				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				7248090117989111,
-				false
-				,[
-				[
-					4,
-					26
-				]
-				]
-			]
-			],
-			[
-			[
-				-1,
-				cr.system_object.prototype.acts.SetLayerVisible,
-				null,
-				4587821778947775,
-				false
-				,[
-				[
-					5,
-					[
-						0,
-						2
-					]
-				]
-,				[
-					3,
-					1
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
 			6325049861565252,
 			[
 			[
@@ -27268,111 +26731,18 @@ false,false,3096662099478148,false
 				,[
 				[
 					4,
-					23
+					22
 				]
 				]
 			]
 			],
 			[
 			[
-				13,
-				cr.plugins_.win8.prototype.acts.ShowShareUI,
+				32,
+				cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 				null,
 				8981185845295414,
 				false
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			8460814998539223,
-			[
-			[
-				13,
-				cr.plugins_.win8.prototype.cnds.OnShare,
-				null,
-				1,
-				false,
-				false,
-				false,
-				2330163711641638,
-				false
-			]
-			],
-			[
-			[
-				13,
-				cr.plugins_.win8.prototype.acts.ShareLink,
-				null,
-				9017939043649077,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"Cuenta a tus amigos sobre Falling Dodge!"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"Comparte la aplicación con tus amigo"
-					]
-				]
-,				[
-					1,
-					[
-						2,
-						"http://fferegrino.org/fallingdodge"
-					]
-				]
-				]
-			]
-			]
-		]
-,		[
-			0,
-			null,
-			false,
-			null,
-			2028762897189779,
-			[
-			[
-				2,
-				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
-				null,
-				1,
-				false,
-				false,
-				false,
-				5448355880219262,
-				false
-				,[
-				[
-					4,
-					27
-				]
-				]
-			]
-			],
-			[
-			[
-				-1,
-				cr.system_object.prototype.acts.GoToLayout,
-				null,
-				1742558095914426,
-				false
-				,[
-				[
-					6,
-					"HighScoresLayout"
-				]
-				]
 			]
 			]
 		]
@@ -27591,7 +26961,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						28,
+						27,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27628,7 +26998,7 @@ false,false,137819117408848,false
 						,[
 						[
 							4,
-							16
+							15
 						]
 ,						[
 							5,
@@ -27661,7 +27031,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						16,
+						15,
 						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 						null,
 						7869880355172389,
@@ -27675,7 +27045,7 @@ false,false,137819117408848,false
 									10,
 									[
 										20,
-										28,
+										27,
 										cr.plugins_.WebStorage.prototype.exps.LocalValue,
 										true,
 										null
@@ -27700,7 +27070,7 @@ false,false,137819117408848,false
 								]
 								,[
 									20,
-									28,
+									27,
 									cr.plugins_.WebStorage.prototype.exps.LocalValue,
 									true,
 									null
@@ -27851,7 +27221,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						28,
+						27,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27880,7 +27250,7 @@ false,false,8571747330113035,false
 					],
 					[
 					[
-						28,
+						27,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						8686943429417027,
@@ -27903,7 +27273,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						28,
+						27,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						6759804980509709,
@@ -27971,7 +27341,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					31
+					30
 				]
 				]
 			]
@@ -28012,7 +27382,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					32
+					31
 				]
 				]
 			]

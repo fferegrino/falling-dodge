@@ -21,7 +21,6 @@
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
-        <plugin author="Scirra.com" id="win8" version="1">Windows 8</plugin>
         <plugin author="@fferegrino" id="wpc2" version="1.399999976">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
@@ -52,7 +51,7 @@
         <prop name="Sampling">Linear</prop>
         <prop name="Use iOS retina display">Yes</prop>
     </configuration-settings>
-    <object-folder expanded="0">
+    <object-folder expanded="1">
         <object-type name="gameBackground" sid="8997495726945945">
             <plugin id="TiledBg" />
             <texture />
@@ -216,9 +215,6 @@
                     </frame>
                 </animation>
             </animation-folder>
-        </object-type>
-        <object-type name="windows8" sid="4069582679889189">
-            <plugin id="win8" />
         </object-type>
         <object-type name="keyboard" sid="5794366892193964">
             <plugin id="Keyboard" />
@@ -500,19 +496,12 @@
                 <doppler-factor>1</doppler-factor>
             </properties>
         </global-instance>
-        <global-instance type="windows8" uid="13">
-            <properties>
-                <test-mode>No</test-mode>
-                <about-setting>Yes</about-setting>
-                <support-setting>No</support-setting>
-                <privacy-setting>No</privacy-setting>
-            </properties>
-        </global-instance>
         <global-instance type="keyboard" uid="14" />
         <global-instance type="storage" uid="30" />
         <global-instance type="wpc2" uid="41">
             <properties>
                 <appbar-id>appBar</appbar-id>
+                <share-content>Yes</share-content>
             </properties>
         </global-instance>
     </global-instances>
