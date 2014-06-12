@@ -8,7 +8,6 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)c2runtime.js" />
     <Content Include="$(MSBuildThisFileDirectory)jquery-2.0.0.min.js" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamebackground.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\playbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pauseshade.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leftarrow-sheet0.png" />
@@ -25,12 +24,14 @@
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\replaybutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\sharebutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\quitgame-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\sprite-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\bgmenuscreen-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\configbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leaderboardbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backsettingsbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backbutton-sheet0.png" />
+<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamebackground.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\stars.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mountains-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
     <Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
   </ItemGroup>

@@ -18,8 +18,8 @@
             <background-color>255,255,255</background-color>
             <transparent>0</transparent>
             <parallax>
-                <x>1</x>
-                <y>1</y>
+                <x>0</x>
+                <y>0</y>
             </parallax>
             <zoom-rate>1</zoom-rate>
             <opacity>1</opacity>
@@ -39,10 +39,86 @@
                         <y>0</y>
                         <z>0</z>
                         <width>1366</width>
-                        <height>786</height>
+                        <height>768</height>
                         <depth>0</depth>
                         <hotspotX>0</hotspotX>
                         <hotspotY>0</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+            </instances>
+            <effects />
+        </layer>
+        <layer name="stars" sid="5809936051217003">
+            <initially-visible>1</initially-visible>
+            <background-color>255,255,255</background-color>
+            <transparent>1</transparent>
+            <parallax>
+                <x>0.2</x>
+                <y>1</y>
+            </parallax>
+            <zoom-rate>1</zoom-rate>
+            <opacity>1</opacity>
+            <force-own-texture>0</force-own-texture>
+            <blend-mode>0</blend-mode>
+            <effect-fallback>0</effect-fallback>
+            <instances>
+                <instance type="stars" uid="13">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <hotspot>Top-left</hotspot>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>-117</x>
+                        <y>-16</y>
+                        <z>0</z>
+                        <width>1600</width>
+                        <height>800</height>
+                        <depth>0</depth>
+                        <hotspotX>0</hotspotX>
+                        <hotspotY>0</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+            </instances>
+            <effects />
+        </layer>
+        <layer name="mountains" sid="3885066992803587">
+            <initially-visible>1</initially-visible>
+            <background-color>255,255,255</background-color>
+            <transparent>1</transparent>
+            <parallax>
+                <x>1.5</x>
+                <y>1.5</y>
+            </parallax>
+            <zoom-rate>1</zoom-rate>
+            <opacity>1</opacity>
+            <force-own-texture>0</force-own-texture>
+            <blend-mode>0</blend-mode>
+            <effect-fallback>0</effect-fallback>
+            <instances>
+                <instance type="mountains" uid="32">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>0</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>645.625976563</x>
+                        <y>690</y>
+                        <z>0</z>
+                        <width>1994</width>
+                        <height>548</height>
+                        <depth>0</depth>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.5</hotspotY>
                         <angle>0</angle>
                         <opacity>1</opacity>
                     </world>
@@ -136,6 +212,11 @@
                         <behavior-instance type="BoundToLayout">
                             <properties>
                                 <bound-by>Edge</bound-by>
+                            </properties>
+                        </behavior-instance>
+                        <behavior-instance type="ScrollTo">
+                            <properties>
+                                <initial-state>Enabled</initial-state>
                             </properties>
                         </behavior-instance>
                     </behavior-instances>
@@ -540,7 +621,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>433</x>
-                        <y>88.222900391</y>
+                        <y>142</y>
                         <z>0</z>
                         <width>500</width>
                         <height>357</height>
@@ -566,7 +647,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>433</x>
-                        <y>115</y>
+                        <y>169</y>
                         <z>0</z>
                         <width>500</width>
                         <height>100</height>
@@ -598,7 +679,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>433</x>
-                        <y>211</y>
+                        <y>265</y>
                         <z>0</z>
                         <width>500</width>
                         <height>77</height>
@@ -620,7 +701,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>833</x>
-                        <y>360</y>
+                        <y>414</y>
                         <z>0</z>
                         <width>50</width>
                         <height>48</height>
@@ -642,7 +723,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>683</x>
-                        <y>360</y>
+                        <y>414</y>
                         <z>0</z>
                         <width>50</width>
                         <height>48</height>
@@ -664,7 +745,7 @@
                     <effect-fallback>0</effect-fallback>
                     <world>
                         <x>533</x>
-                        <y>360</y>
+                        <y>414</y>
                         <z>0</z>
                         <width>50</width>
                         <height>48</height>
@@ -683,7 +764,7 @@
             <background-color>255,255,255</background-color>
             <transparent>1</transparent>
             <parallax>
-                <x>1</x>
+                <x>0</x>
                 <y>1</y>
             </parallax>
             <zoom-rate>1</zoom-rate>

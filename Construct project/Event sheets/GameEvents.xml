@@ -10,6 +10,7 @@
         <variable comment="This variable tell us if the app is running in a valid screen size" constant="0" name="validScreenSize" sid="8661402681645313" static="0" type="number">0</variable>
         <variable comment="Difficulty level" constant="0" name="level" sid="740642952620509" static="0" type="number">1</variable>
         <variable comment="This number indicates the amount of blocks that made it to the ground" constant="0" name="fallenBLocks" sid="6451482555671282" static="0" type="number">0</variable>
+        <variable constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
         <event-group description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
@@ -80,7 +81,7 @@
                                     <param id="2" name="Value">0</param>
                                 </condition>
                                 <condition id="-9" name="Layer is visible" sid="9352373931178743" type="System">
-                                    <param id="0" name="Layer">4</param>
+                                    <param id="0" name="Layer">6</param>
                                 </condition>
                                 <condition id="-14" name="Compare variable" sid="2012067022884067" type="System">
                                     <param id="0" name="Variable">validScreenSize</param>
@@ -132,7 +133,7 @@
                             <param id="2" name="Value">0</param>
                         </condition>
                         <condition id="-9" name="Layer is visible" sid="7593140028469117" type="System">
-                            <param id="0" name="Layer">4</param>
+                            <param id="0" name="Layer">6</param>
                         </condition>
                         <condition id="-14" name="Compare variable" sid="4940223381180073" type="System">
                             <param id="0" name="Variable">validScreenSize</param>
@@ -250,7 +251,7 @@
                     </conditions>
                     <actions>
                         <action id="-4" name="Set layer visible" sid="7623712356068842" type="System">
-                            <param id="0" name="Layer">5</param>
+                            <param id="0" name="Layer">7</param>
                             <param id="1" name="Visibility">0</param>
                         </action>
                         <action id="-21" name="Reset global variables" sid="9344755708335695" type="System" />
@@ -270,7 +271,7 @@
                     </conditions>
                     <actions>
                         <action id="-4" name="Set layer visible" sid="4810654025172" type="System">
-                            <param id="0" name="Layer">5</param>
+                            <param id="0" name="Layer">7</param>
                             <param id="1" name="Visibility">0</param>
                         </action>
                         <action id="-21" name="Reset global variables" sid="626857790605558" type="System" />
@@ -292,6 +293,10 @@
                             <param id="0" name="Object">player</param>
                             <param id="1" name="Image point (optional)">0</param>
                         </action>
+                        <action id="0" name="Call function" sid="5298975488361388" type="functions">
+                            <param id="0" name="Name">&quot;doParallax&quot;</param>
+                            <param id="1" name="Parameter {n}"></param>
+                        </action>
                     </actions>
                 </event-block>
                 <event-block sid="9057028426807635">
@@ -307,16 +312,20 @@
                             <param id="0" name="Time scale">0</param>
                         </action>
                         <action id="-4" name="Set layer visible" sid="2760159080643082" type="System">
-                            <param id="0" name="Layer">1</param>
-                            <param id="1" name="Visibility">0</param>
-                        </action>
-                        <action id="-4" name="Set layer visible" sid="2992438185147477" type="System">
                             <param id="0" name="Layer">3</param>
                             <param id="1" name="Visibility">0</param>
                         </action>
+                        <action id="-4" name="Set layer visible" sid="2992438185147477" type="System">
+                            <param id="0" name="Layer">5</param>
+                            <param id="1" name="Visibility">0</param>
+                        </action>
                         <action id="-4" name="Set layer visible" sid="6972174422306927" type="System">
-                            <param id="0" name="Layer">4</param>
+                            <param id="0" name="Layer">6</param>
                             <param id="1" name="Visibility">1</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="7483958985781457" type="System">
+                            <param id="0" name="Variable">mountainX</param>
+                            <param id="1" name="Value">mountains.X</param>
                         </action>
                     </actions>
                     <sub-events>
@@ -326,7 +335,7 @@
                             </conditions>
                             <actions>
                                 <action id="-4" name="Set layer visible" sid="5375946118147812" type="System">
-                                    <param id="0" name="Layer">7</param>
+                                    <param id="0" name="Layer">9</param>
                                     <param id="1" name="Visibility">1</param>
                                 </action>
                             </actions>
@@ -344,7 +353,7 @@
                                     <param id="1" name="Value">TRUE</param>
                                 </action>
                                 <action id="-4" name="Set layer visible" sid="6800898661642" type="System">
-                                    <param id="0" name="Layer">6</param>
+                                    <param id="0" name="Layer">8</param>
                                     <param id="1" name="Visibility">0</param>
                                 </action>
                             </actions>
@@ -384,7 +393,7 @@
                                     <param id="1" name="Parameter {n}">FALSE</param>
                                 </action>
                                 <action id="-4" name="Set layer visible" sid="9563527460121805" type="System">
-                                    <param id="0" name="Layer">6</param>
+                                    <param id="0" name="Layer">8</param>
                                     <param id="1" name="Visibility">0</param>
                                 </action>
                             </actions>
@@ -403,7 +412,7 @@
                                     <param id="1" name="Parameter {n}">TRUE</param>
                                 </action>
                                 <action id="-4" name="Set layer visible" sid="5523545736089331" type="System">
-                                    <param id="0" name="Layer">6</param>
+                                    <param id="0" name="Layer">8</param>
                                     <param id="1" name="Visibility">1</param>
                                 </action>
                             </actions>
@@ -499,7 +508,7 @@
                                     <param id="1" name="Value">0</param>
                                 </action>
                                 <action id="-4" name="Set layer visible" sid="4539693590299813" type="System">
-                                    <param id="0" name="Layer">2</param>
+                                    <param id="0" name="Layer">4</param>
                                     <param id="1" name="Visibility">0</param>
                                 </action>
                                 <action id="-13" name="Set time scale" sid="699772469429195" type="System">
@@ -531,7 +540,7 @@
                                             <param id="1" name="Value">1</param>
                                         </action>
                                         <action id="-4" name="Set layer visible" sid="361123103298716" type="System">
-                                            <param id="0" name="Layer">2</param>
+                                            <param id="0" name="Layer">4</param>
                                             <param id="1" name="Visibility">1</param>
                                         </action>
                                         <action id="-13" name="Set time scale" sid="51497198361133" type="System">
@@ -561,7 +570,7 @@
                         </action>
                         <action id="-3" name="Create object" sid="1031608927621318" type="System">
                             <param id="0" name="Object to create">block</param>
-                            <param id="1" name="Layer">1</param>
+                            <param id="1" name="Layer">3</param>
                             <param id="2" name="X">(blockPosition*64) + 43</param>
                             <param id="3" name="Y">-32</param>
                         </action>
@@ -622,7 +631,7 @@
                             <param id="1" name="Value">0</param>
                         </action>
                         <action id="-4" name="Set layer visible" sid="5896943213938683" type="System">
-                            <param id="0" name="Layer">5</param>
+                            <param id="0" name="Layer">7</param>
                             <param id="1" name="Visibility">1</param>
                         </action>
                     </actions>
@@ -653,16 +662,32 @@
                             <param id="1" name="Tag (optional)">&quot;bgMusic&quot;</param>
                         </action>
                         <action id="-4" name="Set layer visible" sid="2733156267784808" type="System">
-                            <param id="0" name="Layer">1</param>
-                            <param id="1" name="Visibility">1</param>
-                        </action>
-                        <action id="-4" name="Set layer visible" sid="733286670454913" type="System">
                             <param id="0" name="Layer">3</param>
                             <param id="1" name="Visibility">1</param>
                         </action>
+                        <action id="-4" name="Set layer visible" sid="733286670454913" type="System">
+                            <param id="0" name="Layer">5</param>
+                            <param id="1" name="Visibility">1</param>
+                        </action>
                         <action id="-4" name="Set layer visible" sid="4802481956974068" type="System">
-                            <param id="0" name="Layer">4</param>
+                            <param id="0" name="Layer">6</param>
                             <param id="1" name="Visibility">0</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <variable constant="1" name="MOUNTAIN_PARALLAX" sid="5465309023031647" static="1" type="number">0.2</variable>
+                <event-block sid="6461315155595917">
+                    <conditions>
+                        <condition id="0" name="On function" sid="9145891603620547" type="functions">
+                            <param id="0" name="Name">&quot;doParallax&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-1" name="Set X" sid="3317244836783479" type="mountains">
+                            <param id="0" name="X">mountainX + ((LayoutWidth / 2 - player.X ) * MOUNTAIN_PARALLAX)</param>
+                        </action>
+                        <action id="0" name="Set text" sid="42382477752228" type="debugText">
+                            <param id="0" name="Text">mountains.X &amp; &quot; &quot; &amp; mountainX</param>
                         </action>
                     </actions>
                 </event-block>

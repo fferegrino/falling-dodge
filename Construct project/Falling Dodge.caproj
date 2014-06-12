@@ -26,6 +26,7 @@
     <used-behaviors>
         <behavior author="Scirra" id="Platform" version="1">Platform</behavior>
         <behavior author="Scirra" id="bound" version="1">Bound to layout</behavior>
+        <behavior author="Scirra" id="scrollto" version="1">Scroll To</behavior>
         <behavior author="Scirra" id="solid" version="1">Solid</behavior>
     </used-behaviors>
     <used-effects />
@@ -52,10 +53,6 @@
         <prop name="Use iOS retina display">Yes</prop>
     </configuration-settings>
     <object-folder expanded="1">
-        <object-type name="gameBackground" sid="8997495726945945">
-            <plugin id="TiledBg" />
-            <texture />
-        </object-type>
         <object-type name="playButton" sid="1336547469157745">
             <plugin id="Sprite" />
             <animation-folder expanded="1">
@@ -189,6 +186,9 @@
                 </behavior-type>
                 <behavior-type name="BoundToLayout" sid="9268540857893869">
                     <behavior id="bound" />
+                </behavior-type>
+                <behavior-type name="ScrollTo" sid="7685106908643969">
+                    <behavior id="scrollto" />
                 </behavior-type>
             </behaviors>
             <animation-folder expanded="1">
@@ -450,6 +450,33 @@
         </object-type>
         <object-type name="invalidScreenText" sid="9794662573896967">
             <plugin id="Text" />
+        </object-type>
+        <object-type name="gameBackground" sid="8058476449429457">
+            <plugin id="TiledBg" />
+            <texture />
+        </object-type>
+        <object-type name="stars" sid="4936650465948323">
+            <plugin id="TiledBg" />
+            <texture />
+        </object-type>
+        <object-type name="mountains" sid="9291772490802008">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8141090732152536" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.0511535" y="0.186131" />
+                            <point x="0.5" y="0.15146" />
+                            <point x="0.950351" y="0.180657" />
+                            <point x="0.987462" y="0.5" />
+                            <point x="0.97994" y="0.927007" />
+                            <point x="0.5" y="0.943431" />
+                            <point x="0.0200602" y="0.927007" />
+                            <point x="0.0125376" y="0.5" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
         </object-type>
     </object-folder>
     <families>
