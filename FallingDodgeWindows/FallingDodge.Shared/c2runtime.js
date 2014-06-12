@@ -21850,7 +21850,7 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.wpc2,
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -21874,7 +21874,19 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.wpc2,
 		true,
 		false,
 		false,
@@ -21895,18 +21907,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
-		false
-	]
-,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
 		false
 	]
 	],
@@ -22819,7 +22819,7 @@ cr.getProjectModel = function() { return [
 			false,
 			8141090732152536,
 			[
-				["images/assetsC2/mountains-sheet0.png", 420795, 0, 0, 1994, 548, 1, 0.5, 0.5,[],[-0.4488464891910553,-0.3138689994812012,0,-0.3485400080680847,0.4503509998321533,-0.3193430006504059,0.4874619841575623,0,0.4799399971961975,0.4270070195198059,0,0.44343101978302,-0.4799397885799408,0.4270070195198059,-0.4874624013900757,0],0]
+				["images/assetsC2/mountains-sheet0.png", 358732, 0, 0, 1996, 408, 1, 0.5, 0.6740196347236633,[],[-0.4483967423439026,-0.4215691685676575,0,-0.4681370854377747,0.4498997330665588,-0.4289215207099915,0.4869735240936279,0,0.4794591069221497,0.3259803652763367,0,0.3259803652763367,-0.4794588983058929,0.3259803652763367,-0.4869739711284638,0],0]
 			]
 			]
 		],
@@ -22939,7 +22939,7 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[645.6259765625, 690, 0, 1994, 548, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[645.6259765625, 690, 0, 1996, 408, 0, 0, 1, 0.5, 0.6740196347236633, 0, 0, []],
 				35,
 				32,
 				[
@@ -23748,6 +23748,20 @@ false,false,6451482555671282,false
 			0,
 			0,
 false,false,3464267042580843,false
+		]
+,		[
+			1,
+			"starsX",
+			0,
+			0,
+false,false,9434421779047864,false
+		]
+,		[
+			1,
+			"starsY",
+			0,
+			0,
+false,false,5050866466494312,false
 		]
 ,		[
 			0,
@@ -25175,6 +25189,52 @@ false,false,3464267042580843,false
 							20,
 							35,
 							cr.plugins_.Sprite.prototype.exps.X,
+							false,
+							null
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					7370267541409098,
+					false
+					,[
+					[
+						11,
+						"starsX"
+					]
+,					[
+						7,
+						[
+							20,
+							34,
+							cr.plugins_.TiledBg.prototype.exps.X,
+							false,
+							null
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1639671888772169,
+					false
+					,[
+					[
+						11,
+						"starsY"
+					]
+,					[
+						7,
+						[
+							20,
+							34,
+							cr.plugins_.TiledBg.prototype.exps.Y,
 							false,
 							null
 						]
@@ -26786,6 +26846,13 @@ false,false,3096662099478148,false
 true,true,5465309023031647,false
 			]
 ,			[
+				1,
+				"STARS_PARALLAX",
+				0,
+				0.1,
+true,true,3942350720316154,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -26862,33 +26929,94 @@ true,true,5465309023031647,false
 					]
 				]
 ,				[
-					28,
-					cr.plugins_.Text.prototype.acts.SetText,
+					34,
+					cr.plugins_.TiledBg.prototype.acts.SetX,
 					null,
-					42382477752228,
+					1286842244730771,
 					false
 					,[
 					[
-						7,
+						0,
 						[
-							10,
+							4,
 							[
-								10,
-								[
-									20,
-									35,
-									cr.plugins_.Sprite.prototype.exps.X,
-									false,
-									null
-								]
-								,[
-									2,
-									" "
-								]
+								23,
+								"starsX"
 							]
 							,[
+								6,
+								[
+									5,
+									[
+										7,
+										[
+											19,
+											cr.system_object.prototype.exps.layoutwidth
+										]
+										,[
+											0,
+											2
+										]
+									]
+									,[
+										20,
+										10,
+										cr.plugins_.Sprite.prototype.exps.X,
+										false,
+										null
+									]
+								]
+								,[
+									23,
+									"STARS_PARALLAX"
+								]
+							]
+						]
+					]
+					]
+				]
+,				[
+					34,
+					cr.plugins_.TiledBg.prototype.acts.SetX,
+					null,
+					2593494932594385,
+					false
+					,[
+					[
+						0,
+						[
+							4,
+							[
 								23,
-								"mountainX"
+								"starsX"
+							]
+							,[
+								6,
+								[
+									5,
+									[
+										7,
+										[
+											19,
+											cr.system_object.prototype.exps.layoutwidth
+										]
+										,[
+											0,
+											2
+										]
+									]
+									,[
+										20,
+										10,
+										cr.plugins_.Sprite.prototype.exps.X,
+										false,
+										null
+									]
+								]
+								,[
+									23,
+									"STARS_PARALLAX"
+								]
 							]
 						]
 					]

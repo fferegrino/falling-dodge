@@ -11,6 +11,8 @@
         <variable comment="Difficulty level" constant="0" name="level" sid="740642952620509" static="0" type="number">1</variable>
         <variable comment="This number indicates the amount of blocks that made it to the ground" constant="0" name="fallenBLocks" sid="6451482555671282" static="0" type="number">0</variable>
         <variable constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
+        <variable constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
+        <variable constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
         <event-group description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
@@ -326,6 +328,14 @@
                         <action id="-9" name="Set value" sid="7483958985781457" type="System">
                             <param id="0" name="Variable">mountainX</param>
                             <param id="1" name="Value">mountains.X</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="7370267541409098" type="System">
+                            <param id="0" name="Variable">starsX</param>
+                            <param id="1" name="Value">stars.X </param>
+                        </action>
+                        <action id="-9" name="Set value" sid="1639671888772169" type="System">
+                            <param id="0" name="Variable">starsY</param>
+                            <param id="1" name="Value">stars.Y</param>
                         </action>
                     </actions>
                     <sub-events>
@@ -676,6 +686,7 @@
                     </actions>
                 </event-block>
                 <variable constant="1" name="MOUNTAIN_PARALLAX" sid="5465309023031647" static="1" type="number">0.2</variable>
+                <variable constant="1" name="STARS_PARALLAX" sid="3942350720316154" static="1" type="number">0.1</variable>
                 <event-block sid="6461315155595917">
                     <conditions>
                         <condition id="0" name="On function" sid="9145891603620547" type="functions">
@@ -686,8 +697,11 @@
                         <action id="-1" name="Set X" sid="3317244836783479" type="mountains">
                             <param id="0" name="X">mountainX + ((LayoutWidth / 2 - player.X ) * MOUNTAIN_PARALLAX)</param>
                         </action>
-                        <action id="0" name="Set text" sid="42382477752228" type="debugText">
-                            <param id="0" name="Text">mountains.X &amp; &quot; &quot; &amp; mountainX</param>
+                        <action id="-1" name="Set X" sid="1286842244730771" type="stars">
+                            <param id="0" name="X">starsX + ((LayoutWidth / 2 - player.X ) * STARS_PARALLAX)</param>
+                        </action>
+                        <action id="-1" name="Set X" sid="2593494932594385" type="stars">
+                            <param id="0" name="X">starsX + ((LayoutWidth / 2 - player.X ) * STARS_PARALLAX)</param>
                         </action>
                     </actions>
                 </event-block>
