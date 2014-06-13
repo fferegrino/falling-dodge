@@ -239,6 +239,17 @@
                                 </action>
                             </actions>
                         </event-block>
+                        <event-block sid="9735999754205633">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="9816158750579115" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="173424715309579" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">FALSE</param>
+                                </action>
+                            </actions>
+                        </event-block>
                     </sub-events>
                 </event-block>
                 <event-block sid="1592693269751362">
@@ -716,7 +727,7 @@
                             <param id="0" name="X">starsX + ((LayoutWidth / 2 - player.X ) * STARS_PARALLAX)</param>
                         </action>
                         <action id="-2" name="Set Y" sid="2593494932594385" type="stars">
-                            <param id="0" name="Y">starsY - ((LayoutHeight / 2 - player.Y ) * STARS_PARALLAX)</param>
+                            <param id="0" name="Y">starsY - ((LayoutHeight / 2 - player.Y ) * (STARS_PARALLAX / 2))</param>
                         </action>
                     </actions>
                 </event-block>

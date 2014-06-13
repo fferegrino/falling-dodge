@@ -348,14 +348,6 @@
                 </animation>
             </animation-folder>
         </object-type>
-        <object-type name="bgMenuScreen" sid="2524328815119954">
-            <plugin id="Sprite" />
-            <animation-folder expanded="1">
-                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="3993983395645484" speed="5">
-                    <frame duration="1" hotspotX="0.5" hotspotY="0.50065" />
-                </animation>
-            </animation-folder>
-        </object-type>
         <object-type name="configButton" sid="8975347241436733">
             <plugin id="Sprite" />
             <animation-folder expanded="1">
@@ -473,6 +465,24 @@
                             <point x="0.5" y="1" />
                             <point x="0.0205411" y="1" />
                             <point x="0.013026" y="0.67402" />
+                        </collision-poly>
+                    </frame>
+                </animation>
+            </animation-folder>
+        </object-type>
+        <object-type name="yolologo" sid="4391659061108452">
+            <plugin id="Sprite" />
+            <animation-folder expanded="1">
+                <animation framecount="1" loop="0" name="Default" pingpong="0" repeatcount="1" repeatto="0" sid="8152612534676426" speed="5">
+                    <frame duration="1" hotspotX="0.5" hotspotY="0.5">
+                        <collision-poly>
+                            <point x="0.02" y="0.0543478" />
+                            <point x="0.5" y="0.282609" />
+                            <point x="0.812" y="0.51087" />
+                            <point x="0.968" y="0.5" />
+                            <point x="0.956" y="0.880435" />
+                            <point x="0.04" y="0.891304" />
+                            <point x="0.112" y="0.5" />
                         </collision-poly>
                     </frame>
                 </animation>

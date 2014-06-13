@@ -24,7 +24,6 @@
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\replaybutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\sharebutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\quitgame-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\bgmenuscreen-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\configbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leaderboardbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backsettingsbutton-sheet0.png" />
@@ -32,6 +31,7 @@
 <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamebackground.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\stars.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mountains-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\yolologo-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
     <Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
   </ItemGroup>

@@ -21847,18 +21847,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Sprite,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
 		cr.plugins_.SpriteFontPlus,
 		false,
 		true,
@@ -21871,7 +21859,19 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.wpc2,
+		cr.plugins_.Sprite,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -21895,6 +21895,18 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
+		cr.plugins_.wpc2,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.Touch,
 		true,
 		false,
@@ -21916,18 +21928,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
-		false
-	]
-,	[
-		cr.plugins_.WebStorage,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
 		false
 	]
 	],
@@ -22554,36 +22554,6 @@ cr.getProjectModel = function() { return [
 			1,
 			0,
 			false,
-			3993983395645484,
-			[
-				["images/assetsC2/bgmenuscreen-sheet0.png", 577987, 0, 0, 1366, 769, 1, 0.5, 0.50065016746521,[],[],1]
-			]
-			]
-		],
-		[
-		],
-		false,
-		true,
-		2524328815119954,
-		[],
-		null
-	]
-,	[
-		"t24",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
 			1008425733013678,
 			[
 				["images/assetsC2/configbutton-sheet0.png", 689, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
@@ -22599,7 +22569,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t25",
+		"t24",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22629,7 +22599,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t26",
+		"t25",
 		cr.plugins_.WebStorage,
 		false,
 		[],
@@ -22647,7 +22617,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t27",
+		"t26",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22677,7 +22647,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t28",
+		"t27",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22694,7 +22664,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t29",
+		"t28",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22724,7 +22694,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t30",
+		"t29",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22754,7 +22724,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t31",
+		"t30",
 		cr.plugins_.wpc2,
 		false,
 		[],
@@ -22772,7 +22742,7 @@ cr.getProjectModel = function() { return [
 		,["appBar",1]
 	]
 ,	[
-		"t32",
+		"t31",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22789,7 +22759,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t33",
+		"t32",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22800,13 +22770,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		false,
+		true,
 		8058476449429457,
 		[],
 		null
 	]
 ,	[
-		"t34",
+		"t33",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22817,13 +22787,13 @@ cr.getProjectModel = function() { return [
 		[
 		],
 		false,
-		false,
+		true,
 		4936650465948323,
 		[],
 		null
 	]
 ,	[
-		"t35",
+		"t34",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22849,6 +22819,36 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		9291772490802008,
+		[],
+		null
+	]
+,	[
+		"t35",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			8152612534676426,
+			[
+				["images/assetsC2/yolologo-sheet0.png", 5016, 0, 0, 250, 92, 1, 0.5, 0.5,[],[-0.4799999892711639,-0.445652186870575,0,-0.217391312122345,0.3119999766349793,0.01086956262588501,0.4679999947547913,0,0.4559999704360962,0.3804348111152649,-0.4600000083446503,0.3913043737411499,-0.3880000114440918,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		true,
+		4391659061108452,
 		[],
 		null
 	]
@@ -22899,7 +22899,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				33,
+				32,
 				0,
 				[
 				],
@@ -22930,7 +22930,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[-117, -16, 0, 1600, 800, 0, 0, 1, 0, 0, 0, 0, []],
-				34,
+				33,
 				13,
 				[
 				],
@@ -22961,7 +22961,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[645.6259765625, 690, 0, 1996, 408, 0, 0, 1, 0.5, 0.6740196347236633, 0, 0, []],
-				35,
+				34,
 				32,
 				[
 				],
@@ -23471,7 +23471,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[523, 234, 0, 320, 300, 0, 0, 1, 0, 0, 0, 0, []],
-				32,
+				31,
 				18,
 				[
 				],
@@ -23528,7 +23528,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[335.9267578125, 321.0235595703125, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
-				28,
+				27,
 				37,
 				[
 				],
@@ -23578,9 +23578,35 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[683, 384.9999694824219, 0, 1366, 769, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
-				23,
+				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
+				32,
 				25,
+				[
+				],
+				[
+				],
+				[
+					0,
+					0
+				]
+			]
+,			[
+				[-5.5, -16, 0, 1377, 800, 0, 0, 1, 0, 0, 0, 0, []],
+				33,
+				33,
+				[
+				],
+				[
+				],
+				[
+					0,
+					0
+				]
+			]
+,			[
+				[1288.588500976563, 731.8032836914063, 0, 130.5252380371094, 48.03328704833984, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				35,
+				34,
 				[
 				],
 				[
@@ -23657,23 +23683,8 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[683, 540, 0, 1920, 1080, 0, 0, 1, 0.5, 0.50065016746521, 0, 0, []],
-				23,
-				38,
-				[
-				],
-				[
-				],
-				[
-					0,
-					"Default",
-					0,
-					1
-				]
-			]
-,			[
 				[80, 80, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				29,
+				28,
 				39,
 				[
 				],
@@ -23688,7 +23699,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 200, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				30,
+				29,
 				40,
 				[
 				],
@@ -24708,7 +24719,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					28,
+					27,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					8029104452005303,
@@ -24902,7 +24913,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					31,
+					30,
 					cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 					null,
 					6635552605374377,
@@ -25320,7 +25331,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							35,
+							34,
 							cr.plugins_.Sprite.prototype.exps.X,
 							false,
 							null
@@ -25343,7 +25354,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							34,
+							33,
 							cr.plugins_.TiledBg.prototype.exps.X,
 							false,
 							null
@@ -25366,7 +25377,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							34,
+							33,
 							cr.plugins_.TiledBg.prototype.exps.Y,
 							false,
 							null
@@ -25426,7 +25437,7 @@ false,false,5050866466494312,false
 					3806278567749429,
 					[
 					[
-						31,
+						30,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25504,7 +25515,7 @@ false,false,5050866466494312,false
 					5997188881816523,
 					[
 					[
-						31,
+						30,
 						cr.plugins_.wpc2.prototype.cnds.HasTouchInput,
 						null,
 						0,
@@ -25541,7 +25552,7 @@ false,false,5050866466494312,false
 				6659338750621825,
 				[
 				[
-					31,
+					30,
 					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
 					null,
 					1,
@@ -25563,7 +25574,7 @@ false,false,5050866466494312,false
 					5496232568047831,
 					[
 					[
-						31,
+						30,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -26789,7 +26800,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					31,
+					30,
 					cr.plugins_.wpc2.prototype.acts.SetTextTile,
 					null,
 					4387871545814524,
@@ -27051,7 +27062,7 @@ true,true,3942350720316154,false
 				],
 				[
 				[
-					35,
+					34,
 					cr.plugins_.Sprite.prototype.acts.SetX,
 					null,
 					3317244836783479,
@@ -27098,7 +27109,7 @@ true,true,3942350720316154,false
 					]
 				]
 ,				[
-					34,
+					33,
 					cr.plugins_.TiledBg.prototype.acts.SetX,
 					null,
 					1286842244730771,
@@ -27145,7 +27156,7 @@ true,true,3942350720316154,false
 					]
 				]
 ,				[
-					34,
+					33,
 					cr.plugins_.TiledBg.prototype.acts.SetY,
 					null,
 					2593494932594385,
@@ -27241,7 +27252,7 @@ true,true,3942350720316154,false
 				8782740739031961,
 				[
 				[
-					31,
+					30,
 					cr.plugins_.wpc2.prototype.cnds.OnShare,
 					null,
 					1,
@@ -27254,7 +27265,7 @@ true,true,3942350720316154,false
 				],
 				[
 				[
-					31,
+					30,
 					cr.plugins_.wpc2.prototype.acts.ShareText,
 					null,
 					9872196368290069,
@@ -27455,7 +27466,7 @@ true,true,3942350720316154,false
 			],
 			[
 			[
-				31,
+				30,
 				cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 				null,
 				8981185845295414,
@@ -27678,7 +27689,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						26,
+						25,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27762,7 +27773,7 @@ false,false,137819117408848,false
 									10,
 									[
 										20,
-										26,
+										25,
 										cr.plugins_.WebStorage.prototype.exps.LocalValue,
 										true,
 										null
@@ -27787,7 +27798,7 @@ false,false,137819117408848,false
 								]
 								,[
 									20,
-									26,
+									25,
 									cr.plugins_.WebStorage.prototype.exps.LocalValue,
 									true,
 									null
@@ -27938,7 +27949,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						26,
+						25,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27967,7 +27978,7 @@ false,false,8571747330113035,false
 					],
 					[
 					[
-						26,
+						25,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						8686943429417027,
@@ -27990,7 +28001,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						26,
+						25,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						6759804980509709,
@@ -28058,7 +28069,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					29
+					28
 				]
 				]
 			]
@@ -28099,7 +28110,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					30
+					29
 				]
 				]
 			]
