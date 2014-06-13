@@ -13,7 +13,7 @@
         <variable constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
         <variable constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
         <variable constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
-        <event-group description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -132,7 +132,7 @@
                         <condition id="-14" name="Compare variable" sid="7431443129552794" type="System">
                             <param id="0" name="Variable">gameStarted</param>
                             <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">0</param>
+                            <param id="2" name="Value">FALSE</param>
                         </condition>
                         <condition id="-9" name="Layer is visible" sid="7593140028469117" type="System">
                             <param id="0" name="Layer">6</param>
@@ -172,13 +172,13 @@
                 </event-block>
                 <event-block sid="6037523778796424">
                     <conditions>
-                        <condition id="4" name="Is touching object" sid="4052277943624102" type="touchInput">
+                        <condition id="3" name="On touched object" sid="4052277943624102" type="touchInput">
                             <param id="0" name="Object">upArrow</param>
                         </condition>
                         <condition id="-14" name="Compare variable" sid="7787490375840673" type="System">
                             <param id="0" name="Variable">gamePaused</param>
                             <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">0</param>
+                            <param id="2" name="Value">FALSE</param>
                         </condition>
                     </conditions>
                     <actions>
@@ -195,7 +195,7 @@
                         <condition id="-14" name="Compare variable" sid="9284098306835143" type="System">
                             <param id="0" name="Variable">gamePaused</param>
                             <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">0</param>
+                            <param id="2" name="Value">FALSE</param>
                         </condition>
                     </conditions>
                     <actions>
@@ -215,15 +215,31 @@
                         <condition id="-14" name="Compare variable" sid="5109039277738618" type="System">
                             <param id="0" name="Variable">gameStarted</param>
                             <param id="1" name="Comparison">0</param>
-                            <param id="2" name="Value">1</param>
+                            <param id="2" name="Value">TRUE</param>
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="0" name="Call function" sid="7288347965461481" type="functions">
-                            <param id="0" name="Name">&quot;pause&quot;</param>
-                            <param id="1" name="Parameter {n}">TRUE</param>
+                        <action id="0" name="Set text" sid="8029104452005303" type="debugText">
+                            <param id="0" name="Text">&quot;Pause &quot; &amp; gamePaused</param>
                         </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="7036531500404838">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="9347180282051807" type="System">
+                                    <param id="0" name="Variable">gamePaused</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">FALSE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="7288347965461481" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">TRUE</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="1592693269751362">
                     <conditions>
@@ -284,7 +300,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9001218336381017" title="System">
+        <event-group collapsed="1" description="" sid="9001218336381017" title="System">
             <sub-events>
                 <event-block sid="2489494319432702">
                     <conditions>
@@ -431,7 +447,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="8086918785451181" title="Block actions">
+        <event-group collapsed="1" description="" sid="8086918785451181" title="Block actions">
             <sub-events>
                 <event-block sid="17435870339364">
                     <conditions>
@@ -492,11 +508,7 @@
                             <param id="0" name="Name">&quot;pause&quot;</param>
                         </condition>
                     </conditions>
-                    <actions>
-                        <action id="0" name="Set text" sid="9727649319043863" type="debugText">
-                            <param id="0" name="Text">functions.Param(0)</param>
-                        </action>
-                    </actions>
+                    <actions />
                     <sub-events>
                         <comment>Checi if the parameter is FALSE &amp; check if the screen size is valid</comment>
                         <event-block sid="1572159212993434">
@@ -515,7 +527,7 @@
                             <actions>
                                 <action id="-9" name="Set value" sid="4089577235183905" type="System">
                                     <param id="0" name="Variable">gamePaused</param>
-                                    <param id="1" name="Value">0</param>
+                                    <param id="1" name="Value">FALSE</param>
                                 </action>
                                 <action id="-4" name="Set layer visible" sid="4539693590299813" type="System">
                                     <param id="0" name="Layer">4</param>
@@ -547,7 +559,7 @@
                                     <actions>
                                         <action id="-9" name="Set value" sid="2316554929340387" type="System">
                                             <param id="0" name="Variable">gamePaused</param>
-                                            <param id="1" name="Value">1</param>
+                                            <param id="1" name="Value">TRUE</param>
                                         </action>
                                         <action id="-4" name="Set layer visible" sid="361123103298716" type="System">
                                             <param id="0" name="Layer">4</param>
@@ -644,6 +656,9 @@
                             <param id="0" name="Layer">7</param>
                             <param id="1" name="Visibility">1</param>
                         </action>
+                        <action id="6" name="Update text tile" sid="4387871545814524" type="wpc2">
+                            <param id="0" name="Text">&quot;La última vez esquivaste &quot; &amp; fallenBlocks &amp; &quot; ¿puedes superarte?&quot;</param>
+                        </action>
                     </actions>
                 </event-block>
                 <event-block sid="9350054527896243">
@@ -655,7 +670,7 @@
                     <actions>
                         <action id="-9" name="Set value" sid="802856628933862" type="System">
                             <param id="0" name="Variable">gameStarted</param>
-                            <param id="1" name="Value">1</param>
+                            <param id="1" name="Value">TRUE</param>
                         </action>
                         <action id="0" name="Call function" sid="7250668812011254" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
@@ -665,7 +680,7 @@
                             <param id="0" name="Name">&quot;createBlock&quot;</param>
                             <param id="1" name="Parameter {n}"></param>
                         </action>
-                        <action disabled="1" id="0" name="Play" sid="4821684711443013" type="sound">
+                        <action id="0" name="Play" sid="4821684711443013" type="sound">
                             <param id="0" name="Audio file">BackgroundMattOglseby</param>
                             <param id="2" name="Loop">1</param>
                             <param id="3" name="Volume">0</param>
@@ -700,8 +715,8 @@
                         <action id="-1" name="Set X" sid="1286842244730771" type="stars">
                             <param id="0" name="X">starsX + ((LayoutWidth / 2 - player.X ) * STARS_PARALLAX)</param>
                         </action>
-                        <action id="-1" name="Set X" sid="2593494932594385" type="stars">
-                            <param id="0" name="X">starsX + ((LayoutWidth / 2 - player.X ) * STARS_PARALLAX)</param>
+                        <action id="-2" name="Set Y" sid="2593494932594385" type="stars">
+                            <param id="0" name="Y">starsY - ((LayoutHeight / 2 - player.Y ) * STARS_PARALLAX)</param>
                         </action>
                     </actions>
                 </event-block>

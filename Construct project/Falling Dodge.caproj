@@ -21,7 +21,7 @@
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
-        <plugin author="@fferegrino" id="wpc2" version="1.399999976">Windows + c2</plugin>
+        <plugin author="@fferegrino" id="wpc2" version="1.5">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Platform" version="1">Platform</behavior>
