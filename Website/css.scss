@@ -22,6 +22,11 @@ body, html {
 	height: 100%;
 	min-width: 100%;
 	min-height: 100%;
+
+	/**/
+	max-height: 100%;
+	overflow: hidden;
+
 	font-size: 16px;
 }
 
@@ -164,73 +169,88 @@ $content-max-width: 960px;
 /*--------------------------------------------------
 	Falling Dodge
 --------------------------------------------------*/
-$Lato: 'Lato', 'Segoe UI', sans-serif;
+$Lato: 'open sans', 'Lato', 'Segoe UI', sans-serif;
+
+
+
+body {
+
+background-image: -o-linear-gradient(89deg, #CDE4FF 0%, #457DCC 54%, #1B0DA7 100%);
+background-image: -moz-linear-gradient(89deg, #CDE4FF 0%, #457DCC 54%, #1B0DA7 100%);
+background-image: -ms-linear-gradient(89deg, #CDE4FF 0%, #457DCC 54%, #1B0DA7 100%);
+background-image: linear-gradient(-1deg, #CDE4FF 0%, #457DCC 54%, #1B0DA7 100%);
+
+}
+
 
 
 .container {
-	min-height: 100%;
-	min-width: 100%;
 
-	background-image: url('img/Sky.png');
-	background-position: center;
-	background-size: cover;
-/*
-	.blue-back {
-		position: absolute;
-		font-size: 0;
-		display: inline-block;
+	display: block;
+	z-index: 1;
 
-		width: 100%;
+	height: 100%;
+	width: 100%;
+
+	overflow: scroll;
+
+
+
+
+	.main-content {
+
+		display: block;
+		position: relative;
+		z-index: 100;
+
 		height: 100%;
-		background-image: -o-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-		background-image: -moz-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-		background-image: -ms-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-		background-image: linear-gradient(-1deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-	}
-	.gray-back {
-		position: absolute;
-		font-size: 0;
-		display: inline-block;
-
 		width: 100%;
-		height: 100%;
-		background-image: -o-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-		background-image: -moz-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-		background-image: -ms-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-		background-image: radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-		@include opacity(0.5);
+		min-width: 100%;
+		min-height: 100%;
+		
+		.logo {
+			display: block;
+			min-width: 256px;
+			width: 40%;
+			max-width: 512px;
+			margin: 0 auto;
+		}
+
+		.super-title {
+			display: block;
+			margin-top: -40px;
+
+			font-family: $Lato;
+			font-weight: 300;
+			font-size: 24px;
+			color: #f7f7f7;
+			text-align: center;
+		}
+		.super-description {
+			display: block;
+			margin-top: 18px;
+
+			font-family: $Lato;
+			font-weight: 300;
+			font-size: 18px;
+			color: #f7f7f7;
+			text-align: center;
+		}
 	}
-*/
 
 
-	.logo {
+
+
+
+	.trailer {
 		display: block;
-		width: 512px;
-		margin: 0 auto;
+		margin: 82px auto;
+
+		width: 640px;
+		height: 360px;
+
+		background-color: #252525;
 	}
-
-	.super-title {
-		display: block;
-		margin-top: -40px;
-
-		font-family: $Lato;
-		font-weight: 300;
-		font-size: 36px;
-		color: #f7f7f7;
-		text-align: center;
-	}
-	.super-description {
-		display: block;
-		margin-top: 32px;
-
-		font-family: $Lato;
-		font-weight: 300;
-		font-size: 26px;
-		color: #f7f7f7;
-		text-align: center;
-	}
-
-
 
 
 
@@ -251,34 +271,10 @@ $Lato: 'Lato', 'Segoe UI', sans-serif;
 		text-align: center;
 
 		a {
-			color: #00BFFF;
+			color: #FFCC7A;
+			text-shadow: 0 1px 2px #478ED6;
 			text-decoration: underline;
-		}
-		a:hover {
-
 		}
 	}
 }
 
-
-.container:before {
-	content: "";
-
-	position: absolute;
-	display: block;
-	width: 100%;
-	height: 100%;
-
-	background-image: url('img/Stars.png');
-	background-size: (542px)/2 (240px)/2;
-	background-repeat: repeat;
-
-	@include opacity(0.5);
-
-}
-
-
-
-::selection {
-	background-color: transparent;
-}

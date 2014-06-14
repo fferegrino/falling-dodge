@@ -21,6 +21,9 @@ body, html {
   height: 100%;
   min-width: 100%;
   min-height: 100%;
+  /**/
+  max-height: 100%;
+  overflow: hidden;
   font-size: 16px; }
 
 /*--------------------------------------------------
@@ -108,83 +111,63 @@ body, html {
 /*--------------------------------------------------
 	Falling Dodge
 --------------------------------------------------*/
+body {
+  background-image: -o-linear-gradient(89deg, #cde4ff 0%, #457dcc 54%, #1b0da7 100%);
+  background-image: -moz-linear-gradient(89deg, #cde4ff 0%, #457dcc 54%, #1b0da7 100%);
+  background-image: -ms-linear-gradient(89deg, #cde4ff 0%, #457dcc 54%, #1b0da7 100%);
+  background-image: linear-gradient(-1deg, #cde4ff 0%, #457dcc 54%, #1b0da7 100%); }
+
 .container {
-  min-height: 100%;
-  min-width: 100%;
-  background-image: url("img/Sky.png");
-  background-position: center;
-  background-size: cover;
-  /*
-  	.blue-back {
-  		position: absolute;
-  		font-size: 0;
-  		display: inline-block;
-  
-  		width: 100%;
-  		height: 100%;
-  		background-image: -o-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-  		background-image: -moz-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-  		background-image: -ms-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-  		background-image: linear-gradient(-1deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
-  	}
-  	.gray-back {
-  		position: absolute;
-  		font-size: 0;
-  		display: inline-block;
-  
-  		width: 100%;
-  		height: 100%;
-  		background-image: -o-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-  		background-image: -moz-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-  		background-image: -ms-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-  		background-image: radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
-  		@include opacity(0.5);
-  	}
-  */ }
-  .container .logo {
+  display: block;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  overflow: scroll; }
+  .container .main-content {
     display: block;
-    width: 512px;
-    margin: 0 auto; }
-  .container .super-title {
+    position: relative;
+    z-index: 100;
+    height: 100%;
+    width: 100%;
+    min-width: 100%;
+    min-height: 100%; }
+    .container .main-content .logo {
+      display: block;
+      min-width: 256px;
+      width: 40%;
+      max-width: 512px;
+      margin: 0 auto; }
+    .container .main-content .super-title {
+      display: block;
+      margin-top: -40px;
+      font-family: "open sans", "Lato", "Segoe UI", sans-serif;
+      font-weight: 300;
+      font-size: 24px;
+      color: #f7f7f7;
+      text-align: center; }
+    .container .main-content .super-description {
+      display: block;
+      margin-top: 18px;
+      font-family: "open sans", "Lato", "Segoe UI", sans-serif;
+      font-weight: 300;
+      font-size: 18px;
+      color: #f7f7f7;
+      text-align: center; }
+  .container .trailer {
     display: block;
-    margin-top: -40px;
-    font-family: "Lato", "Segoe UI", sans-serif;
-    font-weight: 300;
-    font-size: 36px;
-    color: #f7f7f7;
-    text-align: center; }
-  .container .super-description {
-    display: block;
-    margin-top: 32px;
-    font-family: "Lato", "Segoe UI", sans-serif;
-    font-weight: 300;
-    font-size: 26px;
-    color: #f7f7f7;
-    text-align: center; }
+    margin: 82px auto;
+    width: 640px;
+    height: 360px;
+    background-color: #252525; }
   .container .about {
     display: block;
     margin-top: 2rem;
-    font-family: "Lato", "Segoe UI", sans-serif;
+    font-family: "open sans", "Lato", "Segoe UI", sans-serif;
     font-size: 1.25rem;
     font-weight: 300;
     color: #f7f7f7;
     text-align: center; }
     .container .about a {
-      color: #00BFFF;
+      color: #FFCC7A;
+      text-shadow: 0 1px 2px #478ED6;
       text-decoration: underline; }
-
-.container:before {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background-image: url("img/Stars.png");
-  background-size: 271px 120px;
-  background-repeat: repeat;
-  filter: alpha(opacity=0.5);
-  -moz-opacity: 0.5;
-  opacity: 0.5; }
-
-::selection {
-  background-color: transparent; }
