@@ -1,0 +1,190 @@
+@charset "UTF-8";
+/*--------------------------------------------------
+	
+	Odyssey v1.3
+	SCSS/SASS template
+	https://github.com/Jmz7v/Odyssey.scss
+	MIT License
+
+	Made by Julio Montaño
+	@jmz7v
+		
+--------------------------------------------------*/
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0; }
+
+body, html {
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 16px; }
+
+/*--------------------------------------------------
+	Variables and Mixins
+--------------------------------------------------*/
+/*--------------------------------------------------
+	Responsive YouTube video
+--------------------------------------------------*/
+.embed-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  height: auto; }
+
+.embed-container iframe,
+.embed-container object,
+.embed-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+/*--------------------------------------------------
+	Add-on classes
+--------------------------------------------------*/
+.content-max-width, [content-max-width] {
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.border-box, [border-box] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+.circled, [circled] {
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%; }
+
+.espacio-small:after, [espacio-small]:after {
+  display: block;
+  content: "";
+  height: 2rem; }
+
+.espacio-medium:after, [espacio-medium]:after {
+  display: block;
+  content: "";
+  height: 3.5rem; }
+
+.espacio-large:after, [espacio-large]:after {
+  display: block;
+  content: "";
+  height: 5rem; }
+
+.espacio-xlarge:after, [espacio-xlarge]:after {
+  display: block;
+  content: "";
+  height: 7rem; }
+
+.espacio-xxlarge:after, [espacio-xxlarge]:after {
+  display: block;
+  content: "";
+  height: 9rem; }
+
+.espacio-sick:after, [espacio-sick]:after {
+  display: block;
+  content: "";
+  height: 12rem; }
+
+.text-align-center, [text-align-center] {
+  width: 100%;
+  text-align: center; }
+
+.text-align-center-important, [text-align-center-important] {
+  width: 100%;
+  text-align: center !important; }
+
+/*--------------------------------------------------
+	Falling Dodge
+--------------------------------------------------*/
+.container {
+  min-height: 100%;
+  min-width: 100%;
+  background-image: url("img/Sky.png");
+  background-position: center;
+  background-size: cover;
+  /*
+  	.blue-back {
+  		position: absolute;
+  		font-size: 0;
+  		display: inline-block;
+  
+  		width: 100%;
+  		height: 100%;
+  		background-image: -o-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
+  		background-image: -moz-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
+  		background-image: -ms-linear-gradient(89deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
+  		background-image: linear-gradient(-1deg, #CDE4FF 0%, #4C8BE5 55%, #1B0DA7 100%);
+  	}
+  	.gray-back {
+  		position: absolute;
+  		font-size: 0;
+  		display: inline-block;
+  
+  		width: 100%;
+  		height: 100%;
+  		background-image: -o-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
+  		background-image: -moz-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
+  		background-image: -ms-radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
+  		background-image: radial-gradient(50% 100%, rgba(255,255,255,0.50) 0%, rgba(0,0,0,0.50) 100%);
+  		@include opacity(0.5);
+  	}
+  */ }
+  .container .logo {
+    display: block;
+    width: 512px;
+    margin: 0 auto; }
+  .container .super-title {
+    display: block;
+    margin-top: -40px;
+    font-family: "Lato", "Segoe UI", sans-serif;
+    font-weight: 300;
+    font-size: 36px;
+    color: #f7f7f7;
+    text-align: center; }
+  .container .super-description {
+    display: block;
+    margin-top: 32px;
+    font-family: "Lato", "Segoe UI", sans-serif;
+    font-weight: 300;
+    font-size: 26px;
+    color: #f7f7f7;
+    text-align: center; }
+  .container .about {
+    display: block;
+    margin-top: 2rem;
+    font-family: "Lato", "Segoe UI", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: #f7f7f7;
+    text-align: center; }
+    .container .about a {
+      color: #00BFFF;
+      text-decoration: underline; }
+
+.container:before {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-image: url("img/Stars.png");
+  background-size: 271px 120px;
+  background-repeat: repeat;
+  filter: alpha(opacity=0.5);
+  -moz-opacity: 0.5;
+  opacity: 0.5; }
+
+::selection {
+  background-color: transparent; }
