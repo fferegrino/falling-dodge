@@ -21,6 +21,7 @@
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
+        <plugin author="@fferegrino" id="fdcpp" version="1">Falling Dodge C++ engine</plugin>
         <plugin author="@fferegrino" id="wpc2" version="1.700000048">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
@@ -488,6 +489,9 @@
                 </animation>
             </animation-folder>
         </object-type>
+        <object-type name="engine" sid="6766969408407935">
+            <plugin id="fdcpp" />
+        </object-type>
     </object-folder>
     <families>
         <family name="TouchControls" plugin-id="Sprite" sid="3367200240305971">
@@ -536,6 +540,12 @@
         <global-instance type="keyboard" uid="14" />
         <global-instance type="storage" uid="30" />
         <global-instance type="wpc2" uid="41">
+            <properties>
+                <appbar-id>appBar</appbar-id>
+                <share-content>Yes</share-content>
+            </properties>
+        </global-instance>
+        <global-instance type="engine" uid="36">
             <properties>
                 <appbar-id>appBar</appbar-id>
                 <share-content>Yes</share-content>

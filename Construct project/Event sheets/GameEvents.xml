@@ -122,7 +122,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -311,7 +311,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="9001218336381017" title="System">
+        <event-group description="" sid="9001218336381017" title="System">
             <sub-events>
                 <event-block sid="2489494319432702">
                     <conditions>
@@ -363,6 +363,10 @@
                         <action id="-9" name="Set value" sid="1639671888772169" type="System">
                             <param id="0" name="Variable">starsY</param>
                             <param id="1" name="Value">stars.Y</param>
+                        </action>
+                        <action id="1" name="Create game engine" sid="5789730776143641" type="engine">
+                            <param id="0" name="X">21</param>
+                            <param id="1" name="Y">12</param>
                         </action>
                     </actions>
                     <sub-events>
@@ -597,9 +601,13 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="-9" name="Set value" sid="7332720202326143" type="System">
+                        <action disabled="1" id="-9" name="Set value" sid="7332720202326143" type="System">
                             <param id="0" name="Variable">blockPosition</param>
                             <param id="1" name="Value">floor(random(0,21))</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="9362521104786586" type="System">
+                            <param id="0" name="Variable">blockPosition</param>
+                            <param id="1" name="Value">engine.NextBlock</param>
                         </action>
                         <action id="-3" name="Create object" sid="1031608927621318" type="System">
                             <param id="0" name="Object to create">block</param>
@@ -613,6 +621,9 @@
                         <action id="4" name="Set animation" sid="5469284865587942" type="block">
                             <param id="0" name="Animation">&quot;a&quot; &amp; floor(random(1,4))</param>
                             <param id="1" name="From">1</param>
+                        </action>
+                        <action id="0" name="Set text" sid="6241091181791829" type="debugText">
+                            <param id="0" name="Text">&quot;Block @ &quot; &amp;blockPosition</param>
                         </action>
                     </actions>
                     <sub-events>

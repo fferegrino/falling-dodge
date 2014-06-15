@@ -20410,6 +20410,72 @@ cr.plugins_.WebStorage = function(runtime)
 	};
 	pluginProto.exps = new Exps();
 }());
+;
+;
+cr.plugins_.fdcpp = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.fdcpp.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		this.fdcpprt = window["fallingdodgert"];
+	};
+	instanceProto.onDestroy = function ()
+	{
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return {
+		};
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function (glw)
+	{
+	};
+	function Cnds() {};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.CreateEngine = function (intx_, inty_)
+	{
+		if (this.fdcpprt)
+		{
+			this.gameEngine = new this.fdcpprt["Game"](intx_, inty_);
+		}
+	}
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.NextBlock = function (ret){
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["aleatorio"]());
+		}
+		else
+			ret.set_int(-1);
+	};
+	pluginProto.exps = new Exps();
+}());
 var badges = [
 	{ "name" : "Activity", "value" : "activity" },
 	{ "name" : "Alarm", "value" : "alarm" },
@@ -21864,7 +21930,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Function,
+		cr.plugins_.fdcpp,
 		true,
 		false,
 		false,
@@ -21876,7 +21942,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Keyboard,
+		cr.plugins_.Function,
 		true,
 		false,
 		false,
@@ -21900,6 +21966,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.Keyboard,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.SpriteFontPlus,
 		false,
 		true,
@@ -21910,6 +21988,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
 	]
 ,	[
 		cr.plugins_.TiledBg,
@@ -21924,7 +22014,7 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.wpc2,
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -21936,7 +22026,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.wpc2,
 		true,
 		false,
 		false,
@@ -21957,18 +22047,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false,
-		false
-	]
-,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
 		false
 	]
 	],
@@ -22895,6 +22973,24 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t36",
+		cr.plugins_.fdcpp,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		6766969408407935,
+		[],
+		null
+		,["appBar",1]
+	]
+,	[
+		"t37",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -22912,7 +23008,7 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[36,5,11,6,7]
+		[37,5,11,6,7]
 	],
 	[
 	[
@@ -23537,7 +23633,7 @@ cr.getProjectModel = function() { return [
 			"dev",
 			9,
 			8624842650525384,
-			false,
+			true,
 			[255, 255, 255],
 			true,
 			1,
@@ -25426,6 +25522,29 @@ false,false,5050866466494312,false
 					]
 					]
 				]
+,				[
+					36,
+					cr.plugins_.fdcpp.prototype.acts.CreateEngine,
+					null,
+					5789730776143641,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							21
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
+						]
+					]
+					]
+				]
 				]
 				,[
 				[
@@ -25569,7 +25688,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						36,
+						37,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9728335691694453,
@@ -26445,7 +26564,7 @@ false,false,3096662099478148,false
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
-					7332720202326143,
+					9362521104786586,
 					false
 					,[
 					[
@@ -26455,24 +26574,11 @@ false,false,3096662099478148,false
 ,					[
 						7,
 						[
-							19,
-							cr.system_object.prototype.exps.floor
-							,[
-[
-								19,
-								cr.system_object.prototype.exps.random
-								,[
-[
-									0,
-									0
-								]
-,[
-									0,
-									21
-								]
-								]
-							]
-							]
+							20,
+							36,
+							cr.plugins_.fdcpp.prototype.exps.NextBlock,
+							false,
+							null
 						]
 					]
 					]
@@ -26595,6 +26701,29 @@ false,false,3096662099478148,false
 ,					[
 						3,
 						1
+					]
+					]
+				]
+,				[
+					27,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					6241091181791829,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								2,
+								"Block @ "
+							]
+							,[
+								23,
+								"blockPosition"
+							]
+						]
 					]
 					]
 				]
