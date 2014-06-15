@@ -20410,6 +20410,20 @@ cr.plugins_.WebStorage = function(runtime)
 	};
 	pluginProto.exps = new Exps();
 }());
+var badges = [
+	{ "name" : "Activity", "value" : "activity" },
+	{ "name" : "Alarm", "value" : "alarm" },
+	{ "name" : "Alert", "value" : "alert" },
+	{ "name" : "Available", "value" : "available" },
+	{ "name" : "Away", "value" : "away" },
+	{ "name" : "Busy", "value" : "busy" },
+	{ "name" : "New message", "value" : "newMessage" },
+	{ "name" : "Paused", "value" : "paused" },
+	{ "name" : "Playing", "value" : "playing" },
+	{ "name" : "Unavailable", "value" : "unavailable" },
+	{ "name" : "Error", "value" : "error" },
+	{ "name" : "Attention", "value" : "attention" }
+];
 ;
 ;
 cr.plugins_.wpc2 = function(runtime)
@@ -20591,23 +20605,50 @@ cr.plugins_.wpc2 = function(runtime)
 	}
 	Acts.prototype.SetTextTile = function(text_){
 		if(this.isWindows8  || this.isWindowsPhone8) {
-		var tileXmlString =
-            "<tile><visual version='3'><binding template='TileSquare150x150Text04' fallback='TileSquareText04'><text id='1'>"
-			+ text_
-			+ "</text></binding><binding template='TileWide310x150Text03' fallback='TileWideText03'><text id='1'>"
-			+ text_
-			+ "</text></binding><binding template='TileSquare310x310Text09'><text id='1'>"
-			+ text_
-			+ "</text></binding></visual></tile>";
+			var tileXmlString =
+				"<tile><visual version='3'><binding template='TileSquare150x150Text04' fallback='TileSquareText04'><text id='1'>"
+				+ text_
+				+ "</text></binding><binding template='TileWide310x150Text03' fallback='TileWideText03'><text id='1'>"
+				+ text_
+				+ "</text></binding><binding template='TileSquare310x310Text09'><text id='1'>"
+				+ text_
+				+ "</text></binding></visual></tile>";
 			var tileDOM = new Windows["Data"]["Xml"]["Dom"]["XmlDocument"]();
 			tileDOM["loadXml"](tileXmlString);
 			var tile = new Windows["UI"]["Notifications"]["TileNotification"](tileDOM);
 			Windows["UI"]["Notifications"]["TileUpdateManager"]["createTileUpdaterForApplication"]()["update"](tile);
 		}
 	}
-	Acts.prototype.ClearTile = function(){
+	Acts.prototype.ClearTile = function() {
 		if(this.isWindows8  || this.isWindowsPhone8) {
 			Windows["UI"]["Notifications"]["TileUpdateManager"]["createTileUpdaterForApplication"]()["clear"]();
+		}
+	}
+	Acts.prototype.SetNumberBadge = function (value_){
+		if(this.isWindows8  || this.isWindowsPhone8) {
+			var badgeString = "<badge value='" + value_ + "' />";
+			var badgeDOM = new Windows["Data"]["Xml"]["Dom"]["XmlDocument"]();
+            badgeDOM["loadXml"](badgeString);
+            var badge = new Windows["UI"]["Notifications"]["BadgeNotification"](badgeDOM);
+            Windows["UI"]["Notifications"]["BadgeUpdateManager"]["createBadgeUpdaterForApplication"]()["update"](badge);
+		}
+	}
+	Acts.prototype.SetGlyphBadge = function (value_){
+		if(this.isWindows8  || this.isWindowsPhone8) {
+			var badgeString = "<badge value='" + badges[value_]["value"] + "' />";
+			var badgeDOM = new Windows["Data"]["Xml"]["Dom"]["XmlDocument"]();
+            badgeDOM["loadXml"](badgeString);
+            var badge = new Windows["UI"]["Notifications"]["BadgeNotification"](badgeDOM);
+            Windows["UI"]["Notifications"]["BadgeUpdateManager"]["createBadgeUpdaterForApplication"]()["update"](badge);
+		}
+	}
+	Acts.prototype.SetNoBadge = function () {
+		if(this.isWindows8  || this.isWindowsPhone8) {
+			var badgeString = "<badge value='none' />";
+			var badgeDOM = new Windows["Data"]["Xml"]["Dom"]["XmlDocument"]();
+            badgeDOM["loadXml"](badgeString);
+            var badge = new Windows["UI"]["Notifications"]["BadgeNotification"](badgeDOM);
+            Windows["UI"]["Notifications"]["BadgeUpdateManager"]["createBadgeUpdaterForApplication"]()["update"](badge);
 		}
 	}
 	pluginProto.acts = new Acts();
@@ -21847,18 +21888,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -21871,16 +21900,16 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.SpriteFontPlus,
+		false,
 		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 ,	[
 		cr.plugins_.TiledBg,
@@ -21896,6 +21925,18 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		cr.plugins_.wpc2,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -22840,7 +22881,7 @@ cr.getProjectModel = function() { return [
 			false,
 			8152612534676426,
 			[
-				["images/assetsC2/yolologo-sheet0.png", 5016, 0, 0, 250, 92, 1, 0.5, 0.5,[],[-0.4799999892711639,-0.445652186870575,0,-0.217391312122345,0.3119999766349793,0.01086956262588501,0.4679999947547913,0,0.4559999704360962,0.3804348111152649,-0.4600000083446503,0.3913043737411499,-0.3880000114440918,0],0]
+				["images/assetsC2/yolologo-sheet0.png", 5016, 0, 0, 250, 92, 1, 0.5, 0.5,[],[-0.4799999892711639,-0.445652186870575,0,-0.2173910140991211,0.3119999766349793,0.01086997985839844,0.4679999947547913,0,0.4559999704360962,0.3804349899291992,-0.4600000083446503,0.3913040161132813,-0.3880000114440918,0],0]
 			]
 			]
 		],
@@ -23178,7 +23219,7 @@ cr.getProjectModel = function() { return [
 			0,
 			[
 			[
-				[1176, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
+				[1151, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				5,
 				6,
 				[
@@ -23193,7 +23234,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[1276, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
+				[1251, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				6,
 				7,
 				[
@@ -23208,7 +23249,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[90, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
+				[115, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				7,
 				8,
 				[
@@ -23223,7 +23264,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[90, 435, 0, 50, 48, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
+				[115, 435, 0, 50, 48, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
 				11,
 				12,
 				[
@@ -23238,7 +23279,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[30, 30, 0, 716, 72, 0, 0, 1, 0, 0, 0, 0, []],
+				[120, 30, 0, 716, 72, 0, 0, 1, 0, 0, 0, 0, []],
 				14,
 				16,
 				[
@@ -23604,7 +23645,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[1288.588500976563, 731.8032836914063, 0, 130.5252380371094, 48.03328704833984, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[1203.588500976563, 731.8032836914063, 0, 130.5252380371094, 48.03328704833984, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				35,
 				34,
 				[
