@@ -365,7 +365,7 @@
                             <param id="1" name="Value">stars.Y</param>
                         </action>
                         <action id="1" name="Create game engine" sid="5789730776143641" type="engine">
-                            <param id="0" name="X">21</param>
+                            <param id="0" name="X">20</param>
                             <param id="1" name="Y">12</param>
                         </action>
                     </actions>
@@ -622,8 +622,11 @@
                             <param id="0" name="Animation">&quot;a&quot; &amp; floor(random(1,4))</param>
                             <param id="1" name="From">1</param>
                         </action>
+                        <action id="2" name="Set block" sid="9018053258677532" type="engine">
+                            <param id="0" name="Block position">blockPosition</param>
+                        </action>
                         <action id="0" name="Set text" sid="6241091181791829" type="debugText">
-                            <param id="0" name="Text">&quot;Block @ &quot; &amp;blockPosition</param>
+                            <param id="0" name="Text">&quot;Block @ &quot; &amp;blockPosition &amp; &quot;Min &quot; &amp; engine.MinBlock &amp; &quot; max &quot; &amp; engine.MaxBlock</param>
                         </action>
                     </actions>
                     <sub-events>

@@ -20465,11 +20465,30 @@ cr.plugins_.fdcpp = function(runtime)
 			this.gameEngine = new this.fdcpprt["Game"](intx_, inty_);
 		}
 	}
+	Acts.prototype.SetBlock = function(blockPosition_){
+		if(this.gameEngine){
+			this.gameEngine["setBlock"](blockPosition_);
+		}
+	}
 	pluginProto.acts = new Acts();
 	function Exps() {};
 	Exps.prototype.NextBlock = function (ret){
 		if(this.gameEngine){
-			ret.set_int(this.gameEngine["aleatorio"]());
+			ret.set_int(this.gameEngine["nextBlock"]());
+		}
+		else
+			ret.set_int(-1);
+	};
+	Exps.prototype.MinBlock = function (ret){
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["min"]());
+		}
+		else
+			ret.set_int(-1);
+	};
+	Exps.prototype.MaxBlock = function (ret){
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["max"]());
 		}
 		else
 			ret.set_int(-1);
@@ -21894,18 +21913,6 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Audio,
 		true,
 		false,
@@ -21954,6 +21961,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.NinePatch,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -21976,42 +21995,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false
-	]
-,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.TiledBg,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
 	]
 ,	[
 		cr.plugins_.WebStorage,
@@ -22048,6 +22031,42 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.TiledBg,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 	],
 	[
@@ -25533,7 +25552,7 @@ false,false,5050866466494312,false
 						0,
 						[
 							0,
-							21
+							20
 						]
 					]
 ,					[
@@ -26705,6 +26724,22 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
+					36,
+					cr.plugins_.fdcpp.prototype.acts.SetBlock,
+					null,
+					9018053258677532,
+					false
+					,[
+					[
+						0,
+						[
+							23,
+							"blockPosition"
+						]
+					]
+					]
+				]
+,				[
 					27,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
@@ -26716,12 +26751,46 @@ false,false,3096662099478148,false
 						[
 							10,
 							[
-								2,
-								"Block @ "
+								10,
+								[
+									10,
+									[
+										10,
+										[
+											10,
+											[
+												2,
+												"Block @ "
+											]
+											,[
+												23,
+												"blockPosition"
+											]
+										]
+										,[
+											2,
+											"Min "
+										]
+									]
+									,[
+										20,
+										36,
+										cr.plugins_.fdcpp.prototype.exps.MinBlock,
+										false,
+										null
+									]
+								]
+								,[
+									2,
+									" max "
+								]
 							]
 							,[
-								23,
-								"blockPosition"
+								20,
+								36,
+								cr.plugins_.fdcpp.prototype.exps.MaxBlock,
+								false,
+								null
 							]
 						]
 					]

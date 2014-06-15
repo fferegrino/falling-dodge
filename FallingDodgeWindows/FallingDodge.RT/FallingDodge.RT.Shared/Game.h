@@ -7,9 +7,18 @@ namespace FallingDodgeRT
 	{
 	public:
 		Game(int x, int y);
-		int Aleatorio();
+		int NextBlock();
+		void SetBlock(int position);
+		void Clear();
+		int Min();
+		int Max();
 	private:
-		int x, y;
+		void FindMin();
+		void FindMax();
+		//
+		int x, y, maximumGap;
+		int  minIx, maxIx;
+		int * blocks;
 		std::mt19937 generator;
 		std::uniform_int_distribution<int> distribution;
 
