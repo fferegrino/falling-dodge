@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*--------------------------------------------------
 	
-	Odyssey v1.3
+	Odyssey v1.4
 	SCSS/SASS template
 	https://github.com/Jmz7v/Odyssey.scss
 	MIT License
@@ -135,7 +135,7 @@ body {
     min-width: 256px;
     width: 50%;
     max-width: 512px;
-    margin: 0 auto;
+    margin: 0 auto 0;
     -webkit-animation: animation 900ms linear both;
     animation: animation 900ms linear both; }
   .container .page.one .super-title {
