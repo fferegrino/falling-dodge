@@ -3,7 +3,6 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>MenuEvents</name>
     <events>
-        <include>SettingsEvents</include>
         <event-block sid="4610788874286836">
             <conditions>
                 <condition id="3" name="On touched object" sid="4761762538065575" type="touchInput">
@@ -16,14 +15,29 @@
                 </action>
             </actions>
         </event-block>
-        <event-block sid="6325049861565252">
+        <event-block sid="4780418496596003">
             <conditions>
-                <condition id="3" name="On touched object" sid="6344590453378382" type="touchInput">
-                    <param id="0" name="Object">shareButton</param>
+                <condition id="3" name="On key released" sid="6880267317529001" type="keyboard">
+                    <param id="0" name="Key">13 (Return)</param>
                 </condition>
             </conditions>
             <actions>
-                <action id="3" name="Show share UI" sid="8981185845295414" type="wpc2" />
+                <action id="-2" name="Go to layout" sid="5129847620110636" type="System">
+                    <param id="0" name="Layout">GameLayout</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="8120069488708122">
+            <conditions>
+                <condition id="8" name="Is Windows Phone" sid="5854798600547358" type="wpc2" />
+            </conditions>
+            <actions>
+                <action id="-15" name="Set visible" sid="4797711022203146" type="KeyboardInstructions">
+                    <param id="0" name="Visibility">0</param>
+                </action>
+                <action id="-15" name="Set visible" sid="5002935051223918" type="screenInstructionsSet">
+                    <param id="0" name="Visibility">0</param>
+                </action>
             </actions>
         </event-block>
     </events>

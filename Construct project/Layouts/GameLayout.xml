@@ -336,7 +336,7 @@
             </instances>
             <effects />
         </layer>
-        <layer name="pauseShade" sid="3077543370296998">
+        <layer name="pauseScreen" sid="3077543370296998">
             <initially-visible>1</initially-visible>
             <background-color>255,255,255</background-color>
             <transparent>1</transparent>
@@ -383,6 +383,55 @@
                         <z>0</z>
                         <width>1366</width>
                         <height>768</height>
+                        <depth>0</depth>
+                        <hotspotX>0</hotspotX>
+                        <hotspotY>0</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="returnKey" uid="38">
+                    <properties>
+                        <initial-visibility>Visible</initial-visibility>
+                        <initial-animation>Default</initial-animation>
+                        <initial-frame>0</initial-frame>
+                        <collisions>Enabled</collisions>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>724.5</x>
+                        <y>706.5</y>
+                        <z>0</z>
+                        <width>70</width>
+                        <height>70</height>
+                        <depth>0</depth>
+                        <hotspotX>0.5</hotspotX>
+                        <hotspotY>0.5</hotspotY>
+                        <angle>0</angle>
+                        <opacity>1</opacity>
+                    </world>
+                </instance>
+                <instance type="screenInstructionsSet" uid="44">
+                    <properties>
+                        <text>Jugar</text>
+                        <initial-visibility>Visible</initial-visibility>
+                        <font>Segoe UI Light,-35,300,0</font>
+                        <color>255,255,255</color>
+                        <horizontal-alignment>Left</horizontal-alignment>
+                        <vertical-alignment>Top</vertical-alignment>
+                        <hotspot>Top-left</hotspot>
+                        <wrapping>Word</wrapping>
+                        <line-height>0</line-height>
+                    </properties>
+                    <blend-mode>0</blend-mode>
+                    <effect-fallback>0</effect-fallback>
+                    <world>
+                        <x>606.5</x>
+                        <y>685.5</y>
+                        <z>0</z>
+                        <width>127</width>
+                        <height>59</height>
                         <depth>0</depth>
                         <hotspotX>0</hotspotX>
                         <hotspotY>0</hotspotY>
@@ -824,7 +873,7 @@
             <effects />
         </layer>
         <layer name="dev" sid="8624842650525384">
-            <initially-visible>1</initially-visible>
+            <initially-visible>0</initially-visible>
             <background-color>255,255,255</background-color>
             <transparent>1</transparent>
             <parallax>

@@ -15,7 +15,7 @@ Game::Game(int x, int y)
 	blocks = new int[x+1];
 	Game::x = x;
 	Game::y = y;
-	maximumGap = 2;
+	maximumGap = 3;
 	minIx = 0;
 	maxIx = 0;
 	Clear();
@@ -56,6 +56,7 @@ void Game::FindMin(){
 		}
 	}
 }
+
 int Game::Max(){
 	return blocks[maxIx];
 }

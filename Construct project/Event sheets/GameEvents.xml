@@ -13,7 +13,7 @@
         <variable constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
         <variable constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
         <variable constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
-        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -409,6 +409,19 @@
                                 </action>
                             </actions>
                         </event-block>
+                        <event-block sid="5645277167325837">
+                            <conditions>
+                                <condition id="8" name="Is Windows Phone" sid="2546418753188871" type="wpc2" />
+                            </conditions>
+                            <actions>
+                                <action id="-15" name="Set visible" sid="9668285847794626" type="KeyboardInstructions">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                                <action id="-15" name="Set visible" sid="2116323978420741" type="screenInstructionsSet">
+                                    <param id="0" name="Visibility">0</param>
+                                </action>
+                            </actions>
+                        </event-block>
                     </sub-events>
                 </event-block>
                 <event-block sid="6659338750621825">
@@ -429,13 +442,13 @@
                                     <param id="0" name="Variable">validScreenSize</param>
                                     <param id="1" name="Value">TRUE</param>
                                 </action>
-                                <action id="0" name="Call function" sid="3035286106247116" type="functions">
-                                    <param id="0" name="Name">&quot;pause&quot;</param>
-                                    <param id="1" name="Parameter {n}">FALSE</param>
-                                </action>
                                 <action id="-4" name="Set layer visible" sid="9563527460121805" type="System">
                                     <param id="0" name="Layer">8</param>
                                     <param id="1" name="Visibility">0</param>
+                                </action>
+                                <action id="0" name="Call function" sid="3035286106247116" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">FALSE</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -448,13 +461,13 @@
                                     <param id="0" name="Variable">validScreenSize</param>
                                     <param id="1" name="Value">FALSE</param>
                                 </action>
-                                <action id="0" name="Call function" sid="1364380349908681" type="functions">
-                                    <param id="0" name="Name">&quot;pause&quot;</param>
-                                    <param id="1" name="Parameter {n}">TRUE</param>
-                                </action>
                                 <action id="-4" name="Set layer visible" sid="5523545736089331" type="System">
                                     <param id="0" name="Layer">8</param>
                                     <param id="1" name="Visibility">1</param>
+                                </action>
+                                <action id="0" name="Call function" sid="1364380349908681" type="functions">
+                                    <param id="0" name="Name">&quot;pause&quot;</param>
+                                    <param id="1" name="Parameter {n}">TRUE</param>
                                 </action>
                             </actions>
                         </event-block>
@@ -517,7 +530,7 @@
         </event-group>
         <event-group description="" sid="6892984352352811" title="Game functions">
             <sub-events>
-                <event-block sid="4529963049937661">
+                <event-block collapsed="1" sid="4529963049937661">
                     <conditions>
                         <condition id="0" name="On function" sid="818978772213328" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
