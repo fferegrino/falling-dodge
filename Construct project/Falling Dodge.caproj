@@ -8,7 +8,7 @@
     <author-website>fferegrino.org/fallingdodge</author-website>
     <app-id></app-id>
     <unique-id>1emck729oxl52</unique-id>
-    <saved-with-version>16800</saved-with-version>
+    <saved-with-version>17300</saved-with-version>
     <used-plugins>
         <plugin author="Scirra" id="Audio" version="1">Audio</plugin>
         <plugin author="Scirra" id="Button" version="1">Button</plugin>
@@ -414,6 +414,8 @@
             <plugin id="Sprite" />
             <instance-variables>
                 <instance-variable name="damageEnabled" sid="5663949309315676" type="boolean" />
+                <instance-variable comment="Row in which the block is placed" name="row" sid="3851747857340062" type="number" />
+                <instance-variable name="column" sid="1286780490026048" type="number" />
             </instance-variables>
             <behaviors>
                 <behavior-type name="Solid" sid="1165833246429278">

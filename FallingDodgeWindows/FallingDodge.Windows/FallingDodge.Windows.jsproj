@@ -59,9 +59,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
-    <None Include="FallingDodge.Windows_StoreKey.pfx" />
     <Content Include="js\default.js" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="page.html" />
     <Content Include="settings\thanks.html" />
     <Content Include="settings\history.html" />

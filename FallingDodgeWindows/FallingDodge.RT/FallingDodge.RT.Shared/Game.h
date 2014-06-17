@@ -9,9 +9,12 @@ namespace FallingDodgeRT
 		Game(int x, int y);
 		int NextBlock();
 		void SetBlock(int position);
+		int RowToErase();
+		void EraseRow(int row);
 		void Clear();
 		int Min();
 		int Max();
+		int GetRow(int position);
 	private:
 		void FindMin();
 		void FindMax();
@@ -19,6 +22,7 @@ namespace FallingDodgeRT
 		int x, y, maximumGap;
 		int  minIx, maxIx;
 		int * blocks;
+		int ** map;
 		std::mt19937 generator;
 		std::uniform_int_distribution<int> distribution;
 

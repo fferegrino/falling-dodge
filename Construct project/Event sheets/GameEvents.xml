@@ -13,7 +13,7 @@
         <variable constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
         <variable constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
         <variable constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
-        <event-group description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -365,7 +365,7 @@
                             <param id="1" name="Value">stars.Y</param>
                         </action>
                         <action id="1" name="Create game engine" sid="5789730776143641" type="engine">
-                            <param id="0" name="X">20</param>
+                            <param id="0" name="X">21</param>
                             <param id="1" name="Y">12</param>
                         </action>
                     </actions>
@@ -475,25 +475,14 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="8086918785451181" title="Block actions">
+        <event-group description="" sid="8086918785451181" title="Block actions">
             <sub-events>
+                <variable constant="0" name="rowToErase" sid="5984259031720608" static="0" type="number">-1</variable>
                 <event-block sid="17435870339364">
                     <conditions>
                         <condition behavior="Platform" id="9" name="On landed" sid="5644892740512408" type="block" />
                     </conditions>
                     <actions>
-                        <action id="-10" name="Add to" sid="7901124582200269" type="System">
-                            <param id="0" name="Variable">fallenBLocks</param>
-                            <param id="1" name="Value">1</param>
-                        </action>
-                        <action id="0" name="Call function" sid="6136211551935563" type="functions">
-                            <param id="0" name="Name">&quot;updateHUD&quot;</param>
-                            <param id="1" name="Parameter {n}"></param>
-                        </action>
-                        <action id="-13" name="Set boolean" sid="2638413201114027" type="block">
-                            <param id="0" name="Instance variable">damageEnabled</param>
-                            <param id="1" name="Value">0</param>
-                        </action>
                         <action id="25" name="Play at object" sid="5645537972273429" type="sound">
                             <param id="0" name="Audio file">explosion_dull</param>
                             <param id="1" name="Loop">0</param>
@@ -504,11 +493,60 @@
                             <param id="6" name="Outer gain">0</param>
                             <param id="7" name="Tag (optional)">&quot;groundHit&quot;</param>
                         </action>
-                        <action id="0" name="Call function" sid="9991370044495908" type="functions">
-                            <param id="0" name="Name">&quot;createBlock&quot;</param>
-                            <param id="1" name="Parameter {n}"></param>
-                        </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="3176425798151271">
+                            <conditions>
+                                <condition id="-8" name="Is boolean instance variable set" sid="122032550205382" type="block">
+                                    <param id="0" name="Instance variable">damageEnabled</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-10" name="Add to" sid="7901124582200269" type="System">
+                                    <param id="0" name="Variable">fallenBLocks</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                                <action id="-13" name="Set boolean" sid="2638413201114027" type="block">
+                                    <param id="0" name="Instance variable">damageEnabled</param>
+                                    <param id="1" name="Value">0</param>
+                                </action>
+                                <action id="2" name="Set block position" sid="6049718597187286" type="engine">
+                                    <param id="0" name="Block position">block.column</param>
+                                </action>
+                                <action id="-10" name="Set value" sid="5270631795412552" type="block">
+                                    <param id="0" name="Instance variable">row</param>
+                                    <param id="1" name="Value">engine.GetRow(block.column)</param>
+                                </action>
+                                <action id="0" name="Call function" sid="9991370044495908" type="functions">
+                                    <param id="0" name="Name">&quot;createBlock&quot;</param>
+                                    <param id="1" name="Parameter {n}"></param>
+                                </action>
+                                <action id="-9" name="Set value" sid="6520949588862815" type="System">
+                                    <param id="0" name="Variable">rowToErase</param>
+                                    <param id="1" name="Value">engine.RowToErase</param>
+                                </action>
+                                <action id="0" name="Call function" sid="6136211551935563" type="functions">
+                                    <param id="0" name="Name">&quot;updateHUD&quot;</param>
+                                    <param id="1" name="Parameter {n}"></param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="3893053026155212">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="3998063539503327" type="System">
+                                    <param id="0" name="Variable">rowToErase</param>
+                                    <param id="1" name="Comparison">5</param>
+                                    <param id="2" name="Value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Call function" sid="6173421124867728" type="functions">
+                                    <param id="0" name="Name">&quot;deleteBlocks&quot;</param>
+                                    <param id="1" name="Parameter {n}">rowToErase</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="2443671993534644">
                     <conditions>
@@ -530,7 +568,7 @@
         </event-group>
         <event-group description="" sid="6892984352352811" title="Game functions">
             <sub-events>
-                <event-block collapsed="1" sid="4529963049937661">
+                <event-block sid="4529963049937661">
                     <conditions>
                         <condition id="0" name="On function" sid="818978772213328" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
@@ -614,10 +652,6 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action disabled="1" id="-9" name="Set value" sid="7332720202326143" type="System">
-                            <param id="0" name="Variable">blockPosition</param>
-                            <param id="1" name="Value">floor(random(0,21))</param>
-                        </action>
                         <action id="-9" name="Set value" sid="9362521104786586" type="System">
                             <param id="0" name="Variable">blockPosition</param>
                             <param id="1" name="Value">engine.NextBlock</param>
@@ -628,18 +662,16 @@
                             <param id="2" name="X">(blockPosition*64) + 43</param>
                             <param id="3" name="Y">-32</param>
                         </action>
+                        <action id="-10" name="Set value" sid="9013260943302965" type="block">
+                            <param id="0" name="Instance variable">column</param>
+                            <param id="1" name="Value">blockPosition</param>
+                        </action>
                         <action behavior="Platform" id="2" name="Set acceleration" sid="9062918358726788" type="block">
                             <param id="0" name="Acceleration">500 + (level * 100)</param>
                         </action>
                         <action id="4" name="Set animation" sid="5469284865587942" type="block">
                             <param id="0" name="Animation">&quot;a&quot; &amp; floor(random(1,4))</param>
                             <param id="1" name="From">1</param>
-                        </action>
-                        <action id="2" name="Set block" sid="9018053258677532" type="engine">
-                            <param id="0" name="Block position">blockPosition</param>
-                        </action>
-                        <action id="0" name="Set text" sid="6241091181791829" type="debugText">
-                            <param id="0" name="Text">&quot;Block @ &quot; &amp;blockPosition &amp; &quot;Min &quot; &amp; engine.MinBlock &amp; &quot; max &quot; &amp; engine.MaxBlock</param>
                         </action>
                     </actions>
                     <sub-events>
@@ -757,6 +789,63 @@
                             <param id="0" name="Y">starsY - ((LayoutHeight / 2 - player.Y ) * (STARS_PARALLAX / 2))</param>
                         </action>
                     </actions>
+                </event-block>
+                <variable constant="0" name="r2erase" sid="6873032296298975" static="0" type="number">0</variable>
+                <event-block sid="2881679333843516">
+                    <conditions>
+                        <condition id="0" name="On function" sid="480977524393001" type="functions">
+                            <param id="0" name="Name">&quot;deleteBlocks&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="3" name="Erase row at" sid="2606686279323703" type="engine">
+                            <param id="0" name="Row to erase">functions.Param(0)</param>
+                        </action>
+                        <action id="-9" name="Set value" sid="8536982189102764" type="System">
+                            <param id="0" name="Variable">r2erase</param>
+                            <param id="1" name="Value">functions.Param(0)</param>
+                        </action>
+                        <action id="0" name="Set text" sid="5534600218617314" type="debugText">
+                            <param id="0" name="Text">&quot;Row &quot; &amp; r2erase</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <event-block sid="2679780040448508">
+                            <conditions>
+                                <condition id="-11" name="For Each" sid="4507022371692224" type="System">
+                                    <param id="0" name="Object">block</param>
+                                </condition>
+                            </conditions>
+                            <actions />
+                            <sub-events>
+                                <event-block sid="7317807159122392">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="8831159196336709" type="System">
+                                            <param id="0" name="Variable">r2erase</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">block.row </param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="-9" name="Destroy" sid="2639616996776264" type="block" />
+                                    </actions>
+                                </event-block>
+                            </sub-events>
+                        </event-block>
+                        <event-block sid="5150044391801838">
+                            <conditions>
+                                <condition id="-11" name="For Each" sid="6312466421802609" type="System">
+                                    <param id="0" name="Object">block</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-12" name="Subtract from" sid="2998188427938045" type="block">
+                                    <param id="0" name="Instance variable">row</param>
+                                    <param id="1" name="Value">1</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>

@@ -244,6 +244,8 @@
                     </properties>
                     <instance-variables>
                         <damageEnabled>true</damageEnabled>
+                        <row>-1</row>
+                        <column>-1</column>
                     </instance-variables>
                     <behavior-instances>
                         <behavior-instance type="Solid">

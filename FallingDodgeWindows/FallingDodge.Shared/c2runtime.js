@@ -667,6 +667,18 @@ if (typeof Object.getPrototypeOf !== "function")
 			return a - diff * x;
 		}
 	};
+	cr.qarp = function (a, b, c, x)
+	{
+		return cr.lerp(cr.lerp(a, b, x), cr.lerp(b, c, x), x);
+	};
+	cr.cubic = function (a, b, c, d, x)
+	{
+		return cr.lerp(cr.qarp(a, b, c, x), cr.qarp(b, c, d, x), x);
+	};
+	cr.cosp = function (a, b, x)
+	{
+		return (a + b + (a - b) * Math.cos(x * Math.PI)) / 2;
+	};
 	cr.hasAnyOwnProperty = function (o)
 	{
 		var p;
@@ -703,7 +715,16 @@ if (typeof Object.getPrototypeOf !== "function")
 		}
 		return Date.now() - startup_time;
 	};
-	var supports_set = ((typeof window === "undefined" || !window["c2ejecta"]) && (typeof Set !== "undefined" && typeof Set.prototype["forEach"] !== "undefined"));
+	var isChrome = false;
+	var isSafari = false;
+	var isEjecta = false;
+	if (typeof window !== "undefined")		// not c2 editor
+	{
+		isChrome = /chrome/i.test(navigator.userAgent) || /chromium/i.test(navigator.userAgent);
+		isSafari = !isChrome && /safari/i.test(navigator.userAgent);
+		isEjecta = window["c2ejecta"];
+	}
+	var supports_set = ((!isSafari && !isEjecta) && (typeof Set !== "undefined" && typeof Set.prototype["forEach"] !== "undefined"));
 	function ObjectSet_()
 	{
 		this.s = null;
@@ -849,6 +870,17 @@ if (typeof Object.getPrototypeOf !== "function")
 		return this.values_cache;
 	};
 	cr.ObjectSet = ObjectSet_;
+	var tmpSet = new cr.ObjectSet();
+	cr.removeArrayDuplicates = function (arr)
+	{
+		var i, len;
+		for (i = 0, len = arr.length; i < len; ++i)
+		{
+			tmpSet.add(arr[i]);
+		}
+		cr.shallowAssignArray(arr, tmpSet.valuesRef());
+		tmpSet.clear();
+	};
 	function KahanAdder_()
 	{
 		this.c = 0;
@@ -1409,6 +1441,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.look = vec3.create([0, 0, 0]);				// lookat position
 		this.up = vec3.create([0, 1, 0]);				// up vector
 		this.worldScale = vec3.create([1, 1, 1]);		// world scaling factor
+		this.enable_mipmaps = true;
 		this.matP = mat4.create();						// perspective matrix
 		this.matMV = mat4.create();						// model view matrix
 		this.lastMV = mat4.create();
@@ -1535,6 +1568,8 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		var pointsizes = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE);
 		this.minPointSize = pointsizes[0];
 		this.maxPointSize = pointsizes[1];
+		if (this.maxPointSize > 2048)
+			this.maxPointSize = 2048;
 ;
 		this.switchProgram(0);
 		cr.seal(this);
@@ -2197,6 +2232,34 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		td[v++] = blv;
 		this.vertexPtr = v;
 	};
+	GLWrap_.prototype.convexPoly = function(pts)
+	{
+		var pts_count = pts.length / 2;
+;
+		var tris = pts_count - 2;	// 3 points = 1 tri, 4 points = 2 tris, 5 points = 3 tris etc.
+		var last_tri = tris - 1;
+		var p0x = pts[0];
+		var p0y = pts[1];
+		var i, i2, p1x, p1y, p2x, p2y, p3x, p3y;
+		for (i = 0; i < tris; i += 2)		// draw 2 triangles at a time
+		{
+			i2 = i * 2;
+			p1x = pts[i2 + 2];
+			p1y = pts[i2 + 3];
+			p2x = pts[i2 + 4];
+			p2y = pts[i2 + 5];
+			if (i === last_tri)
+			{
+				this.quad(p0x, p0y, p1x, p1y, p2x, p2y, p2x, p2y);
+			}
+			else
+			{
+				p3x = pts[i2 + 6];
+				p3y = pts[i2 + 7];
+				this.quad(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y);
+			}
+		}
+	};
 	var LAST_POINT = MAX_POINTS - 4;
 	GLWrap_.prototype.point = function(x_, y_, size_, opacity_)
 	{
@@ -2371,7 +2434,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 	var BF_RGBA4 = 2;
 	var BF_RGB5_A1 = 3;
 	var BF_RGB565 = 4;
-	GLWrap_.prototype.loadTexture = function (img, tiling, linearsampling, pixelformat, tiletype)
+	GLWrap_.prototype.loadTexture = function (img, tiling, linearsampling, pixelformat, tiletype, nomip)
 	{
 		tiling = !!tiling;
 		linearsampling = !!linearsampling;
@@ -2456,7 +2519,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		if (linearsampling)
 		{
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-			if (isPOT)
+			if (isPOT && this.enable_mipmaps && !nomip)
 			{
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
 				gl.generateMipmap(gl.TEXTURE_2D);
@@ -2588,7 +2651,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 			canvas["c2runtime"] = this;
 		var self = this;
 		this.isCrosswalk = /crosswalk/i.test(navigator.userAgent) || /xwalk/i.test(navigator.userAgent) || !!(typeof window["c2isCrosswalk"] !== "undefined" && window["c2isCrosswalk"]);
-		this.isPhoneGap = (!this.isCrosswalk && (typeof window["device"] !== "undefined" && (typeof window["device"]["cordova"] !== "undefined" || typeof window["device"]["phonegap"] !== "undefined")));
+		this.isPhoneGap = (!this.isCrosswalk && (typeof window["device"] !== "undefined" && (typeof window["device"]["cordova"] !== "undefined" || typeof window["device"]["phonegap"] !== "undefined"))) || (typeof window["c2isphonegap"] !== "undefined" && window["c2isphonegap"]);
 		this.isDirectCanvas = !!canvas["dc"];
 		this.isAppMobi = (typeof window["AppMobi"] !== "undefined" || this.isDirectCanvas);
 		this.isCocoonJs = !!window["c2cocoonjs"];
@@ -2646,7 +2709,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		{
 			this.isNodeWebkit = true;
 		}
-		this.isDebug = (typeof cr_is_preview !== "undefined" && window.location.search.indexOf("debug") > -1)
+		this.isDebug = (typeof cr_is_preview !== "undefined" && window.location.search.indexOf("debug") > -1);
 		this.canvas = canvas;
 		this.canvasdiv = document.getElementById("c2canvasdiv");
 		this.gl = null;
@@ -2662,8 +2725,8 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 			window["c2runtime"] = this;
 		if (this.isNodeWebkit)
 		{
-			window.ondragover = function(e) { e.preventDefault(); return false; };
-			window.ondrop = function(e) { e.preventDefault(); return false; };
+			window["ondragover"] = function(e) { e.preventDefault(); return false; };
+			window["ondrop"] = function(e) { e.preventDefault(); return false; };
 			require("nw.gui")["App"]["clearCache"]();
 		}
 		this.width = canvas.width;
@@ -2695,6 +2758,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.all_local_vars = [];
 		this.solidBehavior = null;
 		this.jumpthruBehavior = null;
+		this.shadowcasterBehavior = null;
 		this.deathRow = new cr.ObjectSet();
 		this.isInClearDeathRow = false;
 		this.isInOnDestroy = 0;					// needs to support recursion so increments and decrements and is true if > 0
@@ -2815,6 +2879,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 			}
 			this.glwrap = new cr.GLWrap(this.gl, this.isMobile);
 			this.glwrap.setSize(canvas.width, canvas.height);
+			this.glwrap.enable_mipmaps = (this.downscalingQuality !== 0);
 			this.ctx = null;
 			this.canvas.addEventListener("webglcontextlost", function (ev) {
 				ev.preventDefault();
@@ -2967,7 +3032,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.lastWindowHeight = h;
 		var mode = this.fullscreen_mode;
 		var orig_aspect, cur_aspect;
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || !!document["msFullscreenElement"] || document["fullScreen"] || this.isNodeFullscreen);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || !!document["msFullscreenElement"] || document["fullScreen"] || this.isNodeFullscreen) && !this.isPhoneGap;
 		if (!isfullscreen && this.fullscreen_mode === 0 && !force)
 			return;			// ignore size events when not fullscreen and not using a fullscreen-in-browser mode
 		if (isfullscreen && this.fullscreen_scaling > 0)
@@ -3201,7 +3266,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 	{
 		if (this.isDomFree)
 			return;
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen) && !this.isPhoneGap;
 		var overlay_position = isfullscreen ? jQuery(this.canvas).offset() : jQuery(this.canvas).position();
 		overlay_position.position = "absolute";
 		jQuery(this.overlay_canvas).css(overlay_position);
@@ -3400,6 +3465,8 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 						this.solidBehavior = behavior_plugin;
 					if (cr.behaviors.jumpthru && behavior_plugin instanceof cr.behaviors.jumpthru)
 						this.jumpthruBehavior = behavior_plugin;
+					if (cr.behaviors.shadowcaster && behavior_plugin instanceof cr.behaviors.shadowcaster)
+						this.shadowcasterBehavior = behavior_plugin;
 				}
 				if (behavior_plugin.my_types.indexOf(type_inst) === -1)
 					behavior_plugin.my_types.push(type_inst);
@@ -3459,9 +3526,9 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 				familytype.members.push(familymember);
 			}
 		}
-		for (i = 0, len = pm[23].length; i < len; i++)
+		for (i = 0, len = pm[24].length; i < len; i++)
 		{
-			var containerdata = pm[23][i];
+			var containerdata = pm[24][i];
 			var containertypes = [];
 			for (j = 0, lenj = containerdata.length; j < lenj; j++)
 				containertypes.push(this.types_by_index[containerdata[j]]);
@@ -3538,6 +3605,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.pauseOnBlur = pm[21];
 		this.wantFullscreenScalingQuality = pm[22];		// false = low quality, true = high quality
 		this.fullscreenScalingQuality = this.wantFullscreenScalingQuality;
+		this.downscalingQuality = pm[23];	// 0 = low (mips off), 1 = medium (mips on, dense spritesheet), 2 = high (mips on, sparse spritesheet)
 		this.start_time = Date.now();
 	};
 	var anyImageHadError = false;
@@ -3744,10 +3812,10 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.ranLastRaf = true;
 		this.lastRafTime = logic_start;
 		var fsmode = this.fullscreen_mode;
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"]);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"]) && !this.isPhoneGap;
 		if ((isfullscreen || this.isNodeFullscreen) && this.fullscreen_scaling > 0)
 			fsmode = this.fullscreen_scaling;
-		if (fsmode > 0 && (!this.isiPhone || window.self !== window.top))
+		if (fsmode > 0 && (!this.isiOS || window.self !== window.top))
 		{
 			var curwidth = window.innerWidth;
 			var curheight = window.innerHeight;
@@ -3877,7 +3945,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		}
         this.dt = this.dt1 * this.timescale;
         this.kahanTime.add(this.dt);
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen) && !this.isPhoneGap;
 		if (this.fullscreen_mode >= 2 /* scale */ || (isfullscreen && this.fullscreen_scaling > 0))
 		{
 			var orig_aspect = this.original_width / this.original_height;
@@ -7509,7 +7577,7 @@ window["cr_setSuspended"] = function(s)
 		x = (ptx - x) / invScale;
 		y = (pty - y) / invScale;
 		var multiplier = this.runtime.devicePixelRatio;
-		if (this.runtime.isRetina)
+		if (this.runtime.isRetina && !using_draw_area)
 		{
 			x /= multiplier;
 			y /= multiplier;
@@ -11151,6 +11219,18 @@ cr.system_object.prototype.loadFromJSON = function (o)
     {
         ret.set_float(cr.lerp(a, b, x));
     };
+	SysExps.prototype.qarp = function(ret, a, b, c, x)
+    {
+        ret.set_float(cr.qarp(a, b, c, x));
+    };
+	SysExps.prototype.cubic = function(ret, a, b, c, d, x)
+    {
+        ret.set_float(cr.cubic(a, b, c, d, x));
+    };
+	SysExps.prototype.cosp = function(ret, a, b, x)
+    {
+        ret.set_float(cr.cosp(a, b, x));
+    };
     SysExps.prototype.windowwidth = function(ret)
     {
         ret.set_int(this.runtime.width);
@@ -13551,7 +13631,7 @@ cr.plugins_.Audio = function(runtime)
 	{
 		switch (this.myapi) {
 		case API_HTML5:
-			return this.bufferObject["readyState"] === 4;	// HAVE_ENOUGH_DATA
+			return this.bufferObject["readyState"] >= 4;	// HAVE_ENOUGH_DATA
 		case API_WEBAUDIO:
 			return !!this.audioData;			// null until AJAX request completes
 		case API_PHONEGAP:
@@ -17098,7 +17178,7 @@ cr.plugins_.Sprite = function(runtime)
 			return false;
 		}
 	};
-	var candidates = [];
+	var candidates1 = [];
 	Cnds.prototype.OnCollision = function (rtype)
 	{
 		if (!rtype)
@@ -17133,8 +17213,8 @@ cr.plugins_.Sprite = function(runtime)
 			if (rsol.select_all)
 			{
 				linst.update_bbox();
-				this.runtime.getCollisionCandidates(linst.layer, rtype, linst.bbox, candidates);
-				rinstances = candidates;
+				this.runtime.getCollisionCandidates(linst.layer, rtype, linst.bbox, candidates1);
+				rinstances = candidates1;
 			}
 			else
 				rinstances = rsol.getObjects();
@@ -17178,13 +17258,14 @@ cr.plugins_.Sprite = function(runtime)
 					collmemory_remove(collmemory, linst, rinst);
 				}
 			}
-			candidates.length = 0;
+			candidates1.length = 0;
 		}
 		return false;
 	};
 	var rpicktype = null;
 	var rtopick = new cr.ObjectSet();
 	var needscollisionfinish = false;
+	var candidates2 = [];
 	function DoOverlapCondition(rtype, offx, offy)
 	{
 		if (!rtype)
@@ -17200,8 +17281,8 @@ cr.plugins_.Sprite = function(runtime)
 		if (rsol.select_all)
 		{
 			this.update_bbox();
-			this.runtime.getCollisionCandidates(this.layer, rtype, this.bbox, candidates);
-			rinstances = candidates;
+			this.runtime.getCollisionCandidates(this.layer, rtype, this.bbox, candidates2);
+			rinstances = candidates2;
 		}
 		else if (orblock)
 			rinstances = rsol.else_instances;
@@ -17235,7 +17316,7 @@ cr.plugins_.Sprite = function(runtime)
 			this.y = oldy;
 			this.set_bbox_changed();
 		}
-		candidates.length = 0;
+		candidates2.length = 0;
 		return ret;
 	};
 	typeProto.finish = function (do_pick)
@@ -18621,8 +18702,6 @@ cr.plugins_.Text = function(runtime)
 		glw.translate(-halfw, -halfh);
 		glw.updateModelView();
 		var q = this.bquad;
-		var old_dpr = this.runtime.devicePixelRatio;
-		this.runtime.devicePixelRatio = 1;
 		var tlx = this.layer.layerToCanvas(q.tlx, q.tly, true, true);
 		var tly = this.layer.layerToCanvas(q.tlx, q.tly, false, true);
 		var trx = this.layer.layerToCanvas(q.trx, q.try_, true, true);
@@ -18631,7 +18710,6 @@ cr.plugins_.Text = function(runtime)
 		var bry = this.layer.layerToCanvas(q.brx, q.bry, false, true);
 		var blx = this.layer.layerToCanvas(q.blx, q.bly, true, true);
 		var bly = this.layer.layerToCanvas(q.blx, q.bly, false, true);
-		this.runtime.devicePixelRatio = old_dpr;
 		if (this.runtime.pixel_rounding || (this.angle === 0 && layer_angle === 0))
 		{
 			var ox = ((tlx + 0.5) | 0) - tlx;
@@ -20465,10 +20543,13 @@ cr.plugins_.fdcpp = function(runtime)
 			this.gameEngine = new this.fdcpprt["Game"](intx_, inty_);
 		}
 	}
-	Acts.prototype.SetBlock = function(blockPosition_){
+	Acts.prototype.SetBlock = function(blockPosition_){ // 2
 		if(this.gameEngine){
 			this.gameEngine["setBlock"](blockPosition_);
 		}
+	}
+	Acts.prototype.EraseRow = function (row2erase_) {
+		this.gameEngine["eraseRow"](row2erase_);
 	}
 	pluginProto.acts = new Acts();
 	function Exps() {};
@@ -20493,6 +20574,12 @@ cr.plugins_.fdcpp = function(runtime)
 		else
 			ret.set_int(-1);
 	};
+	Exps.prototype.GetRow = function (ret, col_){ // 3
+		ret.set_int(this.gameEngine["getRow"](col_));
+	}
+	Exps.prototype.RowToErase = function (ret){ // 4
+		ret.set_int(this.gameEngine["rowToErase"]());
+	}
 	pluginProto.exps = new Exps();
 }());
 var badges = [
@@ -21268,7 +21355,7 @@ cr.behaviors.Platform = function(runtime)
 					if (!is_jumpthru)
 						this.dx = 0;	// stop
 				}
-				else if (!slope_too_steep && Math.abs(this.dy) < 15)
+				else if (!slope_too_steep && !jump && (Math.abs(this.dy) < Math.abs(this.jumpStrength / 2)))
 				{
 					this.dy = 0;
 					if (!floor_)
@@ -21941,18 +22028,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Function,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.fdcpp,
 		true,
 		false,
@@ -21965,7 +22040,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Keyboard,
+		cr.plugins_.Function,
 		true,
 		false,
 		false,
@@ -21975,54 +22050,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false
-	]
-,	[
-		cr.plugins_.Sprite,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.TiledBg,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
 	]
 ,	[
 		cr.plugins_.WebStorage,
@@ -22049,7 +22076,67 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.Keyboard,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.TiledBg,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.Sprite,
 		false,
 		true,
 		true,
@@ -22694,8 +22781,8 @@ cr.getProjectModel = function() { return [
 			false,
 			8630626395284602,
 			[
-				["images/assetsC2/mainc-sheet0.png", 11725, 1, 1, 96, 128, 1, 0.5, 0.5,[],[-0.04166701436042786,-0.390625,0.3125,-0.3828119933605194,0.3229169845581055,-0.1015619933605194,-0.1354170143604279,-0.078125],0],
-				["images/assetsC2/mainc-sheet0.png", 11725, 98, 1, 96, 128, 1, 0.5, 0.5,[],[-0.1041670143604279,-0.4453125,0.3125,-0.4140625,0.28125,-0.1796869933605194,-0.1041670143604279,-0.1484369933605194],0],
+				["images/assetsC2/mainc-sheet0.png", 11736, 1, 1, 96, 128, 1, 0.5, 0.5,[],[-0.04166701436042786,-0.390625,0.3125,-0.3828119933605194,0.3229169845581055,-0.1015619933605194,-0.1354170143604279,-0.078125],0],
+				["images/assetsC2/mainc-sheet0.png", 11736, 99, 1, 96, 128, 1, 0.5, 0.5,[],[-0.1041670143604279,-0.4453125,0.3125,-0.4140625,0.28125,-0.1796869933605194,-0.1041670143604279,-0.1484369933605194],0],
 				["images/assetsC2/mainc-sheet1.png", 6121, 0, 0, 96, 128, 1, 0.5, 0.5,[],[-0.07291701436042786,-0.453125,0.34375,-0.390625,0.2916669845581055,-0.09375,-0.0625,-0.1328119933605194],0]
 			]
 			]
@@ -22775,7 +22862,7 @@ cr.getProjectModel = function() { return [
 		"t27",
 		cr.plugins_.Sprite,
 		false,
-		[5663949309315676],
+		[5663949309315676,3851747857340062,1286780490026048],
 		2,
 		0,
 		null,
@@ -22789,7 +22876,7 @@ cr.getProjectModel = function() { return [
 			false,
 			852301849363525,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 1, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 1, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 ,			[
@@ -22801,7 +22888,7 @@ cr.getProjectModel = function() { return [
 			false,
 			4348213810207964,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 66, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 67, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 ,			[
@@ -22813,7 +22900,7 @@ cr.getProjectModel = function() { return [
 			false,
 			8707211411594908,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 131, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.4921875,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 133, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.4921875,0.484375],0]
 			]
 			]
 ,			[
@@ -22825,7 +22912,7 @@ cr.getProjectModel = function() { return [
 			false,
 			3450365868400927,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 1, 66, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 1, 67, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 		],
@@ -23302,7 +23389,9 @@ cr.getProjectModel = function() { return [
 				27,
 				15,
 				[
-					[1]
+					[1],
+					[-1],
+					[-1]
 				],
 				[
 				[
@@ -25727,7 +25816,7 @@ false,false,5050866466494312,false
 						0,
 						[
 							0,
-							20
+							21
 						]
 					]
 ,					[
@@ -26196,6 +26285,13 @@ false,false,5050866466494312,false
 			]
 			,[
 			[
+				1,
+				"rowToErase",
+				0,
+				-1,
+false,false,5984259031720608,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -26216,62 +26312,6 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					-1,
-					cr.system_object.prototype.acts.AddVar,
-					null,
-					7901124582200269,
-					false
-					,[
-					[
-						11,
-						"fallenBLocks"
-					]
-,					[
-						7,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-,				[
-					15,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					6136211551935563,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"updateHUD"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-,				[
-					27,
-					cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
-					null,
-					2638413201114027,
-					false
-					,[
-					[
-						10,
-						0
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-,				[
 					16,
 					cr.plugins_.Audio.prototype.acts.PlayAtObject,
 					null,
@@ -26327,22 +26367,247 @@ false,false,5050866466494312,false
 					]
 					]
 				]
-,				[
-					15,
-					cr.plugins_.Function.prototype.acts.CallFunction,
+				]
+				,[
+				[
+					0,
 					null,
-					9991370044495908,
-					false
-					,[
+					false,
+					null,
+					3176425798151271,
 					[
-						1,
+					[
+						27,
+						cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
+						null,
+						0,
+						false,
+						false,
+						false,
+						122032550205382,
+						false
+						,[
 						[
-							2,
-							"createBlock"
+							10,
+							0
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.AddVar,
+						null,
+						7901124582200269,
+						false
+						,[
+						[
+							11,
+							"fallenBLocks"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
 						]
 					]
 ,					[
-						13,
+						27,
+						cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
+						null,
+						2638413201114027,
+						false
+						,[
+						[
+							10,
+							0
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						14,
+						cr.plugins_.fdcpp.prototype.acts.SetBlock,
+						null,
+						6049718597187286,
+						false
+						,[
+						[
+							0,
+							[
+								21,
+								27,
+								false,
+								null
+								,2
+							]
+						]
+						]
+					]
+,					[
+						27,
+						cr.plugins_.Sprite.prototype.acts.SetInstanceVar,
+						null,
+						5270631795412552,
+						false
+						,[
+						[
+							10,
+							1
+						]
+,						[
+							7,
+							[
+								20,
+								14,
+								cr.plugins_.fdcpp.prototype.exps.GetRow,
+								false,
+								null
+								,[
+[
+									21,
+									27,
+									false,
+									null
+									,2
+								]
+								]
+							]
+						]
+						]
+					]
+,					[
+						15,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						9991370044495908,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"createBlock"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						6520949588862815,
+						false
+						,[
+						[
+							11,
+							"rowToErase"
+						]
+,						[
+							7,
+							[
+								20,
+								14,
+								cr.plugins_.fdcpp.prototype.exps.RowToErase,
+								false,
+								null
+							]
+						]
+						]
+					]
+,					[
+						15,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						6136211551935563,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"updateHUD"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					3893053026155212,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3998063539503327,
+						false
+						,[
+						[
+							11,
+							"rowToErase"
+						]
+,						[
+							8,
+							5
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						15,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						6173421124867728,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"deleteBlocks"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										23,
+										"rowToErase"
+									]
+								]
+						]
+						]
 					]
 					]
 				]
@@ -26875,6 +27140,26 @@ false,false,3096662099478148,false
 				]
 ,				[
 					27,
+					cr.plugins_.Sprite.prototype.acts.SetInstanceVar,
+					null,
+					9013260943302965,
+					false
+					,[
+					[
+						10,
+						2
+					]
+,					[
+						7,
+						[
+							23,
+							"blockPosition"
+						]
+					]
+					]
+				]
+,				[
+					27,
 					cr.behaviors.Platform.prototype.acts.SetAcceleration,
 					"Platform",
 					9062918358726788,
@@ -26943,79 +27228,6 @@ false,false,3096662099478148,false
 ,					[
 						3,
 						1
-					]
-					]
-				]
-,				[
-					14,
-					cr.plugins_.fdcpp.prototype.acts.SetBlock,
-					null,
-					9018053258677532,
-					false
-					,[
-					[
-						0,
-						[
-							23,
-							"blockPosition"
-						]
-					]
-					]
-				]
-,				[
-					34,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					6241091181791829,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								10,
-								[
-									10,
-									[
-										10,
-										[
-											10,
-											[
-												2,
-												"Block @ "
-											]
-											,[
-												23,
-												"blockPosition"
-											]
-										]
-										,[
-											2,
-											"Min "
-										]
-									]
-									,[
-										20,
-										14,
-										cr.plugins_.fdcpp.prototype.exps.MinBlock,
-										false,
-										null
-									]
-								]
-								,[
-									2,
-									" max "
-								]
-							]
-							,[
-								20,
-								14,
-								cr.plugins_.fdcpp.prototype.exps.MaxBlock,
-								false,
-								null
-							]
-						]
 					]
 					]
 				]
@@ -27667,6 +27879,250 @@ true,true,3942350720316154,false
 									]
 								]
 							]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				1,
+				"r2erase",
+				0,
+				0,
+false,false,6873032296298975,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				2881679333843516,
+				[
+				[
+					15,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					480977524393001,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"deleteBlocks"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.EraseRow,
+					null,
+					2606686279323703,
+					false
+					,[
+					[
+						0,
+						[
+							20,
+							15,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					8536982189102764,
+					false
+					,[
+					[
+						11,
+						"r2erase"
+					]
+,					[
+						7,
+						[
+							20,
+							15,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					34,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					5534600218617314,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								2,
+								"Row "
+							]
+							,[
+								23,
+								"r2erase"
+							]
+						]
+					]
+					]
+				]
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					2679780040448508,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.ForEach,
+						null,
+						0,
+						true,
+						false,
+						false,
+						4507022371692224,
+						false
+						,[
+						[
+							4,
+							27
+						]
+						]
+					]
+					],
+					[
+					]
+					,[
+					[
+						0,
+						null,
+						false,
+						null,
+						7317807159122392,
+						[
+						[
+							-1,
+							cr.system_object.prototype.cnds.CompareVar,
+							null,
+							0,
+							false,
+							false,
+							false,
+							8831159196336709,
+							false
+							,[
+							[
+								11,
+								"r2erase"
+							]
+,							[
+								8,
+								0
+							]
+,							[
+								7,
+								[
+									21,
+									27,
+									false,
+									null
+									,1
+								]
+							]
+							]
+						]
+						],
+						[
+						[
+							27,
+							cr.plugins_.Sprite.prototype.acts.Destroy,
+							null,
+							2639616996776264,
+							false
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					5150044391801838,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.ForEach,
+						null,
+						0,
+						true,
+						false,
+						false,
+						6312466421802609,
+						false
+						,[
+						[
+							4,
+							27
+						]
+						]
+					]
+					],
+					[
+					[
+						27,
+						cr.plugins_.Sprite.prototype.acts.SubInstanceVar,
+						null,
+						2998188427938045,
+						false
+						,[
+						[
+							10,
+							1
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
 						]
 					]
 					]
@@ -28672,6 +29128,7 @@ false,false,8571747330113035,false
 	45,
 	false,
 	true,
+	1,
 	[
 	]
 ];};
