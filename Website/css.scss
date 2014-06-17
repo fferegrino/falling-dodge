@@ -295,13 +295,32 @@ background-attachment: fixed;
 
 	.page.two {
 
-		.screenshots {
+		.unslider {
 			margin: 0 auto;
 			width: 100%;
 			height: auto;
+			width: 100%;
 			max-width: 980px;
 
-			background-color: red;
+			/*background-color: red;*/
+			ul {
+				list-style: none;
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+
+				li {
+					/*position: relative;*/
+					display: inline-block;
+					width: 100%;
+
+					img {
+						display: inline-block;
+						position: relative;
+						width: 100%;
+					}
+				}
+			}
 		}
 
 
