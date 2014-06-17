@@ -7,6 +7,7 @@ namespace FallingDodgeRT
 	{
 	public:
 		Game(int x, int y);
+		void Free();
 		int NextBlock();
 		void SetBlock(int position);
 		int RowToErase();

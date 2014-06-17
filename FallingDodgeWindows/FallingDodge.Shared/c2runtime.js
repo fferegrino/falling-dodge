@@ -20536,10 +20536,11 @@ cr.plugins_.fdcpp = function(runtime)
 	function Cnds() {};
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
-	Acts.prototype.CreateEngine = function (intx_, inty_)
-	{
-		if (this.fdcpprt)
-		{
+	Acts.prototype.DestroyEngine = function(){ // 0
+		this.gameEngine["free"]();
+	}
+	Acts.prototype.CreateEngine = function(intx_, inty_){ // 1
+		if (this.fdcpprt) {
 			this.gameEngine = new this.fdcpprt["Game"](intx_, inty_);
 		}
 	}
@@ -20548,8 +20549,11 @@ cr.plugins_.fdcpp = function(runtime)
 			this.gameEngine["setBlock"](blockPosition_);
 		}
 	}
-	Acts.prototype.EraseRow = function (row2erase_) {
+	Acts.prototype.EraseRow = function (row2erase_) { // 3
 		this.gameEngine["eraseRow"](row2erase_);
+	}
+	Acts.prototype.ClearEngine = function (){
+		this.gameEngine["clear"]();
 	}
 	pluginProto.acts = new Acts();
 	function Exps() {};
@@ -20568,9 +20572,8 @@ cr.plugins_.fdcpp = function(runtime)
 			ret.set_int(-1);
 	};
 	Exps.prototype.MaxBlock = function (ret){
-		if(this.gameEngine){
+		if(this.gameEngine)
 			ret.set_int(this.gameEngine["max"]());
-		}
 		else
 			ret.set_int(-1);
 	};
@@ -21992,18 +21995,6 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Audio,
 		true,
 		false,
@@ -22028,7 +22019,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.fdcpp,
+		cr.plugins_.Function,
 		true,
 		false,
 		false,
@@ -22040,7 +22031,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Function,
+		cr.plugins_.fdcpp,
 		true,
 		false,
 		false,
@@ -22076,6 +22067,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.NinePatch,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Keyboard,
 		true,
 		false,
@@ -22086,42 +22089,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false
-	]
-,	[
-		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
 	]
 ,	[
 		cr.plugins_.TiledBg,
@@ -22136,6 +22103,30 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22145,6 +22136,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		false
+	]
+,	[
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 	],
@@ -22573,7 +22576,7 @@ cr.getProjectModel = function() { return [
 		6766969408407935,
 		[],
 		null
-		,["appBar",1]
+		,[]
 	]
 ,	[
 		"t15",
@@ -23492,7 +23495,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[724.5, 706.5, 0, 70, 70, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[724.5, 82, 0, 70, 70, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				18,
 				38,
 				[
@@ -23507,7 +23510,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[606.5, 685.5, 0, 127, 59, 0, 0, 1, 0, 0, 0, 0, []],
+				[606.5, 61, 0, 127, 59, 0, 0, 1, 0, 0, 0, 0, []],
 				20,
 				44,
 				[
@@ -26133,29 +26136,70 @@ false,false,5050866466494312,false
 						]
 						]
 					]
-,					[
-						15,
-						cr.plugins_.Function.prototype.acts.CallFunction,
+					]
+					,[
+					[
+						0,
 						null,
-						3035286106247116,
-						false
-						,[
+						false,
+						null,
+						1454341865897327,
 						[
-							1,
+						[
+							-1,
+							cr.system_object.prototype.cnds.CompareVar,
+							null,
+							0,
+							false,
+							false,
+							false,
+							1007502240279639,
+							false
+							,[
 							[
-								2,
-								"pause"
+								11,
+								"gamePaused"
+							]
+,							[
+								8,
+								0
+							]
+,							[
+								7,
+								[
+									23,
+									"FALSE"
+								]
+							]
 							]
 						]
-,						[
-							13,
-															[
-									7,
-									[
-										23,
-										"FALSE"
-									]
+						],
+						[
+						[
+							15,
+							cr.plugins_.Function.prototype.acts.CallFunction,
+							null,
+							3035286106247116,
+							false
+							,[
+							[
+								1,
+								[
+									2,
+									"pause"
 								]
+							]
+,							[
+								13,
+																	[
+										7,
+										[
+											23,
+											"FALSE"
+										]
+									]
+							]
+							]
 						]
 						]
 					]
@@ -26248,6 +26292,35 @@ false,false,5050866466494312,false
 						]
 					]
 					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				3232256057992301,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.OnLayoutEnd,
+					null,
+					1,
+					false,
+					false,
+					false,
+					9483020986062444,
+					false
+				]
+				],
+				[
+				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.DestroyEngine,
+					null,
+					9260822805960102,
+					false
 				]
 				]
 			]
@@ -27535,6 +27608,13 @@ false,false,3096662099478148,false
 				],
 				[
 				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.ClearEngine,
+					null,
+					4916093313872181,
+					false
+				]
+,				[
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
@@ -27577,25 +27657,6 @@ false,false,3096662099478148,false
 									"FALSE"
 								]
 							]
-					]
-					]
-				]
-,				[
-					15,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					8801401297541201,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"createBlock"
-						]
-					]
-,					[
-						13,
 					]
 					]
 				]
@@ -27687,6 +27748,25 @@ false,false,3096662099478148,false
 ,					[
 						3,
 						0
+					]
+					]
+				]
+,				[
+					15,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					8801401297541201,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"createBlock"
+						]
+					]
+,					[
+						13,
 					]
 					]
 				]

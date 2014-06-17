@@ -22,7 +22,6 @@ Game::Game(int x, int y)
 	maximumGap = 3;
 	minIx = 0;
 	maxIx = 0;
-	Clear();
 }
 
 int Game::NextBlock(){
@@ -106,4 +105,10 @@ int Game::Max(){
 
 int Game::Min(){
 	return blocks[minIx];
+}
+
+
+void Game::Free(){
+	free(blocks);
+	free(map);
 }

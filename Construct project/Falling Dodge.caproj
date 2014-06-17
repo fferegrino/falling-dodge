@@ -21,7 +21,7 @@
         <plugin author="Scirra" id="TiledBg" version="1">Tiled Background</plugin>
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
-        <plugin author="@fferegrino" id="fdcpp" version="1">Falling Dodge C++ engine</plugin>
+        <plugin author="@fferegrino" id="fdcpp" version="1.600000024">Falling Dodge C++ engine</plugin>
         <plugin author="@fferegrino" id="wpc2" version="1.700000048">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
@@ -598,12 +598,7 @@
                 <share-content>Yes</share-content>
             </properties>
         </global-instance>
-        <global-instance type="engine" uid="36">
-            <properties>
-                <appbar-id>appBar</appbar-id>
-                <share-content>Yes</share-content>
-            </properties>
-        </global-instance>
+        <global-instance type="engine" uid="36" />
     </global-instances>
     <sounds-folder expanded="0">
         <file name="explosion_dull.ogg" />
