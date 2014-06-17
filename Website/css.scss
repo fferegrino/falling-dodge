@@ -243,6 +243,7 @@ background-attachment: fixed;
 		width: 100%;
 		min-width: 100%;
 		min-height: 100%;
+		min-height: 700px;
 	}
 
 	.page.one {
@@ -265,6 +266,7 @@ background-attachment: fixed;
 			font-size: 2.4rem;
 			color: #f7f7f7;
 			text-align: center;
+			text-shadow: 0 0 3px #f7f7f7;
 		}
 		.super-description {
 			display: block;
@@ -319,17 +321,22 @@ background-attachment: fixed;
 			text-align: center;
 
 
-			.left {
-				display: inline-block;
-				width: 50%;
-				font-size: 1.5rem;
+			p {
+				margin-top: 1rem;
 			}
 
-			.right {
+			.left, .right {
 				display: inline-block;
 				width: 50%;
 				font-size: 1.5rem;
+				overflow: hidden;
+
+				img {
+					max-width: 100%;
+				}
 			}
+
+
 
 			.download {
 				text-decoration: none;
@@ -351,12 +358,24 @@ background-attachment: fixed;
 			text-align: center;
 
 			a {
-				color: #00BFFF;
+				color: #F8FF7A;
+				text-shadow: 0 0 3px #F8FF7A;
 				text-decoration: none;
 			}
 			a:hover {
 				text-decoration: underline;
 			}
+		}
+
+		.copyright {
+			display: block;
+			/*margin-top: 2rem;*/
+
+			font-family: $Lato;
+			font-weight: 300;
+			font-size: 1.15rem;
+			color: #f7f7f7;
+			text-align: center;
 		}
 
 
@@ -368,20 +387,22 @@ background-attachment: fixed;
 
 .container:before {
 
-	position: absolute;
+	position: fixed;
 	display: block;
 	content: "";
 
 	width: 100%;
-	height: 300%;
+	height: 100%;
+
 
 	background-image: url('img/Stars.png');
-	background-size: 271px 120px;
+	background-size: 300px;
 
 	background-position: center;
 	background-repeat: repeat;
-	background-attachment: fixed;
 
 	@include opacity(0.25);
 
 }
+
+

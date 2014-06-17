@@ -141,7 +141,8 @@ body {
     height: 100%;
     width: 100%;
     min-width: 100%;
-    min-height: 100%; }
+    min-height: 100%;
+    min-height: 700px; }
   .container .page.one .logo {
     display: block;
     min-width: 256px;
@@ -157,7 +158,8 @@ body {
     font-weight: 300;
     font-size: 2.4rem;
     color: #f7f7f7;
-    text-align: center; }
+    text-align: center;
+    text-shadow: 0 0 3px #f7f7f7; }
   .container .page.one .super-description {
     display: block;
     margin-top: 2rem;
@@ -190,14 +192,15 @@ body {
     font-size: 0;
     color: #f7f7f7;
     text-align: center; }
-    .container .page.three .downloads .left {
+    .container .page.three .downloads p {
+      margin-top: 1rem; }
+    .container .page.three .downloads .left, .container .page.three .downloads .right {
       display: inline-block;
       width: 50%;
-      font-size: 1.5rem; }
-    .container .page.three .downloads .right {
-      display: inline-block;
-      width: 50%;
-      font-size: 1.5rem; }
+      font-size: 1.5rem;
+      overflow: hidden; }
+      .container .page.three .downloads .left img, .container .page.three .downloads .right img {
+        max-width: 100%; }
     .container .page.three .downloads .download {
       text-decoration: none;
       color: inherit; }
@@ -210,22 +213,30 @@ body {
     color: #f7f7f7;
     text-align: center; }
     .container .page.three .credits a {
-      color: #00BFFF;
+      color: #F8FF7A;
+      text-shadow: 0 0 3px #F8FF7A;
       text-decoration: none; }
     .container .page.three .credits a:hover {
       text-decoration: underline; }
+  .container .page.three .copyright {
+    display: block;
+    /*margin-top: 2rem;*/
+    font-family: "open sans", "Lato", "Segoe UI", sans-serif;
+    font-weight: 300;
+    font-size: 1.15rem;
+    color: #f7f7f7;
+    text-align: center; }
 
 .container:before {
-  position: absolute;
+  position: fixed;
   display: block;
   content: "";
   width: 100%;
-  height: 300%;
+  height: 100%;
   background-image: url("img/Stars.png");
-  background-size: 271px 120px;
+  background-size: 300px;
   background-position: center;
   background-repeat: repeat;
-  background-attachment: fixed;
   filter: alpha(opacity=0.25);
   -moz-opacity: 0.25;
   opacity: 0.25; }
