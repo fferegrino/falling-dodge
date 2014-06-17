@@ -178,12 +178,24 @@ body {
     filter: alpha(opacity=0.25);
     -moz-opacity: 0.25;
     opacity: 0.25; }
-  .container .page.two .screenshots {
+  .container .page.two .unslider {
     margin: 0 auto;
     width: 100%;
     height: auto;
+    width: 100%;
     max-width: 980px;
-    background-color: red; }
+    /*background-color: red;*/ }
+    .container .page.two .unslider ul {
+      list-style: none;
+      list-style-type: none;
+      margin: 0;
+      padding: 0; }
+      .container .page.two .unslider ul li {
+        position: relative;
+        width: 100%; }
+        .container .page.two .unslider ul li img {
+          position: relative;
+          width: 100%; }
   .container .page.three .downloads {
     display: block;
     margin-top: 2rem;
