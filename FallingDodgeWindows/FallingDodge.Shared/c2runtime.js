@@ -667,6 +667,18 @@ if (typeof Object.getPrototypeOf !== "function")
 			return a - diff * x;
 		}
 	};
+	cr.qarp = function (a, b, c, x)
+	{
+		return cr.lerp(cr.lerp(a, b, x), cr.lerp(b, c, x), x);
+	};
+	cr.cubic = function (a, b, c, d, x)
+	{
+		return cr.lerp(cr.qarp(a, b, c, x), cr.qarp(b, c, d, x), x);
+	};
+	cr.cosp = function (a, b, x)
+	{
+		return (a + b + (a - b) * Math.cos(x * Math.PI)) / 2;
+	};
 	cr.hasAnyOwnProperty = function (o)
 	{
 		var p;
@@ -703,7 +715,16 @@ if (typeof Object.getPrototypeOf !== "function")
 		}
 		return Date.now() - startup_time;
 	};
-	var supports_set = ((typeof window === "undefined" || !window["c2ejecta"]) && (typeof Set !== "undefined" && typeof Set.prototype["forEach"] !== "undefined"));
+	var isChrome = false;
+	var isSafari = false;
+	var isEjecta = false;
+	if (typeof window !== "undefined")		// not c2 editor
+	{
+		isChrome = /chrome/i.test(navigator.userAgent) || /chromium/i.test(navigator.userAgent);
+		isSafari = !isChrome && /safari/i.test(navigator.userAgent);
+		isEjecta = window["c2ejecta"];
+	}
+	var supports_set = ((!isSafari && !isEjecta) && (typeof Set !== "undefined" && typeof Set.prototype["forEach"] !== "undefined"));
 	function ObjectSet_()
 	{
 		this.s = null;
@@ -849,6 +870,17 @@ if (typeof Object.getPrototypeOf !== "function")
 		return this.values_cache;
 	};
 	cr.ObjectSet = ObjectSet_;
+	var tmpSet = new cr.ObjectSet();
+	cr.removeArrayDuplicates = function (arr)
+	{
+		var i, len;
+		for (i = 0, len = arr.length; i < len; ++i)
+		{
+			tmpSet.add(arr[i]);
+		}
+		cr.shallowAssignArray(arr, tmpSet.valuesRef());
+		tmpSet.clear();
+	};
 	function KahanAdder_()
 	{
 		this.c = 0;
@@ -1409,6 +1441,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.look = vec3.create([0, 0, 0]);				// lookat position
 		this.up = vec3.create([0, 1, 0]);				// up vector
 		this.worldScale = vec3.create([1, 1, 1]);		// world scaling factor
+		this.enable_mipmaps = true;
 		this.matP = mat4.create();						// perspective matrix
 		this.matMV = mat4.create();						// model view matrix
 		this.lastMV = mat4.create();
@@ -1535,6 +1568,8 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		var pointsizes = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE);
 		this.minPointSize = pointsizes[0];
 		this.maxPointSize = pointsizes[1];
+		if (this.maxPointSize > 2048)
+			this.maxPointSize = 2048;
 ;
 		this.switchProgram(0);
 		cr.seal(this);
@@ -2197,6 +2232,34 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		td[v++] = blv;
 		this.vertexPtr = v;
 	};
+	GLWrap_.prototype.convexPoly = function(pts)
+	{
+		var pts_count = pts.length / 2;
+;
+		var tris = pts_count - 2;	// 3 points = 1 tri, 4 points = 2 tris, 5 points = 3 tris etc.
+		var last_tri = tris - 1;
+		var p0x = pts[0];
+		var p0y = pts[1];
+		var i, i2, p1x, p1y, p2x, p2y, p3x, p3y;
+		for (i = 0; i < tris; i += 2)		// draw 2 triangles at a time
+		{
+			i2 = i * 2;
+			p1x = pts[i2 + 2];
+			p1y = pts[i2 + 3];
+			p2x = pts[i2 + 4];
+			p2y = pts[i2 + 5];
+			if (i === last_tri)
+			{
+				this.quad(p0x, p0y, p1x, p1y, p2x, p2y, p2x, p2y);
+			}
+			else
+			{
+				p3x = pts[i2 + 6];
+				p3y = pts[i2 + 7];
+				this.quad(p0x, p0y, p1x, p1y, p2x, p2y, p3x, p3y);
+			}
+		}
+	};
 	var LAST_POINT = MAX_POINTS - 4;
 	GLWrap_.prototype.point = function(x_, y_, size_, opacity_)
 	{
@@ -2371,7 +2434,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 	var BF_RGBA4 = 2;
 	var BF_RGB5_A1 = 3;
 	var BF_RGB565 = 4;
-	GLWrap_.prototype.loadTexture = function (img, tiling, linearsampling, pixelformat, tiletype)
+	GLWrap_.prototype.loadTexture = function (img, tiling, linearsampling, pixelformat, tiletype, nomip)
 	{
 		tiling = !!tiling;
 		linearsampling = !!linearsampling;
@@ -2456,7 +2519,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		if (linearsampling)
 		{
 			gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-			if (isPOT)
+			if (isPOT && this.enable_mipmaps && !nomip)
 			{
 				gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
 				gl.generateMipmap(gl.TEXTURE_2D);
@@ -2588,7 +2651,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 			canvas["c2runtime"] = this;
 		var self = this;
 		this.isCrosswalk = /crosswalk/i.test(navigator.userAgent) || /xwalk/i.test(navigator.userAgent) || !!(typeof window["c2isCrosswalk"] !== "undefined" && window["c2isCrosswalk"]);
-		this.isPhoneGap = (!this.isCrosswalk && (typeof window["device"] !== "undefined" && (typeof window["device"]["cordova"] !== "undefined" || typeof window["device"]["phonegap"] !== "undefined")));
+		this.isPhoneGap = (!this.isCrosswalk && (typeof window["device"] !== "undefined" && (typeof window["device"]["cordova"] !== "undefined" || typeof window["device"]["phonegap"] !== "undefined"))) || (typeof window["c2isphonegap"] !== "undefined" && window["c2isphonegap"]);
 		this.isDirectCanvas = !!canvas["dc"];
 		this.isAppMobi = (typeof window["AppMobi"] !== "undefined" || this.isDirectCanvas);
 		this.isCocoonJs = !!window["c2cocoonjs"];
@@ -2646,7 +2709,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		{
 			this.isNodeWebkit = true;
 		}
-		this.isDebug = (typeof cr_is_preview !== "undefined" && window.location.search.indexOf("debug") > -1)
+		this.isDebug = (typeof cr_is_preview !== "undefined" && window.location.search.indexOf("debug") > -1);
 		this.canvas = canvas;
 		this.canvasdiv = document.getElementById("c2canvasdiv");
 		this.gl = null;
@@ -2662,8 +2725,8 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 			window["c2runtime"] = this;
 		if (this.isNodeWebkit)
 		{
-			window.ondragover = function(e) { e.preventDefault(); return false; };
-			window.ondrop = function(e) { e.preventDefault(); return false; };
+			window["ondragover"] = function(e) { e.preventDefault(); return false; };
+			window["ondrop"] = function(e) { e.preventDefault(); return false; };
 			require("nw.gui")["App"]["clearCache"]();
 		}
 		this.width = canvas.width;
@@ -2695,6 +2758,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.all_local_vars = [];
 		this.solidBehavior = null;
 		this.jumpthruBehavior = null;
+		this.shadowcasterBehavior = null;
 		this.deathRow = new cr.ObjectSet();
 		this.isInClearDeathRow = false;
 		this.isInOnDestroy = 0;					// needs to support recursion so increments and decrements and is true if > 0
@@ -2815,6 +2879,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 			}
 			this.glwrap = new cr.GLWrap(this.gl, this.isMobile);
 			this.glwrap.setSize(canvas.width, canvas.height);
+			this.glwrap.enable_mipmaps = (this.downscalingQuality !== 0);
 			this.ctx = null;
 			this.canvas.addEventListener("webglcontextlost", function (ev) {
 				ev.preventDefault();
@@ -2967,7 +3032,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.lastWindowHeight = h;
 		var mode = this.fullscreen_mode;
 		var orig_aspect, cur_aspect;
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || !!document["msFullscreenElement"] || document["fullScreen"] || this.isNodeFullscreen);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || !!document["msFullscreenElement"] || document["fullScreen"] || this.isNodeFullscreen) && !this.isPhoneGap;
 		if (!isfullscreen && this.fullscreen_mode === 0 && !force)
 			return;			// ignore size events when not fullscreen and not using a fullscreen-in-browser mode
 		if (isfullscreen && this.fullscreen_scaling > 0)
@@ -3201,7 +3266,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 	{
 		if (this.isDomFree)
 			return;
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen) && !this.isPhoneGap;
 		var overlay_position = isfullscreen ? jQuery(this.canvas).offset() : jQuery(this.canvas).position();
 		overlay_position.position = "absolute";
 		jQuery(this.overlay_canvas).css(overlay_position);
@@ -3400,6 +3465,8 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 						this.solidBehavior = behavior_plugin;
 					if (cr.behaviors.jumpthru && behavior_plugin instanceof cr.behaviors.jumpthru)
 						this.jumpthruBehavior = behavior_plugin;
+					if (cr.behaviors.shadowcaster && behavior_plugin instanceof cr.behaviors.shadowcaster)
+						this.shadowcasterBehavior = behavior_plugin;
 				}
 				if (behavior_plugin.my_types.indexOf(type_inst) === -1)
 					behavior_plugin.my_types.push(type_inst);
@@ -3459,9 +3526,9 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 				familytype.members.push(familymember);
 			}
 		}
-		for (i = 0, len = pm[23].length; i < len; i++)
+		for (i = 0, len = pm[24].length; i < len; i++)
 		{
-			var containerdata = pm[23][i];
+			var containerdata = pm[24][i];
 			var containertypes = [];
 			for (j = 0, lenj = containerdata.length; j < lenj; j++)
 				containertypes.push(this.types_by_index[containerdata[j]]);
@@ -3538,6 +3605,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.pauseOnBlur = pm[21];
 		this.wantFullscreenScalingQuality = pm[22];		// false = low quality, true = high quality
 		this.fullscreenScalingQuality = this.wantFullscreenScalingQuality;
+		this.downscalingQuality = pm[23];	// 0 = low (mips off), 1 = medium (mips on, dense spritesheet), 2 = high (mips on, sparse spritesheet)
 		this.start_time = Date.now();
 	};
 	var anyImageHadError = false;
@@ -3744,10 +3812,10 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		this.ranLastRaf = true;
 		this.lastRafTime = logic_start;
 		var fsmode = this.fullscreen_mode;
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"]);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"]) && !this.isPhoneGap;
 		if ((isfullscreen || this.isNodeFullscreen) && this.fullscreen_scaling > 0)
 			fsmode = this.fullscreen_scaling;
-		if (fsmode > 0 && (!this.isiPhone || window.self !== window.top))
+		if (fsmode > 0 && (!this.isiOS || window.self !== window.top))
 		{
 			var curwidth = window.innerWidth;
 			var curheight = window.innerHeight;
@@ -3877,7 +3945,7 @@ quat4.str=function(a){return"["+a[0]+", "+a[1]+", "+a[2]+", "+a[3]+"]"};
 		}
         this.dt = this.dt1 * this.timescale;
         this.kahanTime.add(this.dt);
-		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen);
+		var isfullscreen = (document["mozFullScreen"] || document["webkitIsFullScreen"] || document["fullScreen"] || !!document["msFullscreenElement"] || this.isNodeFullscreen) && !this.isPhoneGap;
 		if (this.fullscreen_mode >= 2 /* scale */ || (isfullscreen && this.fullscreen_scaling > 0))
 		{
 			var orig_aspect = this.original_width / this.original_height;
@@ -7509,7 +7577,7 @@ window["cr_setSuspended"] = function(s)
 		x = (ptx - x) / invScale;
 		y = (pty - y) / invScale;
 		var multiplier = this.runtime.devicePixelRatio;
-		if (this.runtime.isRetina)
+		if (this.runtime.isRetina && !using_draw_area)
 		{
 			x /= multiplier;
 			y /= multiplier;
@@ -11151,6 +11219,18 @@ cr.system_object.prototype.loadFromJSON = function (o)
     {
         ret.set_float(cr.lerp(a, b, x));
     };
+	SysExps.prototype.qarp = function(ret, a, b, c, x)
+    {
+        ret.set_float(cr.qarp(a, b, c, x));
+    };
+	SysExps.prototype.cubic = function(ret, a, b, c, d, x)
+    {
+        ret.set_float(cr.cubic(a, b, c, d, x));
+    };
+	SysExps.prototype.cosp = function(ret, a, b, x)
+    {
+        ret.set_float(cr.cosp(a, b, x));
+    };
     SysExps.prototype.windowwidth = function(ret)
     {
         ret.set_int(this.runtime.width);
@@ -13551,7 +13631,7 @@ cr.plugins_.Audio = function(runtime)
 	{
 		switch (this.myapi) {
 		case API_HTML5:
-			return this.bufferObject["readyState"] === 4;	// HAVE_ENOUGH_DATA
+			return this.bufferObject["readyState"] >= 4;	// HAVE_ENOUGH_DATA
 		case API_WEBAUDIO:
 			return !!this.audioData;			// null until AJAX request completes
 		case API_PHONEGAP:
@@ -17098,7 +17178,7 @@ cr.plugins_.Sprite = function(runtime)
 			return false;
 		}
 	};
-	var candidates = [];
+	var candidates1 = [];
 	Cnds.prototype.OnCollision = function (rtype)
 	{
 		if (!rtype)
@@ -17133,8 +17213,8 @@ cr.plugins_.Sprite = function(runtime)
 			if (rsol.select_all)
 			{
 				linst.update_bbox();
-				this.runtime.getCollisionCandidates(linst.layer, rtype, linst.bbox, candidates);
-				rinstances = candidates;
+				this.runtime.getCollisionCandidates(linst.layer, rtype, linst.bbox, candidates1);
+				rinstances = candidates1;
 			}
 			else
 				rinstances = rsol.getObjects();
@@ -17178,13 +17258,14 @@ cr.plugins_.Sprite = function(runtime)
 					collmemory_remove(collmemory, linst, rinst);
 				}
 			}
-			candidates.length = 0;
+			candidates1.length = 0;
 		}
 		return false;
 	};
 	var rpicktype = null;
 	var rtopick = new cr.ObjectSet();
 	var needscollisionfinish = false;
+	var candidates2 = [];
 	function DoOverlapCondition(rtype, offx, offy)
 	{
 		if (!rtype)
@@ -17200,8 +17281,8 @@ cr.plugins_.Sprite = function(runtime)
 		if (rsol.select_all)
 		{
 			this.update_bbox();
-			this.runtime.getCollisionCandidates(this.layer, rtype, this.bbox, candidates);
-			rinstances = candidates;
+			this.runtime.getCollisionCandidates(this.layer, rtype, this.bbox, candidates2);
+			rinstances = candidates2;
 		}
 		else if (orblock)
 			rinstances = rsol.else_instances;
@@ -17235,7 +17316,7 @@ cr.plugins_.Sprite = function(runtime)
 			this.y = oldy;
 			this.set_bbox_changed();
 		}
-		candidates.length = 0;
+		candidates2.length = 0;
 		return ret;
 	};
 	typeProto.finish = function (do_pick)
@@ -18621,8 +18702,6 @@ cr.plugins_.Text = function(runtime)
 		glw.translate(-halfw, -halfh);
 		glw.updateModelView();
 		var q = this.bquad;
-		var old_dpr = this.runtime.devicePixelRatio;
-		this.runtime.devicePixelRatio = 1;
 		var tlx = this.layer.layerToCanvas(q.tlx, q.tly, true, true);
 		var tly = this.layer.layerToCanvas(q.tlx, q.tly, false, true);
 		var trx = this.layer.layerToCanvas(q.trx, q.try_, true, true);
@@ -18631,7 +18710,6 @@ cr.plugins_.Text = function(runtime)
 		var bry = this.layer.layerToCanvas(q.brx, q.bry, false, true);
 		var blx = this.layer.layerToCanvas(q.blx, q.bly, true, true);
 		var bly = this.layer.layerToCanvas(q.blx, q.bly, false, true);
-		this.runtime.devicePixelRatio = old_dpr;
 		if (this.runtime.pixel_rounding || (this.angle === 0 && layer_angle === 0))
 		{
 			var ox = ((tlx + 0.5) | 0) - tlx;
@@ -20410,6 +20488,103 @@ cr.plugins_.WebStorage = function(runtime)
 	};
 	pluginProto.exps = new Exps();
 }());
+;
+;
+cr.plugins_.fdcpp = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.fdcpp.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		this.fdcpprt = window["fallingdodgert"];
+	};
+	instanceProto.onDestroy = function ()
+	{
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return {
+		};
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function (glw)
+	{
+	};
+	function Cnds() {};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.DestroyEngine = function(){ // 0
+		this.gameEngine["free"]();
+	}
+	Acts.prototype.CreateEngine = function(intx_, inty_){ // 1
+		if (this.fdcpprt) {
+			this.gameEngine = new this.fdcpprt["Game"](intx_, inty_);
+		}
+	}
+	Acts.prototype.SetBlock = function(blockPosition_){ // 2
+		if(this.gameEngine){
+			this.gameEngine["setBlock"](blockPosition_);
+		}
+	}
+	Acts.prototype.EraseRow = function (row2erase_) { // 3
+		this.gameEngine["eraseRow"](row2erase_);
+	}
+	Acts.prototype.ClearEngine = function (){
+		this.gameEngine["clear"]();
+	}
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.NextBlock = function (ret){
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["nextBlock"]());
+		}
+		else
+			ret.set_int(-1);
+	};
+	Exps.prototype.MinBlock = function (ret){
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["min"]());
+		}
+		else
+			ret.set_int(-1);
+	};
+	Exps.prototype.MaxBlock = function (ret){
+		if(this.gameEngine)
+			ret.set_int(this.gameEngine["max"]());
+		else
+			ret.set_int(-1);
+	};
+	Exps.prototype.GetRow = function (ret, col_){ // 3
+		ret.set_int(this.gameEngine["getRow"](col_));
+	}
+	Exps.prototype.RowToErase = function (ret){ // 4
+		ret.set_int(this.gameEngine["rowToErase"]());
+	}
+	pluginProto.exps = new Exps();
+}());
 var badges = [
 	{ "name" : "Activity", "value" : "activity" },
 	{ "name" : "Alarm", "value" : "alarm" },
@@ -20480,20 +20655,12 @@ cr.plugins_.wpc2 = function(runtime)
 			}
 		}
 	};
-	instanceProto.onDestroy = function ()
-	{
-	};
 	instanceProto.saveToJSON = function ()
 	{
-		return {
-		};
+		return { };
 	};
-	instanceProto.loadFromJSON = function (o)
-	{
-	};
-	instanceProto.draw = function(ctx)
-	{
-	};
+	instanceProto.loadFromJSON = function (o) { };
+	instanceProto.draw = function(ctx) { };
 	instanceProto.drawGL = function (glw)
 	{
 	};
@@ -21191,7 +21358,7 @@ cr.behaviors.Platform = function(runtime)
 					if (!is_jumpthru)
 						this.dx = 0;	// stop
 				}
-				else if (!slope_too_steep && Math.abs(this.dy) < 15)
+				else if (!slope_too_steep && !jump && (Math.abs(this.dy) < Math.abs(this.jumpStrength / 2)))
 				{
 					this.dy = 0;
 					if (!floor_)
@@ -21828,18 +21995,6 @@ cr.getProjectModel = function() { return [
 	"MenuLayout",
 	[
 	[
-		cr.plugins_.NinePatch,
-		false,
-		true,
-		true,
-		true,
-		false,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Audio,
 		true,
 		false,
@@ -21876,55 +22031,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Keyboard,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.Sprite,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
-		cr.plugins_.TiledBg,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
-		cr.plugins_.wpc2,
+		cr.plugins_.fdcpp,
 		true,
 		false,
 		false,
@@ -21948,7 +22055,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Touch,
+		cr.plugins_.wpc2,
 		true,
 		false,
 		false,
@@ -21960,6 +22067,54 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.NinePatch,
+		false,
+		true,
+		true,
+		true,
+		false,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.Keyboard,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.TiledBg,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
+	]
+,	[
 		cr.plugins_.Text,
 		false,
 		true,
@@ -21969,6 +22124,30 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true,
+		false
+	]
+,	[
+		cr.plugins_.Sprite,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.Touch,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 	],
@@ -21989,93 +22168,112 @@ cr.getProjectModel = function() { return [
 			1,
 			0,
 			false,
-			7828519789547357,
+			2885261318795819,
 			[
-				["images/assetsC2/playbutton-sheet0.png", 6772, 0, 0, 256, 256, 1, 0.5, 0.5,[],[-0.3554689884185791,-0.3554689884185791,0.3554689884185791,-0.3554689884185791,0.3554689884185791,0.3554689884185791,-0.3554689884185791,0.3554689884185791],0]
+				["images/assetsC2/backsettingsbutton-sheet0.png", 1551, 0, 0, 80, 80, 1, 0.5, 0.5,[],[-0.3499999940395355,-0.3499999940395355,0,-0.5,0.3500000238418579,-0.3499999940395355,0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3499999940395355,0.3500000238418579,-0.5,0],0]
 			]
 			]
 		],
 		[
 		],
 		false,
-		true,
-		1336547469157745,
+		false,
+		1988146745001644,
 		[],
 		null
 	]
 ,	[
 		"t1",
-		cr.plugins_.Touch,
+		cr.plugins_.Sprite,
 		false,
 		[],
 		0,
 		0,
 		null,
-		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			9549834460853459,
+			[
+				["images/assetsC2/backbutton-sheet0.png", 1575, 0, 0, 80, 80, 1, 0.5, 0.5,[],[0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3499999940395355,0.3500000238418579,-0.5,0,-0.3499999940395355,-0.3499999940395355,0,-0.5,0.3500000238418579,-0.3499999940395355],0]
+			]
+			]
+		],
 		[
 		],
 		false,
 		false,
-		7692813297571575,
+		8872434332521765,
 		[],
 		null
-		,[1]
 	]
 ,	[
 		"t2",
-		cr.plugins_.TiledBg,
+		cr.plugins_.Sprite,
 		false,
 		[],
 		0,
 		0,
-		["images/assetsC2/pauseshade.png", 111, 0],
 		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			1008425733013678,
+			[
+				["images/assetsC2/configbutton-sheet0.png", 689, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
+			]
+			]
+		],
 		[
 		],
 		false,
 		false,
-		7940501518976048,
+		8975347241436733,
 		[],
 		null
 	]
 ,	[
 		"t3",
-		cr.plugins_.Function,
+		cr.plugins_.Sprite,
 		false,
 		[],
 		0,
 		0,
 		null,
-		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			2242407074118407,
+			[
+				["images/assetsC2/deletescores-sheet0.png", 637, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.5,-0.5,0.4599999785423279,-0.5,0.4599999785423279,0.5,-0.5,0.5],0]
+			]
+			]
+		],
 		[
 		],
 		false,
 		false,
-		701648588300493,
+		3370477570130572,
 		[],
 		null
-		,[]
 	]
 ,	[
 		"t4",
-		cr.plugins_.Audio,
-		false,
-		[],
-		0,
-		0,
-		null,
-		null,
-		[
-		],
-		false,
-		false,
-		3028015155049837,
-		[],
-		null
-		,[0,0,1,1,600,600,10000,1,5000,1]
-	]
-,	[
-		"t5",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22105,7 +22303,127 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
+		"t5",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			9377642882783214,
+			[
+				["images/assetsC2/pausebutton-sheet0.png", 508, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0,-0.5,0.4599999785423279,-0.4583333134651184,0.4800000190734863,0,0.4599999785423279,0.4583330154418945,0,0.5,-0.4600000083446503,0.4583330154418945,-0.4799999892711639,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		9345971683998869,
+		[],
+		null
+	]
+,	[
 		"t6",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			4351708117305906,
+			[
+				["images/assetsC2/replaybutton-sheet0.png", 574, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0,-0.5,0.4599999785423279,-0.4583333134651184,0.4800000190734863,0,0.4599999785423279,0.4583330154418945,0,0.5,-0.4600000083446503,0.4583330154418945,-0.4799999892711639,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		484615967406572,
+		[],
+		null
+	]
+,	[
+		"t7",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			2320165777001886,
+			[
+				["images/assetsC2/sharebutton-sheet0.png", 639, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		6560596110360127,
+		[],
+		null
+	]
+,	[
+		"t8",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			7223240898403568,
+			[
+				["images/assetsC2/deletescores-sheet0.png", 637, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0,-0.5,0.4599999785423279,-0.4583333134651184,0.4800000190734863,0,0.4599999785423279,0.4583330154418945,0,0.5,-0.4600000083446503,0.4583330154418945,-0.4799999892711639,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		6629108041413142,
+		[],
+		null
+	]
+,	[
+		"t9",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22135,7 +22453,37 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t7",
+		"t10",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			7828519789547357,
+			[
+				["images/assetsC2/playbutton-sheet0.png", 6772, 0, 0, 256, 256, 1, 0.5, 0.5,[],[-0.3554689884185791,-0.3554689884185791,0.3554689884185791,-0.3554689884185791,0.3554689884185791,0.3554689884185791,-0.3554689884185791,0.3554689884185791],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		true,
+		1336547469157745,
+		[],
+		null
+	]
+,	[
+		"t11",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22152,7 +22500,7 @@ cr.getProjectModel = function() { return [
 			false,
 			1691684893516498,
 			[
-				["images/assetsC2/uparrow-sheet0.png", 1434, 0, 0, 80, 80, 1, 0.5, 0.5,[],[-0.3499999940395355,-0.3499999940395355,0,-0.5,0.3500000238418579,-0.3499999940395355,0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3499999940395355,0.3500000238418579,-0.5,0],0]
+				["images/assetsC2/uparrow-sheet0.png", 1434, 0, 0, 80, 80, 1, 0.5, 0.5,[],[-0.3400000035762787,-0.3400000035762787,0,-0.3600000143051148,0.3399999737739563,-0.3400000035762787,0.3600000143051148,0,0.3399999737739563,0.3399999737739563,0,0.3600000143051148,-0.3400000035762787,0.3399999737739563,-0.3600000143051148,0],0]
 			]
 			]
 		],
@@ -22165,7 +22513,239 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t8",
+		"t12",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			3280628066714078,
+			[
+				["images/assetsC2/leaderboardbutton-sheet0.png", 518, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		2750758357211208,
+		[],
+		null
+	]
+,	[
+		"t13",
+		cr.plugins_.wpc2,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		8403940385879478,
+		[],
+		null
+		,["appBar",1]
+	]
+,	[
+		"t14",
+		cr.plugins_.fdcpp,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		6766969408407935,
+		[],
+		null
+		,[]
+	]
+,	[
+		"t15",
+		cr.plugins_.Function,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		701648588300493,
+		[],
+		null
+		,[]
+	]
+,	[
+		"t16",
+		cr.plugins_.Audio,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		3028015155049837,
+		[],
+		null
+		,[0,0,1,1,600,600,10000,1,5000,1]
+	]
+,	[
+		"t17",
+		cr.plugins_.WebStorage,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		128556809337902,
+		[],
+		null
+		,[]
+	]
+,	[
+		"t18",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			8980586300820211,
+			[
+				["images/assetsC2/returnkey-sheet0.png", 1238, 0, 0, 100, 100, 1, 0.5, 0.5,[],[0,-0.4099999964237213,0.4200000166893005,-0.4200000166893005,0.4399999976158142,0,0.4100000262260437,0.4100000262260437,-0.4099999964237213,0.4100000262260437,-0.4399999976158142,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		true,
+		8672455820302887,
+		[],
+		null
+	]
+,	[
+		"t19",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			2031867989058237,
+			[
+				["images/assetsC2/esckey-sheet0.png", 1132, 0, 0, 100, 100, 1, 0.5, 0.5,[],[-0.3400000035762787,-0.3400000035762787,0,-0.3600000143051148,0.3399999737739563,-0.3400000035762787,0.3600000143051148,0,0.3399999737739563,0.3399999737739563,0,0.3600000143051148,-0.3400000035762787,0.3399999737739563,-0.3600000143051148,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		false,
+		7520061352319373,
+		[],
+		null
+	]
+,	[
+		"t20",
+		cr.plugins_.Text,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		true,
+		3811842886579332,
+		[],
+		null
+	]
+,	[
+		"t21",
+		cr.plugins_.Touch,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		7692813297571575,
+		[],
+		null
+		,[1]
+	]
+,	[
+		"t22",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		0,
+		0,
+		["images/assetsC2/pauseshade.png", 111, 0],
+		null,
+		[
+		],
+		false,
+		false,
+		7940501518976048,
+		[],
+		null
+	]
+,	[
+		"t23",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22187,7 +22767,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t9",
+		"t24",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22204,8 +22784,8 @@ cr.getProjectModel = function() { return [
 			false,
 			8630626395284602,
 			[
-				["images/assetsC2/mainc-sheet0.png", 11725, 1, 1, 96, 128, 1, 0.5, 0.5,[],[-0.04166701436042786,-0.390625,0.3125,-0.3828119933605194,0.3229169845581055,-0.1015619933605194,-0.1354170143604279,-0.078125],0],
-				["images/assetsC2/mainc-sheet0.png", 11725, 98, 1, 96, 128, 1, 0.5, 0.5,[],[-0.1041670143604279,-0.4453125,0.3125,-0.4140625,0.28125,-0.1796869933605194,-0.1041670143604279,-0.1484369933605194],0],
+				["images/assetsC2/mainc-sheet0.png", 11736, 1, 1, 96, 128, 1, 0.5, 0.5,[],[-0.04166701436042786,-0.390625,0.3125,-0.3828119933605194,0.3229169845581055,-0.1015619933605194,-0.1354170143604279,-0.078125],0],
+				["images/assetsC2/mainc-sheet0.png", 11736, 99, 1, 96, 128, 1, 0.5, 0.5,[],[-0.1041670143604279,-0.4453125,0.3125,-0.4140625,0.28125,-0.1796869933605194,-0.1041670143604279,-0.1484369933605194],0],
 				["images/assetsC2/mainc-sheet1.png", 6121, 0, 0, 96, 128, 1, 0.5, 0.5,[],[-0.07291701436042786,-0.453125,0.34375,-0.390625,0.2916669845581055,-0.09375,-0.0625,-0.1328119933605194],0]
 			]
 			]
@@ -22219,7 +22799,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t10",
+		"t25",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22264,37 +22844,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t11",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			9377642882783214,
-			[
-				["images/assetsC2/pausebutton-sheet0.png", 508, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0,-0.5,0.4599999785423279,-0.4583333134651184,0.4800000190734863,0,0.4599999785423279,0.4583330154418945,0,0.5,-0.4600000083446503,0.4583330154418945,-0.4799999892711639,0],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		9345971683998869,
-		[],
-		null
-	]
-,	[
-		"t12",
+		"t26",
 		cr.plugins_.Keyboard,
 		false,
 		[],
@@ -22312,10 +22862,10 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t13",
+		"t27",
 		cr.plugins_.Sprite,
 		false,
-		[5663949309315676],
+		[5663949309315676,3851747857340062,1286780490026048],
 		2,
 		0,
 		null,
@@ -22329,7 +22879,7 @@ cr.getProjectModel = function() { return [
 			false,
 			852301849363525,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 1, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 1, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 ,			[
@@ -22341,7 +22891,7 @@ cr.getProjectModel = function() { return [
 			false,
 			4348213810207964,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 66, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 67, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 ,			[
@@ -22353,7 +22903,7 @@ cr.getProjectModel = function() { return [
 			false,
 			8707211411594908,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 131, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.4921875,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 133, 1, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.4921875,0.484375],0]
 			]
 			]
 ,			[
@@ -22365,7 +22915,7 @@ cr.getProjectModel = function() { return [
 			false,
 			3450365868400927,
 			[
-				["images/assetsC2/block-sheet0.png", 1777, 1, 66, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
+				["images/assetsC2/block-sheet0.png", 1774, 1, 67, 64, 64, 1, 0.5, 0.5,[],[-0.484375,-0.484375,0.484375,-0.484375,0.484375,0.484375,-0.484375,0.484375],0]
 			]
 			]
 		],
@@ -22388,7 +22938,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t14",
+		"t28",
 		cr.plugins_.SpriteFontPlus,
 		false,
 		[],
@@ -22405,7 +22955,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t15",
+		"t29",
 		cr.plugins_.Button,
 		false,
 		[],
@@ -22422,7 +22972,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t16",
+		"t30",
 		cr.plugins_.NinePatch,
 		false,
 		[],
@@ -22439,7 +22989,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t17",
+		"t31",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22456,37 +23006,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t18",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			4351708117305906,
-			[
-				["images/assetsC2/replaybutton-sheet0.png", 574, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0,-0.5,0.4599999785423279,-0.4583333134651184,0.4800000190734863,0,0.4599999785423279,0.4583330154418945,0,0.5,-0.4600000083446503,0.4583330154418945,-0.4799999892711639,0],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		484615967406572,
-		[],
-		null
-	]
-,	[
-		"t19",
+		"t32",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22503,7 +23023,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t20",
+		"t33",
 		cr.plugins_.Button,
 		false,
 		[],
@@ -22520,175 +23040,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t21",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			2320165777001886,
-			[
-				["images/assetsC2/sharebutton-sheet0.png", 639, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		6560596110360127,
-		[],
-		null
-	]
-,	[
-		"t22",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			7223240898403568,
-			[
-				["images/assetsC2/quitgame-sheet0.png", 637, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0,-0.5,0.4599999785423279,-0.4583333134651184,0.4800000190734863,0,0.4599999785423279,0.4583330154418945,0,0.5,-0.4600000083446503,0.4583330154418945,-0.4799999892711639,0],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		6629108041413142,
-		[],
-		null
-	]
-,	[
-		"t23",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			1008425733013678,
-			[
-				["images/assetsC2/configbutton-sheet0.png", 689, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		8975347241436733,
-		[],
-		null
-	]
-,	[
-		"t24",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			3280628066714078,
-			[
-				["images/assetsC2/leaderboardbutton-sheet0.png", 518, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.4600000083446503,-0.4583333134651184,0.4599999785423279,-0.4583333134651184,0.4599999785423279,0.4583330154418945,-0.4600000083446503,0.4583330154418945],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		2750758357211208,
-		[],
-		null
-	]
-,	[
-		"t25",
-		cr.plugins_.WebStorage,
-		false,
-		[],
-		0,
-		0,
-		null,
-		null,
-		[
-		],
-		false,
-		false,
-		128556809337902,
-		[],
-		null
-		,[]
-	]
-,	[
-		"t26",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			2885261318795819,
-			[
-				["images/assetsC2/backsettingsbutton-sheet0.png", 1551, 0, 0, 80, 80, 1, 0.5, 0.5,[],[-0.3499999940395355,-0.3499999940395355,0,-0.5,0.3500000238418579,-0.3499999940395355,0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3499999940395355,0.3500000238418579,-0.5,0],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		1988146745001644,
-		[],
-		null
-	]
-,	[
-		"t27",
+		"t34",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22705,85 +23057,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t28",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			9549834460853459,
-			[
-				["images/assetsC2/backbutton-sheet0.png", 1575, 0, 0, 80, 80, 1, 0.5, 0.5,[],[0.5,0,0.3500000238418579,0.3500000238418579,0,0.5,-0.3499999940395355,0.3500000238418579,-0.5,0,-0.3499999940395355,-0.3499999940395355,0,-0.5,0.3500000238418579,-0.3499999940395355],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		8872434332521765,
-		[],
-		null
-	]
-,	[
-		"t29",
-		cr.plugins_.Sprite,
-		false,
-		[],
-		0,
-		0,
-		null,
-		[
-			[
-			"Default",
-			5,
-			false,
-			1,
-			0,
-			false,
-			2242407074118407,
-			[
-				["images/assetsC2/quitgame-sheet0.png", 637, 0, 0, 50, 48, 1, 0.5, 0.5,[],[-0.5,-0.5,0.4599999785423279,-0.5,0.4599999785423279,0.5,-0.5,0.5],0]
-			]
-			]
-		],
-		[
-		],
-		false,
-		false,
-		3370477570130572,
-		[],
-		null
-	]
-,	[
-		"t30",
-		cr.plugins_.wpc2,
-		false,
-		[],
-		0,
-		0,
-		null,
-		null,
-		[
-		],
-		false,
-		false,
-		8403940385879478,
-		[],
-		null
-		,["appBar",1]
-	]
-,	[
-		"t31",
+		"t35",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22800,7 +23074,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t32",
+		"t36",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22817,7 +23091,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t33",
+		"t37",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22834,7 +23108,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t34",
+		"t38",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22864,7 +23138,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t35",
+		"t39",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22894,7 +23168,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t36",
+		"t40",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -22910,9 +23184,27 @@ cr.getProjectModel = function() { return [
 		[],
 		null
 	]
+,	[
+		"t41",
+		cr.plugins_.Sprite,
+		true,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		7216524448227114,
+		[],
+		null
+	]
 	],
 	[
-		[36,5,11,6,7]
+		[40,4,5,9,11]
+,		[41,19,18]
 	],
 	[
 	[
@@ -22940,7 +23232,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				32,
+				36,
 				0,
 				[
 				],
@@ -22971,7 +23263,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[-117, -16, 0, 1600, 800, 0, 0, 1, 0, 0, 0, 0, []],
-				33,
+				37,
 				13,
 				[
 				],
@@ -23002,7 +23294,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[645.6259765625, 690, 0, 1996, 408, 0, 0, 1, 0.5, 0.6740196347236633, 0, 0, []],
-				34,
+				38,
 				32,
 				[
 				],
@@ -23035,7 +23327,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 768, 0, 1366, 70, 0, 0, 1, 0, 0, 0, 0, []],
-				8,
+				23,
 				9,
 				[
 				],
@@ -23051,7 +23343,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-198, 642, 0, 96, 128, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				9,
+				24,
 				10,
 				[
 				],
@@ -23066,7 +23358,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[683, 703, 0, 46, 9, 0, 0, 1, 0.5, -6, 0, 0, []],
-				10,
+				25,
 				11,
 				[
 				],
@@ -23097,10 +23389,12 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-107, 669, 0, 64, 64, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				13,
+				27,
 				15,
 				[
-					[1]
+					[1],
+					[-1],
+					[-1]
 				],
 				[
 				[
@@ -23126,7 +23420,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[11, 0, 0, 768, 70, 0, 1.570796370506287, 1, 0, 0, 0, 0, []],
-				8,
+				23,
 				27,
 				[
 				],
@@ -23142,7 +23436,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[1355, 768, 0, 768, 70, 0, -1.570796489715576, 1, 0, 0, 0, 0, []],
-				8,
+				23,
 				29,
 				[
 				],
@@ -23160,7 +23454,7 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"pauseShade",
+			"pauseScreen",
 			4,
 			3077543370296998,
 			true,
@@ -23176,7 +23470,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[444444448, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				2,
+				22,
 				3,
 				[
 				],
@@ -23189,13 +23483,48 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				2,
+				22,
 				35,
 				[
 				],
 				[
 				],
 				[
+					0,
+					0
+				]
+			]
+,			[
+				[724.5, 82, 0, 70, 70, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				18,
+				38,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[606.5, 61, 0, 127, 59, 0, 0, 1, 0, 0, 0, 0, []],
+				20,
+				44,
+				[
+				],
+				[
+				],
+				[
+					"Jugar",
+					0,
+					"26pt Segoe UI Light",
+					"rgb(255,255,255)",
+					0,
+					0,
+					0,
 					0,
 					0
 				]
@@ -23220,7 +23549,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[1151, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
-				5,
+				4,
 				6,
 				[
 				],
@@ -23235,7 +23564,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[1251, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
-				6,
+				9,
 				7,
 				[
 				],
@@ -23250,7 +23579,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[115, 546, 0, 80, 80, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
-				7,
+				11,
 				8,
 				[
 				],
@@ -23265,7 +23594,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[115, 435, 0, 50, 48, 0, 0, 0.5, 0.5, 0.5, 0, 0, []],
-				11,
+				5,
 				12,
 				[
 				],
@@ -23280,7 +23609,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[120, 30, 0, 716, 72, 0, 0, 1, 0, 0, 0, 0, []],
-				14,
+				28,
 				16,
 				[
 				],
@@ -23323,7 +23652,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[683, 393, 0, 256, 256, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				0,
+				10,
 				1,
 				[
 				],
@@ -23338,7 +23667,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[683, 590, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				22,
+				8,
 				31,
 				[
 				],
@@ -23371,7 +23700,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[433, 142, 0, 500, 357, 0, 0, 1, 0, 0, 0, 0, []],
-				16,
+				30,
 				19,
 				[
 				],
@@ -23391,7 +23720,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[433, 169, 0, 500, 100, 0, 0, 1, 0, 0, 0, 0, []],
-				19,
+				32,
 				20,
 				[
 				],
@@ -23411,7 +23740,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[433, 265, 0, 500, 77, 0, 0, 1, 0, 0, 0, 0, []],
-				14,
+				28,
 				21,
 				[
 				],
@@ -23436,7 +23765,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[833, 414, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				21,
+				7,
 				22,
 				[
 				],
@@ -23451,7 +23780,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[683, 414, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				18,
+				6,
 				23,
 				[
 				],
@@ -23466,7 +23795,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[533, 414, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				22,
+				8,
 				24,
 				[
 				],
@@ -23499,7 +23828,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				2,
+				22,
 				26,
 				[
 				],
@@ -23512,7 +23841,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[523, 234, 0, 320, 300, 0, 0, 1, 0, 0, 0, 0, []],
-				31,
+				35,
 				18,
 				[
 				],
@@ -23550,7 +23879,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[1250, 20, 0, 96, 24, 0, 0, 1, 0, 0, 0, 0, []],
-				15,
+				29,
 				17,
 				[
 				],
@@ -23569,7 +23898,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[335.9267578125, 321.0235595703125, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
-				27,
+				34,
 				37,
 				[
 				],
@@ -23620,7 +23949,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				32,
+				36,
 				25,
 				[
 				],
@@ -23633,7 +23962,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-5.5, -16, 0, 1377, 800, 0, 0, 1, 0, 0, 0, 0, []],
-				33,
+				37,
 				33,
 				[
 				],
@@ -23646,7 +23975,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[1203.588500976563, 731.8032836914063, 0, 130.5252380371094, 48.03328704833984, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				35,
+				39,
 				34,
 				[
 				],
@@ -23679,7 +24008,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[683, 393, 0, 256, 256, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				0,
+				10,
 				28,
 				[
 				],
@@ -23690,6 +24019,59 @@ cr.getProjectModel = function() { return [
 					"Default",
 					0,
 					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"keyboarInstructions",
+			2,
+			3286368327023032,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[724.5, 56, 0, 70, 70, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				18,
+				42,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[606.5, 35, 0, 127, 59, 0, 0, 1, 0, 0, 0, 0, []],
+				20,
+				43,
+				[
+				],
+				[
+				],
+				[
+					"Jugar",
+					0,
+					"26pt Segoe UI Light",
+					"rgb(255,255,255)",
+					0,
+					0,
+					0,
+					0,
+					0
 				]
 			]
 			],
@@ -23725,7 +24107,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[80, 80, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				28,
+				1,
 				39,
 				[
 				],
@@ -23740,7 +24122,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[80, 200, 0, 50, 48, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				29,
+				3,
 				40,
 				[
 				],
@@ -23875,7 +24257,7 @@ false,false,5050866466494312,false
 				7573670909184389,
 				[
 				[
-					12,
+					26,
 					cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 					null,
 					0,
@@ -23922,7 +24304,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					9,
+					24,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					2566797943737636,
@@ -23944,7 +24326,7 @@ false,false,5050866466494312,false
 				5543514634908094,
 				[
 				[
-					12,
+					26,
 					cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 					null,
 					0,
@@ -23991,7 +24373,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					9,
+					24,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					3776187904069461,
@@ -24013,7 +24395,7 @@ false,false,5050866466494312,false
 				467136003080307,
 				[
 				[
-					12,
+					26,
 					cr.plugins_.Keyboard.prototype.cnds.OnKey,
 					null,
 					1,
@@ -24060,7 +24442,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					9259483886248807,
@@ -24095,7 +24477,7 @@ false,false,5050866466494312,false
 				4249613776624188,
 				[
 				[
-					12,
+					26,
 					cr.plugins_.Keyboard.prototype.cnds.OnKey,
 					null,
 					1,
@@ -24201,7 +24583,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						3,
+						15,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						3337271623805569,
@@ -24287,7 +24669,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						3,
+						15,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						9469041645061757,
@@ -24357,7 +24739,7 @@ false,false,5050866466494312,false
 				6850927034263637,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -24369,7 +24751,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						0
+						10
 					]
 					]
 				]
@@ -24452,7 +24834,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					9528892287767684,
@@ -24480,7 +24862,7 @@ false,false,5050866466494312,false
 				8591215122146213,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -24492,7 +24874,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						6
+						9
 					]
 					]
 				]
@@ -24527,7 +24909,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					9,
+					24,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					6918989005268688,
@@ -24540,7 +24922,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					10,
+					25,
 					cr.behaviors.Platform.prototype.acts.SimulateControl,
 					"Platform",
 					2290928940336092,
@@ -24562,7 +24944,7 @@ false,false,5050866466494312,false
 				6037523778796424,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -24574,7 +24956,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						7
+						11
 					]
 					]
 				]
@@ -24609,7 +24991,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					10,
+					25,
 					cr.behaviors.Platform.prototype.acts.SimulateControl,
 					"Platform",
 					3098611173823787,
@@ -24631,7 +25013,7 @@ false,false,5050866466494312,false
 				6582882659116319,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -24643,7 +25025,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						5
+						4
 					]
 					]
 				]
@@ -24678,7 +25060,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					9,
+					24,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					62123140433944,
@@ -24691,7 +25073,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					10,
+					25,
 					cr.behaviors.Platform.prototype.acts.SimulateControl,
 					"Platform",
 					6093206177638759,
@@ -24713,7 +25095,7 @@ false,false,5050866466494312,false
 				3164831381375612,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -24725,7 +25107,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						11
+						5
 					]
 					]
 				]
@@ -24760,7 +25142,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					27,
+					34,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					8029104452005303,
@@ -24822,7 +25204,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						3,
+						15,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						7288347965461481,
@@ -24870,7 +25252,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						3,
+						15,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						173424715309579,
@@ -24907,7 +25289,7 @@ false,false,5050866466494312,false
 				1592693269751362,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -24919,7 +25301,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						21
+						7
 					]
 					]
 				]
@@ -24954,7 +25336,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					30,
+					13,
 					cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 					null,
 					6635552605374377,
@@ -24970,7 +25352,7 @@ false,false,5050866466494312,false
 				2093607568914644,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -24982,7 +25364,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						18
+						6
 					]
 					]
 				]
@@ -25060,7 +25442,7 @@ false,false,5050866466494312,false
 				1753364685779237,
 				[
 				[
-					1,
+					21,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -25072,7 +25454,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						22
+						8
 					]
 					]
 				]
@@ -25202,7 +25584,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					9,
+					24,
 					cr.plugins_.Sprite.prototype.acts.SetPosToObject,
 					null,
 					3758993372488166,
@@ -25210,7 +25592,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						10
+						25
 					]
 ,					[
 						7,
@@ -25222,7 +25604,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					5298975488361388,
@@ -25263,7 +25645,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					4406282463030555,
@@ -25372,7 +25754,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							34,
+							38,
 							cr.plugins_.Sprite.prototype.exps.X,
 							false,
 							null
@@ -25395,7 +25777,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							33,
+							37,
 							cr.plugins_.TiledBg.prototype.exps.X,
 							false,
 							null
@@ -25418,10 +25800,33 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							33,
+							37,
 							cr.plugins_.TiledBg.prototype.exps.Y,
 							false,
 							null
+						]
+					]
+					]
+				]
+,				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.CreateEngine,
+					null,
+					5789730776143641,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							21
+						]
+					]
+,					[
+						0,
+						[
+							0,
+							12
 						]
 					]
 					]
@@ -25478,7 +25883,7 @@ false,false,5050866466494312,false
 					3806278567749429,
 					[
 					[
-						30,
+						13,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25556,7 +25961,7 @@ false,false,5050866466494312,false
 					5997188881816523,
 					[
 					[
-						30,
+						13,
 						cr.plugins_.wpc2.prototype.cnds.HasTouchInput,
 						null,
 						0,
@@ -25569,7 +25974,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						36,
+						40,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9728335691694453,
@@ -25578,6 +25983,54 @@ false,false,5050866466494312,false
 						[
 							3,
 							1
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					5645277167325837,
+					[
+					[
+						13,
+						cr.plugins_.wpc2.prototype.cnds.IsWindowsPhone8,
+						null,
+						0,
+						false,
+						false,
+						false,
+						2546418753188871,
+						false
+					]
+					],
+					[
+					[
+						41,
+						cr.plugins_.Sprite.prototype.acts.SetVisible,
+						null,
+						9668285847794626,
+						false
+						,[
+						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						20,
+						cr.plugins_.Text.prototype.acts.SetVisible,
+						null,
+						2116323978420741,
+						false
+						,[
+						[
+							3,
+							0
 						]
 						]
 					]
@@ -25593,7 +26046,7 @@ false,false,5050866466494312,false
 				6659338750621825,
 				[
 				[
-					30,
+					13,
 					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
 					null,
 					1,
@@ -25615,7 +26068,7 @@ false,false,5050866466494312,false
 					5496232568047831,
 					[
 					[
-						30,
+						13,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -25664,32 +26117,6 @@ false,false,5050866466494312,false
 						]
 					]
 ,					[
-						3,
-						cr.plugins_.Function.prototype.acts.CallFunction,
-						null,
-						3035286106247116,
-						false
-						,[
-						[
-							1,
-							[
-								2,
-								"pause"
-							]
-						]
-,						[
-							13,
-															[
-									7,
-									[
-										23,
-										"FALSE"
-									]
-								]
-						]
-						]
-					]
-,					[
 						-1,
 						cr.system_object.prototype.acts.SetLayerVisible,
 						null,
@@ -25706,6 +26133,73 @@ false,false,5050866466494312,false
 ,						[
 							3,
 							0
+						]
+						]
+					]
+					]
+					,[
+					[
+						0,
+						null,
+						false,
+						null,
+						1454341865897327,
+						[
+						[
+							-1,
+							cr.system_object.prototype.cnds.CompareVar,
+							null,
+							0,
+							false,
+							false,
+							false,
+							1007502240279639,
+							false
+							,[
+							[
+								11,
+								"gamePaused"
+							]
+,							[
+								8,
+								0
+							]
+,							[
+								7,
+								[
+									23,
+									"FALSE"
+								]
+							]
+							]
+						]
+						],
+						[
+						[
+							15,
+							cr.plugins_.Function.prototype.acts.CallFunction,
+							null,
+							3035286106247116,
+							false
+							,[
+							[
+								1,
+								[
+									2,
+									"pause"
+								]
+							]
+,							[
+								13,
+																	[
+										7,
+										[
+											23,
+											"FALSE"
+										]
+									]
+							]
+							]
 						]
 						]
 					]
@@ -25752,7 +26246,27 @@ false,false,5050866466494312,false
 						]
 					]
 ,					[
-						3,
+						-1,
+						cr.system_object.prototype.acts.SetLayerVisible,
+						null,
+						5523545736089331,
+						false
+						,[
+						[
+							5,
+							[
+								0,
+								8
+							]
+						]
+,						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						15,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						1364380349908681,
@@ -25777,27 +26291,36 @@ false,false,5050866466494312,false
 						]
 						]
 					]
-,					[
-						-1,
-						cr.system_object.prototype.acts.SetLayerVisible,
-						null,
-						5523545736089331,
-						false
-						,[
-						[
-							5,
-							[
-								0,
-								8
-							]
-						]
-,						[
-							3,
-							1
-						]
-						]
 					]
-					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				3232256057992301,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.OnLayoutEnd,
+					null,
+					1,
+					false,
+					false,
+					false,
+					9483020986062444,
+					false
+				]
+				],
+				[
+				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.DestroyEngine,
+					null,
+					9260822805960102,
+					false
 				]
 				]
 			]
@@ -25835,6 +26358,13 @@ false,false,5050866466494312,false
 			]
 			,[
 			[
+				1,
+				"rowToErase",
+				0,
+				-1,
+false,false,5984259031720608,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -25842,7 +26372,7 @@ false,false,5050866466494312,false
 				17435870339364,
 				[
 				[
-					13,
+					27,
 					cr.behaviors.Platform.prototype.cnds.OnLand,
 					"Platform",
 					1,
@@ -25855,63 +26385,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					-1,
-					cr.system_object.prototype.acts.AddVar,
-					null,
-					7901124582200269,
-					false
-					,[
-					[
-						11,
-						"fallenBLocks"
-					]
-,					[
-						7,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-,				[
-					3,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					6136211551935563,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"updateHUD"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-,				[
-					13,
-					cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
-					null,
-					2638413201114027,
-					false
-					,[
-					[
-						10,
-						0
-					]
-,					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					4,
+					16,
 					cr.plugins_.Audio.prototype.acts.PlayAtObject,
 					null,
 					5645537972273429,
@@ -25934,7 +26408,7 @@ false,false,5050866466494312,false
 					]
 ,					[
 						4,
-						13
+						27
 					]
 ,					[
 						0,
@@ -25966,22 +26440,247 @@ false,false,5050866466494312,false
 					]
 					]
 				]
-,				[
-					3,
-					cr.plugins_.Function.prototype.acts.CallFunction,
+				]
+				,[
+				[
+					0,
 					null,
-					9991370044495908,
-					false
-					,[
+					false,
+					null,
+					3176425798151271,
 					[
-						1,
+					[
+						27,
+						cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
+						null,
+						0,
+						false,
+						false,
+						false,
+						122032550205382,
+						false
+						,[
 						[
-							2,
-							"createBlock"
+							10,
+							0
+						]
+						]
+					]
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.AddVar,
+						null,
+						7901124582200269,
+						false
+						,[
+						[
+							11,
+							"fallenBLocks"
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
 						]
 					]
 ,					[
-						13,
+						27,
+						cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
+						null,
+						2638413201114027,
+						false
+						,[
+						[
+							10,
+							0
+						]
+,						[
+							3,
+							0
+						]
+						]
+					]
+,					[
+						14,
+						cr.plugins_.fdcpp.prototype.acts.SetBlock,
+						null,
+						6049718597187286,
+						false
+						,[
+						[
+							0,
+							[
+								21,
+								27,
+								false,
+								null
+								,2
+							]
+						]
+						]
+					]
+,					[
+						27,
+						cr.plugins_.Sprite.prototype.acts.SetInstanceVar,
+						null,
+						5270631795412552,
+						false
+						,[
+						[
+							10,
+							1
+						]
+,						[
+							7,
+							[
+								20,
+								14,
+								cr.plugins_.fdcpp.prototype.exps.GetRow,
+								false,
+								null
+								,[
+[
+									21,
+									27,
+									false,
+									null
+									,2
+								]
+								]
+							]
+						]
+						]
+					]
+,					[
+						15,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						9991370044495908,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"createBlock"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+,					[
+						-1,
+						cr.system_object.prototype.acts.SetVar,
+						null,
+						6520949588862815,
+						false
+						,[
+						[
+							11,
+							"rowToErase"
+						]
+,						[
+							7,
+							[
+								20,
+								14,
+								cr.plugins_.fdcpp.prototype.exps.RowToErase,
+								false,
+								null
+							]
+						]
+						]
+					]
+,					[
+						15,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						6136211551935563,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"updateHUD"
+							]
+						]
+,						[
+							13,
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					3893053026155212,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						3998063539503327,
+						false
+						,[
+						[
+							11,
+							"rowToErase"
+						]
+,						[
+							8,
+							5
+						]
+,						[
+							7,
+							[
+								0,
+								0
+							]
+						]
+						]
+					]
+					],
+					[
+					[
+						15,
+						cr.plugins_.Function.prototype.acts.CallFunction,
+						null,
+						6173421124867728,
+						false
+						,[
+						[
+							1,
+							[
+								2,
+								"deleteBlocks"
+							]
+						]
+,						[
+							13,
+															[
+									7,
+									[
+										23,
+										"rowToErase"
+									]
+								]
+						]
+						]
 					]
 					]
 				]
@@ -25995,7 +26694,7 @@ false,false,5050866466494312,false
 				2443671993534644,
 				[
 				[
-					13,
+					27,
 					cr.plugins_.Sprite.prototype.cnds.OnCollision,
 					null,
 					0,
@@ -26007,12 +26706,12 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						9
+						24
 					]
 					]
 				]
 ,				[
-					13,
+					27,
 					cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
 					null,
 					0,
@@ -26031,7 +26730,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					9098862040319093,
@@ -26092,7 +26791,7 @@ false,false,5050866466494312,false
 				4529963049937661,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -26123,7 +26822,7 @@ false,false,5050866466494312,false
 					1572159212993434,
 					[
 					[
-						3,
+						15,
 						cr.plugins_.Function.prototype.cnds.CompareParam,
 						null,
 						0,
@@ -26240,7 +26939,7 @@ false,false,5050866466494312,false
 						]
 					]
 ,					[
-						4,
+						16,
 						cr.plugins_.Audio.prototype.acts.SetPaused,
 						null,
 						5165048258988571,
@@ -26291,7 +26990,7 @@ false,false,5050866466494312,false
 						466273100537636,
 						[
 						[
-							3,
+							15,
 							cr.plugins_.Function.prototype.cnds.CompareParam,
 							null,
 							0,
@@ -26380,7 +27079,7 @@ false,false,5050866466494312,false
 							]
 						]
 ,						[
-							4,
+							16,
 							cr.plugins_.Audio.prototype.acts.SetPaused,
 							null,
 							4312313641861344,
@@ -26420,7 +27119,7 @@ false,false,3096662099478148,false
 				5255522894343624,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -26445,7 +27144,7 @@ false,false,3096662099478148,false
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
-					7332720202326143,
+					9362521104786586,
 					false
 					,[
 					[
@@ -26455,24 +27154,11 @@ false,false,3096662099478148,false
 ,					[
 						7,
 						[
-							19,
-							cr.system_object.prototype.exps.floor
-							,[
-[
-								19,
-								cr.system_object.prototype.exps.random
-								,[
-[
-									0,
-									0
-								]
-,[
-									0,
-									21
-								]
-								]
-							]
-							]
+							20,
+							14,
+							cr.plugins_.fdcpp.prototype.exps.NextBlock,
+							false,
+							null
 						]
 					]
 					]
@@ -26486,7 +27172,7 @@ false,false,3096662099478148,false
 					,[
 					[
 						4,
-						13
+						27
 					]
 ,					[
 						5,
@@ -26526,7 +27212,27 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					13,
+					27,
+					cr.plugins_.Sprite.prototype.acts.SetInstanceVar,
+					null,
+					9013260943302965,
+					false
+					,[
+					[
+						10,
+						2
+					]
+,					[
+						7,
+						[
+							23,
+							"blockPosition"
+						]
+					]
+					]
+				]
+,				[
+					27,
 					cr.behaviors.Platform.prototype.acts.SetAcceleration,
 					"Platform",
 					9062918358726788,
@@ -26556,7 +27262,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					13,
+					27,
 					cr.plugins_.Sprite.prototype.acts.SetAnim,
 					null,
 					5469284865587942,
@@ -26676,7 +27382,7 @@ false,false,3096662099478148,false
 				3082732543644705,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -26698,7 +27404,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					14,
+					28,
 					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 					null,
 					641565820379818,
@@ -26730,7 +27436,7 @@ false,false,3096662099478148,false
 				9850853647813568,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -26752,7 +27458,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					14,
+					28,
 					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 					null,
 					4037439766683287,
@@ -26775,7 +27481,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					8856132828518768,
@@ -26841,7 +27547,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					30,
+					13,
 					cr.plugins_.wpc2.prototype.acts.SetTextTile,
 					null,
 					4387871545814524,
@@ -26880,7 +27586,7 @@ false,false,3096662099478148,false
 				9350054527896243,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -26902,6 +27608,13 @@ false,false,3096662099478148,false
 				],
 				[
 				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.ClearEngine,
+					null,
+					4916093313872181,
+					false
+				]
+,				[
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
@@ -26922,7 +27635,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					7250668812011254,
@@ -26948,26 +27661,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					3,
-					cr.plugins_.Function.prototype.acts.CallFunction,
-					null,
-					8801401297541201,
-					false
-					,[
-					[
-						1,
-						[
-							2,
-							"createBlock"
-						]
-					]
-,					[
-						13,
-					]
-					]
-				]
-,				[
-					4,
+					16,
 					cr.plugins_.Audio.prototype.acts.Play,
 					null,
 					4821684711443013,
@@ -27057,6 +27751,25 @@ false,false,3096662099478148,false
 					]
 					]
 				]
+,				[
+					15,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					8801401297541201,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"createBlock"
+						]
+					]
+,					[
+						13,
+					]
+					]
+				]
 				]
 			]
 ,			[
@@ -27081,7 +27794,7 @@ true,true,3942350720316154,false
 				6461315155595917,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27103,7 +27816,7 @@ true,true,3942350720316154,false
 				],
 				[
 				[
-					34,
+					38,
 					cr.plugins_.Sprite.prototype.acts.SetX,
 					null,
 					3317244836783479,
@@ -27134,7 +27847,7 @@ true,true,3942350720316154,false
 									]
 									,[
 										20,
-										10,
+										25,
 										cr.plugins_.Sprite.prototype.exps.X,
 										false,
 										null
@@ -27150,7 +27863,7 @@ true,true,3942350720316154,false
 					]
 				]
 ,				[
-					33,
+					37,
 					cr.plugins_.TiledBg.prototype.acts.SetX,
 					null,
 					1286842244730771,
@@ -27181,7 +27894,7 @@ true,true,3942350720316154,false
 									]
 									,[
 										20,
-										10,
+										25,
 										cr.plugins_.Sprite.prototype.exps.X,
 										false,
 										null
@@ -27197,7 +27910,7 @@ true,true,3942350720316154,false
 					]
 				]
 ,				[
-					33,
+					37,
 					cr.plugins_.TiledBg.prototype.acts.SetY,
 					null,
 					2593494932594385,
@@ -27228,7 +27941,7 @@ true,true,3942350720316154,false
 									]
 									,[
 										20,
-										10,
+										25,
 										cr.plugins_.Sprite.prototype.exps.Y,
 										false,
 										null
@@ -27246,6 +27959,250 @@ true,true,3942350720316154,false
 									]
 								]
 							]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				1,
+				"r2erase",
+				0,
+				0,
+false,false,6873032296298975,false
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				2881679333843516,
+				[
+				[
+					15,
+					cr.plugins_.Function.prototype.cnds.OnFunction,
+					null,
+					2,
+					false,
+					false,
+					false,
+					480977524393001,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"deleteBlocks"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					14,
+					cr.plugins_.fdcpp.prototype.acts.EraseRow,
+					null,
+					2606686279323703,
+					false
+					,[
+					[
+						0,
+						[
+							20,
+							15,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					8536982189102764,
+					false
+					,[
+					[
+						11,
+						"r2erase"
+					]
+,					[
+						7,
+						[
+							20,
+							15,
+							cr.plugins_.Function.prototype.exps.Param,
+							false,
+							null
+							,[
+[
+								0,
+								0
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					34,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					5534600218617314,
+					false
+					,[
+					[
+						7,
+						[
+							10,
+							[
+								2,
+								"Row "
+							]
+							,[
+								23,
+								"r2erase"
+							]
+						]
+					]
+					]
+				]
+				]
+				,[
+				[
+					0,
+					null,
+					false,
+					null,
+					2679780040448508,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.ForEach,
+						null,
+						0,
+						true,
+						false,
+						false,
+						4507022371692224,
+						false
+						,[
+						[
+							4,
+							27
+						]
+						]
+					]
+					],
+					[
+					]
+					,[
+					[
+						0,
+						null,
+						false,
+						null,
+						7317807159122392,
+						[
+						[
+							-1,
+							cr.system_object.prototype.cnds.CompareVar,
+							null,
+							0,
+							false,
+							false,
+							false,
+							8831159196336709,
+							false
+							,[
+							[
+								11,
+								"r2erase"
+							]
+,							[
+								8,
+								0
+							]
+,							[
+								7,
+								[
+									21,
+									27,
+									false,
+									null
+									,1
+								]
+							]
+							]
+						]
+						],
+						[
+						[
+							27,
+							cr.plugins_.Sprite.prototype.acts.Destroy,
+							null,
+							2639616996776264,
+							false
+						]
+						]
+					]
+					]
+				]
+,				[
+					0,
+					null,
+					false,
+					null,
+					5150044391801838,
+					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.ForEach,
+						null,
+						0,
+						true,
+						false,
+						false,
+						6312466421802609,
+						false
+						,[
+						[
+							4,
+							27
+						]
+						]
+					]
+					],
+					[
+					[
+						27,
+						cr.plugins_.Sprite.prototype.acts.SubInstanceVar,
+						null,
+						2998188427938045,
+						false
+						,[
+						[
+							10,
+							1
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
 						]
 					]
 					]
@@ -27293,7 +28250,7 @@ true,true,3942350720316154,false
 				8782740739031961,
 				[
 				[
-					30,
+					13,
 					cr.plugins_.wpc2.prototype.cnds.OnShare,
 					null,
 					1,
@@ -27306,7 +28263,7 @@ true,true,3942350720316154,false
 				],
 				[
 				[
-					30,
+					13,
 					cr.plugins_.wpc2.prototype.acts.ShareText,
 					null,
 					9872196368290069,
@@ -27392,7 +28349,7 @@ true,true,3942350720316154,false
 				6752909749617707,
 				[
 				[
-					15,
+					29,
 					cr.plugins_.Button.prototype.cnds.OnClicked,
 					null,
 					1,
@@ -27419,7 +28376,7 @@ true,true,3942350720316154,false
 					false
 				]
 ,				[
-					4,
+					16,
 					cr.plugins_.Audio.prototype.acts.StopAll,
 					null,
 					1642731255443809,
@@ -27435,11 +28392,6 @@ true,true,3942350720316154,false
 		"MenuEvents",
 		[
 		[
-			2,
-			"SettingsEvents",
-			false
-		]
-,		[
 			0,
 			null,
 			false,
@@ -27447,7 +28399,7 @@ true,true,3942350720316154,false
 			4610788874286836,
 			[
 			[
-				1,
+				21,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -27459,7 +28411,7 @@ true,true,3942350720316154,false
 				,[
 				[
 					4,
-					0
+					10
 				]
 				]
 			]
@@ -27485,33 +28437,87 @@ true,true,3942350720316154,false
 			null,
 			false,
 			null,
-			6325049861565252,
+			4780418496596003,
 			[
 			[
-				1,
-				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+				26,
+				cr.plugins_.Keyboard.prototype.cnds.OnKeyReleased,
 				null,
 				1,
 				false,
 				false,
 				false,
-				6344590453378382,
+				6880267317529001,
 				false
 				,[
 				[
-					4,
-					21
+					9,
+					13
 				]
 				]
 			]
 			],
 			[
 			[
-				30,
-				cr.plugins_.wpc2.prototype.acts.ShowShareUI,
+				-1,
+				cr.system_object.prototype.acts.GoToLayout,
 				null,
-				8981185845295414,
+				5129847620110636,
 				false
+				,[
+				[
+					6,
+					"GameLayout"
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			8120069488708122,
+			[
+			[
+				13,
+				cr.plugins_.wpc2.prototype.cnds.IsWindowsPhone8,
+				null,
+				0,
+				false,
+				false,
+				false,
+				5854798600547358,
+				false
+			]
+			],
+			[
+			[
+				41,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				4797711022203146,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
+,			[
+				20,
+				cr.plugins_.Text.prototype.acts.SetVisible,
+				null,
+				5002935051223918,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
 			]
 			]
 		]
@@ -27567,7 +28573,7 @@ false,true,6804083586070575,false
 			],
 			[
 			[
-				3,
+				15,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				5737543505202141,
@@ -27640,7 +28646,7 @@ false,false,137819117408848,false
 				5633705744667694,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27730,7 +28736,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						25,
+						17,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -27767,7 +28773,7 @@ false,false,137819117408848,false
 						,[
 						[
 							4,
-							14
+							28
 						]
 ,						[
 							5,
@@ -27800,7 +28806,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						14,
+						28,
 						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 						null,
 						7869880355172389,
@@ -27814,7 +28820,7 @@ false,false,137819117408848,false
 									10,
 									[
 										20,
-										25,
+										17,
 										cr.plugins_.WebStorage.prototype.exps.LocalValue,
 										true,
 										null
@@ -27839,7 +28845,7 @@ false,false,137819117408848,false
 								]
 								,[
 									20,
-									25,
+									17,
 									cr.plugins_.WebStorage.prototype.exps.LocalValue,
 									true,
 									null
@@ -27900,7 +28906,7 @@ false,false,8571747330113035,false
 				6926392985740752,
 				[
 				[
-					3,
+					15,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27990,7 +28996,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						25,
+						17,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -28019,7 +29025,7 @@ false,false,8571747330113035,false
 					],
 					[
 					[
-						25,
+						17,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						8686943429417027,
@@ -28042,7 +29048,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						25,
+						17,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						6759804980509709,
@@ -28098,7 +29104,7 @@ false,false,8571747330113035,false
 			7878270951107792,
 			[
 			[
-				1,
+				21,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -28110,7 +29116,7 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					28
+					1
 				]
 				]
 			]
@@ -28139,7 +29145,7 @@ false,false,8571747330113035,false
 			5763700730826748,
 			[
 			[
-				1,
+				21,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -28151,14 +29157,14 @@ false,false,8571747330113035,false
 				,[
 				[
 					4,
-					29
+					3
 				]
 				]
 			]
 			],
 			[
 			[
-				3,
+				15,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				9573208474145952,
@@ -28199,9 +29205,10 @@ false,false,8571747330113035,false
 	true,
 	2,
 	2,
-	42,
+	45,
 	false,
 	true,
+	1,
 	[
 	]
 ];};

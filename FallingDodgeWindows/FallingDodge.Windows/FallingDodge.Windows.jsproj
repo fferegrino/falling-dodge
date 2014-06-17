@@ -59,10 +59,12 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
-    <None Include="FallingDodge.Windows_StoreKey.pfx" />
+    <Content Include="images\ui\keyboardArrows.png" />
+    <Content Include="images\ui\keyboardEnter.png" />
+    <Content Include="images\ui\keyboardEsc.png" />
     <Content Include="js\default.js" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="page.html" />
+    <Content Include="settings\controls.html" />
     <Content Include="settings\thanks.html" />
     <Content Include="settings\history.html" />
     <Content Include="settings\privacy.html" />
@@ -75,6 +77,9 @@
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.2.0, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FallingDodge.RT\FallingDodge.RT.Windows\FallingDodge.RT.Windows.vcxproj" />
   </ItemGroup>
   <Import Project="..\FallingDodge.Shared\FallingDodge.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />

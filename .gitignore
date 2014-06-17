@@ -182,3 +182,7 @@ FakesAssemblies/
 # More stuff
 *.db
 Package.StoreAssociation.xml
+
+
+# C++ test files:
+*.Test.*

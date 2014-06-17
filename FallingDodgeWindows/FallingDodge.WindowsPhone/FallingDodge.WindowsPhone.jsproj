@@ -62,10 +62,12 @@
     <Content Include="images\SplashScreen.scale-240.png" />
     <Content Include="images\StoreLogo.scale-240.png" />
     <Content Include="js\default.js" />
-    <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.Phone.WinJS.2.1, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FallingDodge.RT\FallingDodge.RT.WindowsPhone\FallingDodge.RT.WindowsPhone.vcxproj" />
   </ItemGroup>
   <Import Project="..\FallingDodge.Shared\FallingDodge.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />

@@ -6,33 +6,35 @@
     <SharedGUID>98733908-4543-4705-BD51-2DA7DB118E31</SharedGUID>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="$(MSBuildThisFileDirectory)c2runtime.js" />
-    <Content Include="$(MSBuildThisFileDirectory)jquery-2.0.0.min.js" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\playbutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pauseshade.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leftarrow-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\rightarrow-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\uparrow-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamefloor.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mainc-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mainc-sheet1.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\player-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pausebutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\block-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\hudfont.png" />
+	<Content Include="$(MSBuildThisFileDirectory)c2runtime.js" />
+	<Content Include="$(MSBuildThisFileDirectory)jquery-2.0.0.min.js" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backsettingsbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\configbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\deletescores-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leftarrow-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pausebutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\replaybutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\sharebutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\rightarrow-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\playbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\uparrow-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leaderboardbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\returnkey-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\esckey-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pauseshade.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamefloor.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mainc-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mainc-sheet1.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\player-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\block-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\hudfont.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\alert9patch.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\replaybutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\sharebutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\quitgame-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\configbutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leaderboardbutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backsettingsbutton-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\backbutton-sheet0.png" />
-<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamebackground.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\gamebackground.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\stars.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mountains-sheet0.png" />
 	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\yolologo-sheet0.png" />
-    <Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
-    <Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
+	<Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
+	<Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
   </ItemGroup>
 </Project>
