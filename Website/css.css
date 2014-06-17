@@ -191,9 +191,11 @@ body {
       margin: 0;
       padding: 0; }
       .container .page.two .unslider ul li {
-        position: relative;
+        /*position: relative;*/
+        display: inline-block;
         width: 100%; }
         .container .page.two .unslider ul li img {
+          display: inline-block;
           position: relative;
           width: 100%; }
   .container .page.three .downloads {

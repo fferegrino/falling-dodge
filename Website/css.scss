@@ -310,10 +310,12 @@ background-attachment: fixed;
 				padding: 0;
 
 				li {
-					position: relative;
+					/*position: relative;*/
+					display: inline-block;
 					width: 100%;
 
 					img {
+						display: inline-block;
 						position: relative;
 						width: 100%;
 					}
