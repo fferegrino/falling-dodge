@@ -59,8 +59,12 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
+    <Content Include="images\ui\keyboardArrows.png" />
+    <Content Include="images\ui\keyboardEnter.png" />
+    <Content Include="images\ui\keyboardEsc.png" />
     <Content Include="js\default.js" />
     <Content Include="page.html" />
+    <Content Include="settings\controls.html" />
     <Content Include="settings\thanks.html" />
     <Content Include="settings\history.html" />
     <Content Include="settings\privacy.html" />

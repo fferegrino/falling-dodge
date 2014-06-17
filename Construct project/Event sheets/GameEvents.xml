@@ -446,11 +446,24 @@
                                     <param id="0" name="Layer">8</param>
                                     <param id="1" name="Visibility">0</param>
                                 </action>
-                                <action id="0" name="Call function" sid="3035286106247116" type="functions">
-                                    <param id="0" name="Name">&quot;pause&quot;</param>
-                                    <param id="1" name="Parameter {n}">FALSE</param>
-                                </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="1454341865897327">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="1007502240279639" type="System">
+                                            <param id="0" name="Variable">gamePaused</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">FALSE</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Call function" sid="3035286106247116" type="functions">
+                                            <param id="0" name="Name">&quot;pause&quot;</param>
+                                            <param id="1" name="Parameter {n}">FALSE</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="5553655795525089">
                             <conditions>
@@ -477,7 +490,9 @@
                     <conditions>
                         <condition id="-3" name="On end of layout" sid="9483020986062444" type="System" />
                     </conditions>
-                    <actions />
+                    <actions>
+                        <action id="0" name="Destroy game engine" sid="9260822805960102" type="engine" />
+                    </actions>
                 </event-block>
             </sub-events>
         </event-group>

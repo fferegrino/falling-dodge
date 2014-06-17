@@ -50,6 +50,8 @@
         var cmds = {};
         // History flyout:
         cmds["history"] = { title: "Falling Dodge", href: "/settings/history.html" };
+        // Controls flyout:
+        cmds["controls"] = { title: "Controles", href: "/settings/controls.html" };
         // Settings flyout:
         cmds["privacy"] = { title: "Privacidad", href: "/settings/privacy.html" };
         // Special thanks flyout:
