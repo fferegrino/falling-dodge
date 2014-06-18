@@ -19,9 +19,12 @@
         cr_createRuntime("c2canvas");
 
         cr_sizeCanvas(jQuery(window).width(), jQuery(window).height());
-
         app.start();
+        WinJS.Resources.processAll();
     });
+
+    function refresh() {
+    }
 
     var activation = Windows.ApplicationModel.Activation;
 

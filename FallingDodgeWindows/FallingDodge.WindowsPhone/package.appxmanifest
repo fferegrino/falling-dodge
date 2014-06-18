@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="14107fferegrino.FallingDodge" Version="1.1.0.0" Publisher="CN=8BD20898-9E0A-4C13-AC37-E9D349AF4781" />
+  <Identity Name="14107fferegrino.FallingDodge" Version="2.0.0.1" Publisher="CN=8BD20898-9E0A-4C13-AC37-E9D349AF4781" />
   <mp:PhoneIdentity PhoneProductId="5ecf4e20-6bb3-4961-b96e-74c440325c0c" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Falling Dodge</DisplayName>

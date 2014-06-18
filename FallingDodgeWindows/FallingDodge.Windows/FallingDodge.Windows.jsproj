@@ -48,10 +48,10 @@
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
     <RequiredPlatformVersion>8.1</RequiredPlatformVersion>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
-    <DefaultLanguage>es</DefaultLanguage>
-    <PackageCertificateThumbprint>EC8BABD28846DDBBB905941720DB5FADF1235949</PackageCertificateThumbprint>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <PackageCertificateThumbprint>6E7F35A0C416EBC12199D4C902269BBCBB983161</PackageCertificateThumbprint>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <PackageCertificateKeyFile>FallingDodge.Windows_StoreKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
@@ -59,12 +59,15 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
+    <None Include="FallingDodge.Windows_StoreKey.pfx" />
     <Content Include="images\ui\keyboardArrows.png" />
     <Content Include="images\ui\keyboardEnter.png" />
     <Content Include="images\ui\keyboardEsc.png" />
     <Content Include="js\default.js" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="page.html" />
     <Content Include="settings\controls.html" />
+    <Content Include="settings\history.js" />
     <Content Include="settings\thanks.html" />
     <Content Include="settings\history.html" />
     <Content Include="settings\privacy.html" />

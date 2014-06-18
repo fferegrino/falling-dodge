@@ -3,6 +3,7 @@
 <head>
     <title>Historia</title>
     <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet">
+    <script src="history.js"></script>
     <!-- <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet"> -->
 </head>
 <body>
@@ -13,18 +14,18 @@
         <div class="win-ui-dark win-header">
             <!-- Background color reflects app's personality -->
             <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
-            <div class="win-label">Falling Dodge</div>
+            <div class="win-label"><span data-win-res="{textContent: 'appName'}"></span></div>
         </div>
         <div class="win-content">
-            <h2>La historia</h2>
+            <h2><span data-win-res="{textContent: 'theHistory'}"></span></h2>
             <br />
-            <p>Sam se encontró en una ciudad desierta y a lo lejos se bosquejaban unas ruinas, el miraba a lo lejos cuando de pronto comenzaron a caer bloques de colores, lo que en Marte conocen como lluvia.</p>
+            <p><span data-win-res="{textContent: 'theHistoryText1'}"></span></p>
             <br />
-            <p>Llovía a menudo y por eso era divícil mantener las ciudades a salvo y una vez que una ciudad era destruida las lluvias se agudizaban en aquel punto de Marte.</p>
+            <p><span data-win-res="{textContent: 'theHistoryText2'}"></span></p>
             <br />
-            <h2>La misión</h2>
+            <h2><span data-win-res="{textContent: 'theMission'}"></span></h2>
             <br />
-            <p>Sam ahora debe escapar de los bloques que caen del cielo para poder llegar con vida a su destino y salvar a su familia.</p>
+            <p><span data-win-res="{textContent: 'theMissionText1'}"></span></p>
         </div>
     </div>
     <!-- ENDSETTINGSFLYOUT  -->
