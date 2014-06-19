@@ -1,16 +1,15 @@
 ﻿{
 	"appName"				: "Falling Dodge",
-
     "about"					: "About",
-
 	"theHistory"			: "The history",
-
 	"theHistoryText1"		: "Sam found himself in an abandoned city, far from there he could see an ancient ruins, he was looking at them when suddenly colored blocks started to fall. That's how it rains in Mars.",
-
 	"theHistoryText2"		: "It used to rain a lot and it was hard to keep the cities safe and once a city was destroyed rain sharpened at that spot on Mars.",
-
 	"theMission"			: "The mission",
-
 	"theMissionText1"		: "Now Sam has to escape from the falling blocks in order to reach his destiny alive and save his family"
+
+	// Ingame strings
+
+	,"dodgedBlocks"			: "%d blocks dodged"
+	,"gameFinished"			: "Game finished"
 
 }

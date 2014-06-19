@@ -22,6 +22,7 @@
         <plugin author="Scirra" id="Touch" version="1">Touch</plugin>
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
         <plugin author="@fferegrino" id="fdcpp" version="1.600000024">Falling Dodge C++ engine</plugin>
+        <plugin author="@fferegrino" id="lcze" version="1">Localize</plugin>
         <plugin author="@fferegrino" id="wpc2" version="1.700000048">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
@@ -283,7 +284,7 @@
                 </animation-folder>
             </object-type>
         </object-folder>
-        <object-folder expanded="0" name="uniqueInstances">
+        <object-folder expanded="1" name="uniqueInstances">
             <object-type name="wpc2" sid="8403940385879478">
                 <plugin id="wpc2" />
             </object-type>
@@ -298,6 +299,9 @@
             </object-type>
             <object-type name="storage" sid="128556809337902">
                 <plugin id="WebStorage" />
+            </object-type>
+            <object-type global="1" name="local" sid="7237166260756768">
+                <plugin id="lcze" />
             </object-type>
         </object-folder>
         <object-folder expanded="1" name="keyInstructions">

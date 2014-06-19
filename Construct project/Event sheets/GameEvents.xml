@@ -721,7 +721,7 @@
                     </conditions>
                     <actions>
                         <action id="0" name="Set text" sid="641565820379818" type="hudFont">
-                            <param id="0" name="Text">fallenBLocks &amp; &quot; bloques esquivados&quot;</param>
+                            <param id="0" name="Text">local.GetNumberString(&quot;dodgedBlocks&quot;,fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>

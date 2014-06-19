@@ -943,6 +943,12 @@
             <effects />
         </layer>
     </layers>
-    <nonworld-instances />
+    <nonworld-instances>
+        <instance type="local" uid="45">
+            <properties>
+                <my-property>77</my-property>
+            </properties>
+        </instance>
+    </nonworld-instances>
     <effects />
 </c2layout>
