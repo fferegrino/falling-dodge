@@ -368,6 +368,12 @@
                             <param id="0" name="Columns">21</param>
                             <param id="1" name="Rows">12</param>
                         </action>
+                        <action id="0" name="Set text" sid="2620564591869675" type="endGameText">
+                            <param id="0" name="Text">local.GetSimpleString(&quot;gameFinished&quot;)</param>
+                        </action>
+                        <action id="0" name="Set text" sid="2347373610521265" type="screenInstructionsSet">
+                            <param id="0" name="Text">local.GetSimpleString(&quot;play&quot;)</param>
+                        </action>
                     </actions>
                     <sub-events>
                         <event-block sid="5920543717478667">

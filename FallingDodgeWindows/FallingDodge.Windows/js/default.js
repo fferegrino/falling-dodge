@@ -49,13 +49,13 @@
     WinJS["Application"].addEventListener("settings", function (e) {
         var cmds = {};
         // History flyout:
-        cmds["history"] = { title: "Falling Dodge", href: "/settings/history.html" };
+        cmds["history"] = { title: WinJS["Resources"].getString("appName").value, href: "/settings/history.html" };
         // Controls flyout:
-        cmds["controls"] = { title: "Controles", href: "/settings/controls.html" };
+        cmds["controls"] = { title: WinJS["Resources"].getString("controls").value, href: "/settings/controls.html" };
         // Settings flyout:
-        cmds["privacy"] = { title: "Privacidad", href: "/settings/privacy.html" };
+        cmds["privacy"] = { title: WinJS["Resources"].getString("privacy").value, href: "/settings/privacy.html" };
         // Special thanks flyout:
-        cmds["thanks"] = { title: "Agradecimientos", href: "/settings/thanks.html" };
+        cmds["thanks"] = { title: WinJS["Resources"].getString("acknowledgments").value, href: "/settings/thanks.html" };
 
         e.detail.applicationcommands = cmds;
         WinJS.UI.SettingsFlyout.populateSettings(e);

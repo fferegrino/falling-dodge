@@ -40,5 +40,15 @@
                 </action>
             </actions>
         </event-block>
+        <event-block sid="464524186980773">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="7778256672089609" type="System" />
+            </conditions>
+            <actions>
+                <action id="0" name="Set text" sid="9011462495149802" type="screenInstructionsSet">
+                    <param id="0" name="Text">local.GetSimpleString(&quot;play&quot;)</param>
+                </action>
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>

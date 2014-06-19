@@ -22103,7 +22103,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.wpc2,
 		true,
 		false,
 		false,
@@ -22115,7 +22115,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.wpc2,
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -22139,6 +22139,18 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
+		cr.plugins_.Keyboard,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.lcze,
 		false,
 		false,
@@ -22151,15 +22163,15 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Keyboard,
+		cr.plugins_.Text,
+		false,
 		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
 		false
 	]
 ,	[
@@ -22173,6 +22185,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		false
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 ,	[
 		cr.plugins_.TiledBg,
@@ -22197,30 +22221,6 @@ cr.getProjectModel = function() { return [
 		false,
 		false,
 		false
-	]
-,	[
-		cr.plugins_.Text,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
 	]
 	],
 	[
@@ -25931,6 +25931,56 @@ false,false,5050866466494312,false
 					]
 					]
 				]
+,				[
+					33,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					2620564591869675,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetSimpleString,
+							true,
+							null
+							,[
+[
+								2,
+								"gameFinished"
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					21,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					2347373610521265,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetSimpleString,
+							true,
+							null
+							,[
+[
+								2,
+								"play"
+							]
+							]
+						]
+					]
+					]
+				]
 				]
 				,[
 				[
@@ -27564,29 +27614,6 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					29,
-					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
-					null,
-					4037439766683287,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								23,
-								"fallenBLocks"
-							]
-							,[
-								2,
-								" bloques esquivados"
-							]
-						]
-					]
-					]
-				]
-,				[
 					15,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
@@ -27662,21 +27689,20 @@ false,false,3096662099478148,false
 					[
 						1,
 						[
-							10,
-							[
-								10,
-								[
-									2,
-									"La última vez esquivaste "
-								]
-								,[
-									23,
-									"fallenBLocks"
-								]
-							]
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetNumberString,
+							true,
+							null
 							,[
+[
 								2,
-								" ¿puedes superarte?"
+								"tileRecordText"
+							]
+,[
+								23,
+								"fallenBLocks"
+							]
 							]
 						]
 					]
@@ -28161,29 +28187,6 @@ false,false,6873032296298975,false
 					]
 					]
 				]
-,				[
-					35,
-					cr.plugins_.Text.prototype.acts.SetText,
-					null,
-					5534600218617314,
-					false
-					,[
-					[
-						7,
-						[
-							10,
-							[
-								2,
-								"Row "
-							]
-							,[
-								23,
-								"r2erase"
-							]
-						]
-					]
-					]
-				]
 				]
 				,[
 				[
@@ -28392,21 +28395,20 @@ false,false,6873032296298975,false
 ,					[
 						1,
 						[
-							10,
-							[
-								10,
-								[
-									2,
-									"He esquivado "
-								]
-								,[
-									23,
-									"fallenBLocks"
-								]
-							]
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetNumberString,
+							true,
+							null
 							,[
+[
 								2,
-								" bloques en Falling Dodge para Windows"
+								"textToShare"
+							]
+,[
+								23,
+								"fallenBLocks"
+							]
 							]
 						]
 					]
@@ -28622,6 +28624,53 @@ false,false,6873032296298975,false
 				[
 					3,
 					0
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			464524186980773,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.OnLayoutStart,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7778256672089609,
+				false
+			]
+			],
+			[
+			[
+				21,
+				cr.plugins_.Text.prototype.acts.SetText,
+				null,
+				9011462495149802,
+				false
+				,[
+				[
+					7,
+					[
+						20,
+						18,
+						cr.plugins_.lcze.prototype.exps.GetSimpleString,
+						true,
+						null
+						,[
+[
+							2,
+							"play"
+						]
+						]
+					]
 				]
 				]
 			]

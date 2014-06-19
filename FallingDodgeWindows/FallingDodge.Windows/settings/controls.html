@@ -4,6 +4,7 @@
     <title>Acerca de</title>
 
     <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet">
+    <script src="controls.js"></script>
     <!-- <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet"> -->
 </head>
 <body>
@@ -14,18 +15,18 @@
         <div class="win-ui-dark win-header">
             <!-- Background color reflects app's personality -->
             <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
-            <div class="win-label">Controles</div>
+            <div class="win-label"><span data-win-res="{textContent: 'controls'}"></span></div>
         </div>
         <div class="win-content">
-            <h2>Teclado</h2>
+            <h2><span data-win-res="{textContent: 'controlsKb'}"></span></h2>
             <br />
-            <p>En el teclado usa las flechas para mover a Sam, las teclas Esc para pausar y Enter para seguir jugando</p>
+            <p><span data-win-res="{textContent: 'controlsKbText'}"></span></p>
             <img src="../images/ui/keyboardArrows.png" />
             <img src="../images/ui/keyboardEsc.png" />
             <img src="../images/ui/keyboardEnter.png" />
-            <h2>Pantalla táctil</h2>
+            <h2><span data-win-res="{textContent: 'controlsTScreen'}"></span></h2>
             <br />
-            <p>En la pantalla aparecerán los botones para jugar, usa el que tiene la flecha arriba para saltar y los otros para moverte.</p>
+            <p><span data-win-res="{textContent: 'controlsTScreenText'}"></span></p>
         </div>
     </div>
     <!-- ENDSETTINGSFLYOUT  -->

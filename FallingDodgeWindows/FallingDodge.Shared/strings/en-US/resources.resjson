@@ -1,5 +1,16 @@
 ﻿{
 	"appName"				: "Falling Dodge",
+	"privacy"				: "Privacy",
+	"acknowledgments"		: "Acknowledgments",
+	"controls"				: "Controls",
+	"controlsKb"			: "Keyboard",
+	"controlsKbText"		: "Use the keyboard arrows to move Sam, Esc key to pause and Enter to resume the game.",
+	"controlsTScreen"		: "Touch screen",
+	"controlsTScreenText"	: "Onscreen controls will appear, use the up arrow to jump and the others to move Sam",
+	"acknowledgmentsSub"	: "We'd like to thank to:",
+	"acknowledgmentsText"	: "<a href=\"http://wootstudio.ca/win8platstarter\">Wootstudio</a> for the main character, <a href=\"http://opengameart.org/users/qubodup\">qubodup</a> for the sound of the blocks when they land, <a href=\"http://opengameart.org/users/korba%E2%84%A2\">Korba™</a> for the block sprites and Karen for her help with Sam's history.",
+	"acknowledgmentsTrans"	: "A <a href=\"http://wootstudio.ca/win8platstarter\">X</a> por la ayuda con la traducción al español",
+	"privacyText"			: "This application does not gather any information about the user or device, the option to share information about scores, levels, characters or any other element of the game is responsability of the user and it wont be doene without previous consent.",
     "about"					: "About",
 	"theHistory"			: "The history",
 	"theHistoryText1"		: "Sam found himself in an abandoned city, far from there he could see an ancient ruins, he was looking at them when suddenly colored blocks started to fall. That's how it rains in Mars.",
@@ -8,8 +19,11 @@
 	"theMissionText1"		: "Now Sam has to escape from the falling blocks in order to reach his destiny alive and save his family"
 
 	// Ingame strings
-
-	,"dodgedBlocks"			: "%d blocks dodged"
-	,"gameFinished"			: "Game finished"
+	,"dodgedBlocks"			: "%d dodged blocks"
+	,"gameFinished"			: "Game over"
+	,"play"					: "Play"
+	,"textToShare"			: "I've dodgend %d blocks on Falling Dodge for Windows"
+	,"tileRecordText"		: "The las time you dodged %d blocks, can you beat it?"
+	,"InvalidScreenText"	: "Falling Dodge no puede funcionar con esta resolución"
 
 }
