@@ -3,7 +3,7 @@
 <head>
     <title>Privacidad</title>
     <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet">
-    <!-- <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet"> -->
+    <script src="privacy.js"></script>
 </head>
 <body>
     <!-- BEGINSETTINGFLYOUT -->
@@ -13,12 +13,10 @@
         <div class="win-ui-dark win-header">
             <!-- Background color reflects app's personality -->
             <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
-            <div class="win-label">Privacidad</div>
+            <div class="win-label"><span data-win-res="{textContent: 'privacy'}"></span></div>
         </div>
         <div class="win-content">
-            <h2>Privacidad</h2>
-            <br />
-            <p>Esta aplicación no recopila información sobre el usuario ni el dispositivo que este usa, el compartir información acerca de las puntuaciones, niveles, personajes y cualquier otro elemento del juego es responsabilidad del usuario y no se realizará sin su previo consentimiento.</p>
+            <p><span data-win-res="{textContent: 'privacyText'}"></span></p>
         </div>
     </div>
     <!-- ENDSETTINGSFLYOUT  -->

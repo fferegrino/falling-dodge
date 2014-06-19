@@ -732,9 +732,6 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="0" name="Set text" sid="4037439766683287" type="hudFont">
-                            <param id="0" name="Text">fallenBLocks &amp; &quot; bloques esquivados&quot;</param>
-                        </action>
                         <action id="0" name="Call function" sid="8856132828518768" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
                             <param id="1" name="Parameter {n}">TRUE</param>
@@ -748,7 +745,7 @@
                             <param id="1" name="Visibility">1</param>
                         </action>
                         <action id="6" name="Update text tile" sid="4387871545814524" type="wpc2">
-                            <param id="0" name="Text">&quot;La última vez esquivaste &quot; &amp; fallenBlocks &amp; &quot; ¿puedes superarte?&quot;</param>
+                            <param id="0" name="Text">local.GetNumberString(&quot;tileRecordText&quot;,fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>
@@ -827,9 +824,6 @@
                             <param id="0" name="Variable">r2erase</param>
                             <param id="1" name="Value">functions.Param(0)</param>
                         </action>
-                        <action id="0" name="Set text" sid="5534600218617314" type="debugText">
-                            <param id="0" name="Text">&quot;Row &quot; &amp; r2erase</param>
-                        </action>
                     </actions>
                     <sub-events>
                         <event-block sid="2679780040448508">
@@ -881,7 +875,7 @@
                         <action id="4" name="Share text" sid="9872196368290069" type="wpc2">
                             <param id="0" name="Title">&quot;Comparte tu puntuación&quot;</param>
                             <param id="1" name="Description">&quot;Comparte tu puntuación con tus amigos&quot;</param>
-                            <param id="2" name="Text">&quot;He esquivado &quot; &amp; fallenBLocks &amp; &quot; bloques en Falling Dodge para Windows&quot;</param>
+                            <param id="2" name="Text">local.GetNumberString(&quot;textToShare&quot;, fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>

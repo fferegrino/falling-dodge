@@ -23,9 +23,6 @@
         WinJS.Resources.processAll();
     });
 
-    function refresh() {
-    }
-
     var activation = Windows.ApplicationModel.Activation;
 
     app.onactivated = function (args) {

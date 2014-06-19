@@ -4,7 +4,7 @@
     <title>Acerca de</title>
 
     <link href="//Microsoft.WinJS.2.0/css/ui-dark.css" rel="stylesheet">
-    <!-- <link href="//Microsoft.WinJS.2.0/css/ui-light.css" rel="stylesheet"> -->
+    <script src="thanks.js"></script>
 </head>
 <body>
     <!-- BEGINSETTINGFLYOUT -->
@@ -14,12 +14,12 @@
         <div class="win-ui-dark win-header">
             <!-- Background color reflects app's personality -->
             <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
-            <div class="win-label">Agradecimientos</div>
+            <div class="win-label"><span data-win-res="{textContent: 'acknowledgments'}"></span></div>
         </div>
         <div class="win-content">
-            <p>Nos gustaría agradecer a:</p>
+            <p><span data-win-res="{textContent: 'acknowledgmentsSub'}"></span></p>
             <br />
-            <p><a href="http://wootstudio.ca/win8platstarter">Wootstudio</a> por el personaje principal, <a href="http://opengameart.org/users/qubodup">qubodup</a> por el sonido de los bloques al caer, <a href="http://opengameart.org/users/korba%E2%84%A2">Korba™</a> por los bloques y a Karen por su ayuda con la historia de Sam.</p>
+            <p><span data-win-res="{textContent: 'acknowledgmentsText'}"></span>&nbsp;<span data-win-res="{textContent: 'acknowledgmentsTrans'}"></span></p>
         </div>
     </div>
     <!-- ENDSETTINGSFLYOUT  -->
