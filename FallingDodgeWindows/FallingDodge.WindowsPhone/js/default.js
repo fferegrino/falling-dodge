@@ -24,6 +24,7 @@
 
         });
         app.start();
+        WinJS.Resources.processAll();
     });
 
     var activation = Windows.ApplicationModel.Activation;

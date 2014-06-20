@@ -9,7 +9,7 @@
 	"controlsTScreenText"	: "Les boutons pour jouer s'indiquent sur l'écran.Utilisez la touche flêche au-dessus pour sauter et les autres pour déplacer Sam.",
 	"acknowledgmentsSub"	: "Nous remercions à:",
 	"acknowledgmentsText"	: "<a href=\"http://wootstudio.ca/win8platstarter\">Wootstudio</a> pour le personnage principal, <a href=\"http://opengameart.org/users/qubodup\">qubodup</a> pour les sons qui fassent des blocs en tombant, <a href=\"http://opengameart.org/users/korba%E2%84%A2\">Korba™</a> pour les blocs et Karen pour l'aide avec l'histoire de Sam.",
-	"acknowledgmentsTrans"	: "À <a href=\"http://wootstudio.ca/win8platstarter\">X</a> pour l'aide avec la traduction à l'espagnol",
+	"acknowledgmentsTrans"	: "À Esteban pour l'aide avec la traduction à l'francais",
 	"privacyText"			: "Cette application ne sauvegarde pas de l'information d'utilisateur ni de l'appareil que celui utilise. Partager de l'information à propos des scores, niveaux, personnages et des autres éléments do jeu, ces sont responsabilités de l'utilisateur et rien ne se fera sans consentement précédent.",
     "about"					: "À propos de",
 	"theHistory"			: "L'histoire",
