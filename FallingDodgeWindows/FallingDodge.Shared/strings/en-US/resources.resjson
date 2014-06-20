@@ -23,7 +23,7 @@
 	,"gameFinished"			: "Game over"
 	,"play"					: "Play"
 	,"textToShare"			: "I've dodgend %d blocks on Falling Dodge for Windows"
-	,"tileRecordText"		: "The las time you dodged %d blocks, can you beat it?"
-	,"InvalidScreenText"	: "Falling Dodge no puede funcionar con esta resolución"
+	,"tileRecordText"		: "The last time you dodged %d blocks, can you beat it?"
+	,"invalidScreenText"	: "Falling Dodge cannot run on this screen size"
 
 }

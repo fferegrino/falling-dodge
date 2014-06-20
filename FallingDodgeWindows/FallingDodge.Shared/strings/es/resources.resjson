@@ -24,6 +24,6 @@
 	,"play"					: "Jugar"
 	,"textToShare"			: "He esquivado %d bloques en Falling Dodge para Windows"
 	,"tileRecordText"		: "La última vez esquivaste %d bloques, ¿puedes superarte?"
-	,"InvalidScreenText"	: "Falling Dodge no puede funcionar con esta resolución"
+	,"invalidScreenText"	: "Falling Dodge no puede funcionar en este tamaño de pantalla"
 
 }

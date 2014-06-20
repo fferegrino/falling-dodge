@@ -1,0 +1,29 @@
+﻿{
+	"appName"				: "Falling Dodge", // <- No traducir
+	"privacy"				: "Confidentialité",
+	"acknowledgments"		: "Remerciement",
+	"controls"				: "Controles",
+	"controlsKb"			: "Clavier",
+	"controlsKbText"		: "Utilisez les flèches sur le clavier pour déplacer à Sam, la touche Esc pour pause et la touche Enter pour continuer.",
+	"controlsTScreen"		: "Écran tactile",
+	"controlsTScreenText"	: "Les boutons pour jouer s'indiquent sur l'écran.Utilisez la touche flêche au-dessus pour sauter et les autres pour déplacer Sam.",
+	"acknowledgmentsSub"	: "Nous remercions à:",
+	"acknowledgmentsText"	: "<a href=\"http://wootstudio.ca/win8platstarter\">Wootstudio</a> pour le personnage principal, <a href=\"http://opengameart.org/users/qubodup\">qubodup</a> pour les sons qui fassent des blocs en tombant, <a href=\"http://opengameart.org/users/korba%E2%84%A2\">Korba™</a> pour les blocs et Karen pour l'aide avec l'histoire de Sam.",
+	"acknowledgmentsTrans"	: "À <a href=\"http://wootstudio.ca/win8platstarter\">X</a> pour l'aide avec la traduction à l'espagnol",
+	"privacyText"			: "Cette application ne sauvegarde pas de l'information d'utilisateur ni de l'appareil que celui utilise. Partager de l'information à propos des scores, niveaux, personnages et des autres éléments do jeu, ces sont responsabilités de l'utilisateur et rien ne se fera sans consentement précédent.",
+    "about"					: "À propos de",
+	"theHistory"			: "L'histoire",
+	"theHistoryText1"		: "Sam s'est trouvé dans une ville désert en regardant à la lointain où il y avait des ruins, quand soudain il commence à tomber des blocs à couleurs. Ce que dans Mars on connaît comme la pluie. ",
+	"theHistoryText2"		: "Il pleuvait souvent et pour cela il était difficile à maintenir les villes sauve car chaque fois qu'une ville était détruit, la pluie devenait plus forte dans lequel point du Mars.",
+	"theMission"			: "La mission",
+	"theMissionText1"		: "Sam maintenant, doit échapper des blocs qui tombent du ciel pour arriver vivant jusqu'à son destin et sauver sa famille."
+
+	// Ingame strings
+	,"dodgedBlocks"			: "%d blocs esquivés "
+	,"gameFinished"			: "Le jeu a terminé"
+	,"play"					: "Jouer"
+	,"textToShare"			: "J'ai esquivé %d blocs dans Falling Dodge pour Windows"
+	,"tileRecordText"		: "La dernière fois vous avez esquivé %d blocs, ¿Pourriez-vous vous surmonter?"
+	,"invalidScreenText"	: "Falling Dodge no puede funcionar en este tamaño de pantalla"
+
+}
