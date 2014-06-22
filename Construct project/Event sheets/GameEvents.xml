@@ -10,9 +10,9 @@
         <variable comment="This variable tell us if the app is running in a valid screen size" constant="0" name="validScreenSize" sid="8661402681645313" static="0" type="number">0</variable>
         <variable comment="Difficulty level" constant="0" name="level" sid="740642952620509" static="0" type="number">1</variable>
         <variable comment="This number indicates the amount of blocks that made it to the ground" constant="0" name="fallenBLocks" sid="6451482555671282" static="0" type="number">0</variable>
-        <variable constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
-        <variable constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
-        <variable constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
+        <variable comment="Position mountains (X axis)" constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
+        <variable comment="Position stars (X axis)" constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
+        <variable comment="Position stars (Y axis)" constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
         <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
@@ -311,7 +311,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9001218336381017" title="System">
+        <event-group collapsed="1" description="" sid="9001218336381017" title="System">
             <sub-events>
                 <event-block sid="2489494319432702">
                     <conditions>
@@ -505,7 +505,24 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="8086918785451181" title="Block actions">
+        <event-group collapsed="1" description="" sid="7601084355575327" title="Player actions">
+            <sub-events>
+                <event-block sid="7525555983572462">
+                    <conditions>
+                        <condition behavior="Platform" id="5" name="On jump" sid="4328806482909331" type="player" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Play" sid="2272639255292411" type="sound">
+                            <param id="0" name="Audio file">qubodup-cfork-ccby3-jump</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="3" name="Volume">-15</param>
+                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-group collapsed="1" description="" sid="8086918785451181" title="Block actions">
             <sub-events>
                 <variable constant="0" name="rowToErase" sid="5984259031720608" static="0" type="number">-1</variable>
                 <event-block sid="17435870339364">
@@ -513,15 +530,11 @@
                         <condition behavior="Platform" id="9" name="On landed" sid="5644892740512408" type="block" />
                     </conditions>
                     <actions>
-                        <action id="25" name="Play at object" sid="5645537972273429" type="sound">
+                        <action id="0" name="Play" sid="4461753136728867" type="sound">
                             <param id="0" name="Audio file">explosion_dull</param>
-                            <param id="1" name="Loop">0</param>
-                            <param id="2" name="Volume">0</param>
-                            <param id="3" name="Object">block</param>
-                            <param id="4" name="Inner angle">360</param>
-                            <param id="5" name="Outer angle">360</param>
-                            <param id="6" name="Outer gain">0</param>
-                            <param id="7" name="Tag (optional)">&quot;groundHit&quot;</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="3" name="Volume">0</param>
+                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
                         </action>
                     </actions>
                     <sub-events>
@@ -596,7 +609,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="6892984352352811" title="Game functions">
+        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
             <sub-events>
                 <event-block sid="4529963049937661">
                     <conditions>
@@ -756,6 +769,12 @@
                         <action id="6" name="Update text tile" sid="4387871545814524" type="wpc2">
                             <param id="0" name="Text">local.GetNumberString(&quot;tileRecordText&quot;,fallenBLocks)</param>
                         </action>
+                        <action id="0" name="Play" sid="9038819595846695" type="sound">
+                            <param id="0" name="Audio file">lifelost</param>
+                            <param id="2" name="Loop">0</param>
+                            <param id="3" name="Volume">0</param>
+                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
                     </actions>
                 </event-block>
                 <event-block sid="9350054527896243">
@@ -874,7 +893,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
+        <event-group collapsed="1" description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
                 <event-block sid="8782740739031961">
                     <conditions>
@@ -882,15 +901,15 @@
                     </conditions>
                     <actions>
                         <action id="4" name="Share text" sid="9872196368290069" type="wpc2">
-                            <param id="0" name="Title">&quot;Comparte tu puntuación&quot;</param>
-                            <param id="1" name="Description">&quot;Comparte tu puntuación con tus amigos&quot;</param>
+                            <param id="0" name="Title">local.GetSimpleString(&quot;titleToShareGame&quot;)</param>
+                            <param id="1" name="Description">local.GetSimpleString(&quot;descToShareGame&quot;)</param>
                             <param id="2" name="Text">local.GetNumberString(&quot;textToShare&quot;, fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="1810439807518077" title="Dev stuff">
+        <event-group collapsed="1" description="" sid="1810439807518077" title="Dev stuff">
             <sub-events>
                 <event-block sid="6752909749617707">
                     <conditions>

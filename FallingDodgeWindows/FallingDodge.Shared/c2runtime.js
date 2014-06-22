@@ -20514,7 +20514,8 @@ cr.plugins_.fdcpp = function(runtime)
 	var instanceProto = pluginProto.Instance.prototype;
 	instanceProto.onCreate = function()
 	{
-		this.fdcpprt = window["fallingdodgert"];
+		if(window["fallingdodgert"])
+			this.fdcpprt = FallingDodgeRT;
 	};
 	instanceProto.onDestroy = function ()
 	{
@@ -20537,7 +20538,9 @@ cr.plugins_.fdcpp = function(runtime)
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
 	Acts.prototype.DestroyEngine = function(){ // 0
-		this.gameEngine["free"]();
+		if(this.gameEngine){
+			this.gameEngine["free"]();
+		}
 	}
 	Acts.prototype.CreateEngine = function(intx_, inty_){ // 1
 		if (this.fdcpprt) {
@@ -20550,10 +20553,14 @@ cr.plugins_.fdcpp = function(runtime)
 		}
 	}
 	Acts.prototype.EraseRow = function (row2erase_) { // 3
-		this.gameEngine["eraseRow"](row2erase_);
+		if(this.gameEngine){
+			this.gameEngine["eraseRow"](row2erase_);
+		}
 	}
 	Acts.prototype.ClearEngine = function (){
-		this.gameEngine["clear"]();
+		if(this.gameEngine){
+			this.gameEngine["clear"]();
+		}
 	}
 	pluginProto.acts = new Acts();
 	function Exps() {};
@@ -20562,7 +20569,7 @@ cr.plugins_.fdcpp = function(runtime)
 			ret.set_int(this.gameEngine["nextBlock"]());
 		}
 		else
-			ret.set_int(-1);
+			ret.set_int(2);
 	};
 	Exps.prototype.MinBlock = function (ret){
 		if(this.gameEngine){
@@ -20578,10 +20585,17 @@ cr.plugins_.fdcpp = function(runtime)
 			ret.set_int(-1);
 	};
 	Exps.prototype.GetRow = function (ret, col_){ // 3
-		ret.set_int(this.gameEngine["getRow"](col_));
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["getRow"](col_));
+		}
+		else ret.set_int(0);
 	}
 	Exps.prototype.RowToErase = function (ret){ // 4
-		ret.set_int(this.gameEngine["rowToErase"]());
+		if(this.gameEngine){
+			ret.set_int(this.gameEngine["rowToErase"]());
+		}
+		else
+			ret.set_int(-1);
 	}
 	pluginProto.exps = new Exps();
 }());
@@ -20611,7 +20625,8 @@ cr.plugins_.lcze = function(runtime)
 	var instanceProto = pluginProto.Instance.prototype;
 	instanceProto.onCreate = function()
 	{
-		this._res = WinJS["Resources"];
+	    if (window["c2isWindows8"])
+			this._res = WinJS["Resources"];
 	};
 	instanceProto.onDestroy = function ()
 	{
@@ -20631,17 +20646,28 @@ cr.plugins_.lcze = function(runtime)
 	{
 	};
 	function Cnds() {};
+	Cnds.prototype.CheckKey = function (expr_) {
+		if(this._res)
+			return this._res["getString"](expr_) ? true : false;
+		return false;
+	}
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
 	pluginProto.acts = new Acts();
 	function Exps() {};
-	Exps.prototype.GetSimpleString = function (ret, expr_)	// 'ret' must always be the first parameter - always return the expression's result through it!
+	Exps.prototype.GetSimpleString = function (ret, expr_)
 	{
-		ret.set_string(this._res["getString"](expr_).value);
+		if(this._res)
+			ret.set_string(this._res["getString"](expr_).value);
+		else
+			ret.set_string("Key" + expr_);
 	};
 	Exps.prototype.GetNumberString = function (ret, expr_, num_)
 	{
-		ret.set_string(sprintf(this._res["getString"](expr_).value, num_));
+		if(this._res)
+			ret.set_string(sprintf(this._res["getString"](expr_).value, num_));
+		else
+			ret.set_string("Key" + expr_ + ": " + num_);
 	}
 	pluginProto.exps = new Exps();
 }());
@@ -22079,18 +22105,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Function,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.fdcpp,
 		true,
 		false,
@@ -22103,19 +22117,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.wpc2,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.Function,
 		true,
 		false,
 		false,
@@ -22152,7 +22154,7 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		cr.plugins_.lcze,
-		false,
+		true,
 		false,
 		false,
 		false,
@@ -22163,27 +22165,15 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.Touch,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
-	]
-,	[
-		cr.plugins_.Sprite,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -22199,6 +22189,18 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
 		cr.plugins_.TiledBg,
 		false,
 		true,
@@ -22211,7 +22213,31 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Touch,
+		cr.plugins_.Sprite,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.wpc2,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -22715,11 +22741,12 @@ cr.getProjectModel = function() { return [
 		null,
 		[
 		],
-		true,
+		false,
 		false,
 		7237166260756768,
 		[],
 		null
+		,[]
 	]
 ,	[
 		"t19",
@@ -25981,6 +26008,31 @@ false,false,5050866466494312,false
 					]
 					]
 				]
+,				[
+					36,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					306915919085574,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetSimpleString,
+							true,
+							null
+							,[
+[
+								2,
+								"invalidScreenText"
+							]
+							]
+						]
+					]
+					]
+				]
 				]
 				,[
 				[
@@ -26478,6 +26530,92 @@ false,false,5050866466494312,false
 		]
 ,		[
 			0,
+			[true, "Player actions"],
+			false,
+			null,
+			7601084355575327,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.IsGroupActive,
+				null,
+				0,
+				false,
+				false,
+				false,
+				7601084355575327,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Player actions"
+					]
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				7525555983572462,
+				[
+				[
+					26,
+					cr.behaviors.Platform.prototype.cnds.OnJump,
+					"Platform",
+					1,
+					false,
+					false,
+					false,
+					4328806482909331,
+					false
+				]
+				],
+				[
+				[
+					16,
+					cr.plugins_.Audio.prototype.acts.Play,
+					null,
+					2272639255292411,
+					false
+					,[
+					[
+						2,
+						["qubodup-cfork-ccby3-jump",false]
+					]
+,					[
+						3,
+						0
+					]
+,					[
+						0,
+						[
+							0,
+							-15
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							""
+						]
+					]
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
 			[true, "Block actions"],
 			false,
 			null,
@@ -26536,9 +26674,9 @@ false,false,5984259031720608,false
 				[
 				[
 					16,
-					cr.plugins_.Audio.prototype.acts.PlayAtObject,
+					cr.plugins_.Audio.prototype.acts.Play,
 					null,
-					5645537972273429,
+					4461753136728867,
 					false
 					,[
 					[
@@ -26557,35 +26695,10 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						4,
-						28
-					]
-,					[
-						0,
-						[
-							0,
-							360
-						]
-					]
-,					[
-						0,
-						[
-							0,
-							360
-						]
-					]
-,					[
-						0,
-						[
-							0,
-							0
-						]
-					]
-,					[
 						1,
 						[
 							2,
-							"groundHit"
+							""
 						]
 					]
 					]
@@ -27708,6 +27821,37 @@ false,false,3096662099478148,false
 					]
 					]
 				]
+,				[
+					16,
+					cr.plugins_.Audio.prototype.acts.Play,
+					null,
+					9038819595846695,
+					false
+					,[
+					[
+						2,
+						["lifelost",false]
+					]
+,					[
+						3,
+						0
+					]
+,					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+,					[
+						1,
+						[
+							2,
+							""
+						]
+					]
+					]
+				]
 				]
 			]
 ,			[
@@ -28381,15 +28525,33 @@ false,false,6873032296298975,false
 					[
 						1,
 						[
-							2,
-							"Comparte tu puntuación"
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetSimpleString,
+							true,
+							null
+							,[
+[
+								2,
+								"titleToShareGame"
+							]
+							]
 						]
 					]
 ,					[
 						1,
 						[
-							2,
-							"Comparte tu puntuación con tus amigos"
+							20,
+							18,
+							cr.plugins_.lcze.prototype.exps.GetSimpleString,
+							true,
+							null
+							,[
+[
+								2,
+								"descToShareGame"
+							]
+							]
 						]
 					]
 ,					[

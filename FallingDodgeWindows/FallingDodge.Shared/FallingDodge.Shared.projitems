@@ -35,6 +35,8 @@
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\mountains-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\yolologo-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)media\explosion_dull.m4a" />
+	<Content Include="$(MSBuildThisFileDirectory)media\qubodup-cfork-ccby3-jump.m4a" />
+	<Content Include="$(MSBuildThisFileDirectory)media\lifelost.m4a" />
     <Content Include="$(MSBuildThisFileDirectory)media\backgroundmattoglseby.m4a" />
     <Content Include="$(MSBuildThisFileDirectory)sprintf.js" />
   </ItemGroup>

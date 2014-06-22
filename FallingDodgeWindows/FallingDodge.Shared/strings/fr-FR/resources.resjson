@@ -22,7 +22,9 @@
 	,"dodgedBlocks"			: "%d blocs esquivés "
 	,"gameFinished"			: "Le jeu a terminé"
 	,"play"					: "Jouer"
-	,"textToShare"			: "J'ai esquivé %d blocs dans Falling Dodge pour Windows"
+	,"textToShareGame"		: "J'ai esquivé %d blocs dans Falling Dodge pour Windows"
+	,"titleToShareGame"		: "Share your score"
+	,"descToShareGame"		: "Share your score with your friends"
 	,"tileRecordText"		: "La dernière fois vous avez esquivé %d blocs, ¿Pourriez-vous vous surmonter?"
 	,"invalidScreenText"	: "Falling Dodge no puede funcionar en este tamaño de pantalla"
 

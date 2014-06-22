@@ -300,7 +300,7 @@
             <object-type name="storage" sid="128556809337902">
                 <plugin id="WebStorage" />
             </object-type>
-            <object-type global="1" name="local" sid="7237166260756768">
+            <object-type name="local" sid="7237166260756768">
                 <plugin id="lcze" />
             </object-type>
         </object-folder>
@@ -604,11 +604,18 @@
         </global-instance>
         <global-instance type="engine" uid="36" />
     </global-instances>
-    <sounds-folder expanded="0">
-        <file name="explosion_dull.ogg" />
+    <sounds-folder expanded="1">
         <file name="explosion_dull.m4a" />
+        <file name="explosion_dull.wav" />
+        <file name="explosion_dull.ogg" />
+        <file name="qubodup-cfork-ccby3-jump.m4a" />
+        <file name="qubodup-cfork-ccby3-jump.ogg" />
+        <file name="qubodup-cfork-ccby3-jump.wav" />
+        <file name="lifelost.m4a" />
+        <file name="lifelost.ogg" />
+        <file name="lifelost.wav" />
     </sounds-folder>
-    <music-folder expanded="0">
+    <music-folder expanded="1">
         <file name="BackgroundMattOglseby.ogg" />
         <file name="BackgroundMattOglseby.m4a" />
     </music-folder>
