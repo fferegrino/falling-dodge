@@ -20625,7 +20625,7 @@ cr.plugins_.lcze = function(runtime)
 	var instanceProto = pluginProto.Instance.prototype;
 	instanceProto.onCreate = function()
 	{
-	    if (window["c2isWindows8"])
+		if(window["c2isWindows8"])
 			this._res = WinJS["Resources"];
 	};
 	instanceProto.onDestroy = function ()
@@ -22189,6 +22189,18 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
+		cr.plugins_.Sprite,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
 		cr.plugins_.Text,
 		false,
 		true,
@@ -22211,18 +22223,6 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
-	]
-,	[
-		cr.plugins_.Sprite,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		false
 	]
 ,	[
 		cr.plugins_.wpc2,
@@ -22642,6 +22642,36 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t13",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		0,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			9856386310830382,
+			[
+				["images/assetsC2/infobutton-sheet0.png", 355, 0, 0, 50, 50, 1, 0.5, 0.5,[],[-0.3400000035762787,-0.3400000035762787,0,-0.3799999952316284,0.3399999737739563,-0.3400000035762787,0.3799999952316284,0,0.3399999737739563,0.3399999737739563,0,0.3799999952316284,-0.3400000035762787,0.3399999737739563,-0.3799999952316284,0],0]
+			]
+			]
+		],
+		[
+		],
+		false,
+		true,
+		1692829091418803,
+		[],
+		null
+	]
+,	[
+		"t14",
 		cr.plugins_.wpc2,
 		false,
 		[],
@@ -22659,7 +22689,7 @@ cr.getProjectModel = function() { return [
 		,["appBar",1]
 	]
 ,	[
-		"t14",
+		"t15",
 		cr.plugins_.fdcpp,
 		false,
 		[],
@@ -22677,7 +22707,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t15",
+		"t16",
 		cr.plugins_.Function,
 		false,
 		[],
@@ -22695,7 +22725,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t16",
+		"t17",
 		cr.plugins_.Audio,
 		false,
 		[],
@@ -22713,7 +22743,7 @@ cr.getProjectModel = function() { return [
 		,[0,0,1,1,600,600,10000,1,5000,1]
 	]
 ,	[
-		"t17",
+		"t18",
 		cr.plugins_.WebStorage,
 		false,
 		[],
@@ -22731,7 +22761,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t18",
+		"t19",
 		cr.plugins_.lcze,
 		false,
 		[],
@@ -22749,7 +22779,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t19",
+		"t20",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22779,7 +22809,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t20",
+		"t21",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22809,7 +22839,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t21",
+		"t22",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -22826,7 +22856,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t22",
+		"t23",
 		cr.plugins_.Touch,
 		false,
 		[],
@@ -22844,7 +22874,7 @@ cr.getProjectModel = function() { return [
 		,[1]
 	]
 ,	[
-		"t23",
+		"t24",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22861,7 +22891,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t24",
+		"t25",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -22883,7 +22913,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t25",
+		"t26",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22915,7 +22945,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t26",
+		"t27",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -22960,7 +22990,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t27",
+		"t28",
 		cr.plugins_.Keyboard,
 		false,
 		[],
@@ -22978,7 +23008,7 @@ cr.getProjectModel = function() { return [
 		,[]
 	]
 ,	[
-		"t28",
+		"t29",
 		cr.plugins_.Sprite,
 		false,
 		[5663949309315676,3851747857340062,1286780490026048],
@@ -23054,7 +23084,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t29",
+		"t30",
 		cr.plugins_.SpriteFontPlus,
 		false,
 		[],
@@ -23071,7 +23101,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t30",
+		"t31",
 		cr.plugins_.Button,
 		false,
 		[],
@@ -23088,7 +23118,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t31",
+		"t32",
 		cr.plugins_.NinePatch,
 		false,
 		[],
@@ -23105,7 +23135,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t32",
+		"t33",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23122,7 +23152,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t33",
+		"t34",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23139,7 +23169,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t34",
+		"t35",
 		cr.plugins_.Button,
 		false,
 		[],
@@ -23156,7 +23186,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t35",
+		"t36",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23173,7 +23203,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t36",
+		"t37",
 		cr.plugins_.Text,
 		false,
 		[],
@@ -23190,7 +23220,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t37",
+		"t38",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -23207,7 +23237,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t38",
+		"t39",
 		cr.plugins_.TiledBg,
 		false,
 		[],
@@ -23224,7 +23254,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t39",
+		"t40",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23254,7 +23284,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t40",
+		"t41",
 		cr.plugins_.Sprite,
 		false,
 		[],
@@ -23284,7 +23314,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t41",
+		"t42",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -23301,7 +23331,7 @@ cr.getProjectModel = function() { return [
 		null
 	]
 ,	[
-		"t42",
+		"t43",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -23317,10 +23347,28 @@ cr.getProjectModel = function() { return [
 		[],
 		null
 	]
+,	[
+		"t44",
+		cr.plugins_.Sprite,
+		true,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		4079540717902405,
+		[],
+		null
+	]
 	],
 	[
-		[41,4,5,9,11]
-,		[42,20,19]
+		[42,4,5,9,11]
+,		[43,21,20]
+,		[44,13]
 	],
 	[
 	[
@@ -23348,7 +23396,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				37,
+				38,
 				0,
 				[
 				],
@@ -23379,7 +23427,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[-117, -16, 0, 1600, 800, 0, 0, 1, 0, 0, 0, 0, []],
-				38,
+				39,
 				13,
 				[
 				],
@@ -23410,7 +23458,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[645.6259765625, 690, 0, 1996, 408, 0, 0, 1, 0.5, 0.6740196347236633, 0, 0, []],
-				39,
+				40,
 				32,
 				[
 				],
@@ -23443,7 +23491,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 768, 0, 1366, 70, 0, 0, 1, 0, 0, 0, 0, []],
-				24,
+				25,
 				9,
 				[
 				],
@@ -23459,7 +23507,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-198, 642, 0, 96, 128, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				25,
+				26,
 				10,
 				[
 				],
@@ -23474,7 +23522,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[683, 703, 0, 46, 9, 0, 0, 1, 0.5, -6, 0, 0, []],
-				26,
+				27,
 				11,
 				[
 				],
@@ -23505,7 +23553,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-107, 669, 0, 64, 64, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				28,
+				29,
 				15,
 				[
 					[1],
@@ -23536,7 +23584,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[11, 0, 0, 768, 70, 0, 1.570796370506287, 1, 0, 0, 0, 0, []],
-				24,
+				25,
 				27,
 				[
 				],
@@ -23552,7 +23600,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[1355, 768, 0, 768, 70, 0, -1.570796489715576, 1, 0, 0, 0, 0, []],
-				24,
+				25,
 				29,
 				[
 				],
@@ -23586,7 +23634,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[444444448, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				23,
+				24,
 				3,
 				[
 				],
@@ -23599,7 +23647,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				23,
+				24,
 				35,
 				[
 				],
@@ -23612,7 +23660,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[724.5, 82, 0, 70, 70, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				19,
+				20,
 				38,
 				[
 				],
@@ -23627,7 +23675,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[606.5, 61, 0, 127, 59, 0, 0, 1, 0, 0, 0, 0, []],
-				21,
+				22,
 				44,
 				[
 				],
@@ -23725,7 +23773,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[120, 30, 0, 716, 72, 0, 0, 1, 0, 0, 0, 0, []],
-				29,
+				30,
 				16,
 				[
 				],
@@ -23816,7 +23864,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[433, 142, 0, 500, 357, 0, 0, 1, 0, 0, 0, 0, []],
-				31,
+				32,
 				19,
 				[
 				],
@@ -23836,7 +23884,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[433, 169, 0, 500, 100, 0, 0, 1, 0, 0, 0, 0, []],
-				33,
+				34,
 				20,
 				[
 				],
@@ -23856,7 +23904,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[433, 265, 0, 500, 77, 0, 0, 1, 0, 0, 0, 0, []],
-				29,
+				30,
 				21,
 				[
 				],
@@ -23944,7 +23992,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				23,
+				24,
 				26,
 				[
 				],
@@ -23957,7 +24005,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[523, 234, 0, 320, 300, 0, 0, 1, 0, 0, 0, 0, []],
-				36,
+				37,
 				18,
 				[
 				],
@@ -23995,7 +24043,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[1250, 20, 0, 96, 24, 0, 0, 1, 0, 0, 0, 0, []],
-				30,
+				31,
 				17,
 				[
 				],
@@ -24014,7 +24062,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[335.9267578125, 321.0235595703125, 0, 879, 44, 0, 0, 1, 0, 0, 0, 0, []],
-				35,
+				36,
 				37,
 				[
 				],
@@ -24039,7 +24087,7 @@ cr.getProjectModel = function() { return [
 		[
 			[
 				null,
-				18,
+				19,
 				45,
 				[
 				],
@@ -24076,7 +24124,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[0, 0, 0, 1366, 768, 0, 0, 1, 0, 0, 0, 0, []],
-				37,
+				38,
 				25,
 				[
 				],
@@ -24089,7 +24137,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[-5.5, -16, 0, 1377, 800, 0, 0, 1, 0, 0, 0, 0, []],
-				38,
+				39,
 				33,
 				[
 				],
@@ -24102,8 +24150,23 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[1203.588500976563, 731.8032836914063, 0, 130.5252380371094, 48.03328704833984, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				40,
+				41,
 				34,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[683, 576, 0, 50, 50, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				13,
+				46,
 				[
 				],
 				[
@@ -24168,7 +24231,7 @@ cr.getProjectModel = function() { return [
 			[
 			[
 				[724.5, 56, 0, 70, 70, 0, 0, 1, 0.5, 0.5, 0, 0, []],
-				19,
+				20,
 				42,
 				[
 				],
@@ -24183,7 +24246,7 @@ cr.getProjectModel = function() { return [
 			]
 ,			[
 				[606.5, 35, 0, 127, 59, 0, 0, 1, 0, 0, 0, 0, []],
-				21,
+				22,
 				43,
 				[
 				],
@@ -24384,7 +24447,7 @@ false,false,5050866466494312,false
 				7573670909184389,
 				[
 				[
-					27,
+					28,
 					cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 					null,
 					0,
@@ -24431,7 +24494,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					25,
+					26,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					2566797943737636,
@@ -24453,7 +24516,7 @@ false,false,5050866466494312,false
 				5543514634908094,
 				[
 				[
-					27,
+					28,
 					cr.plugins_.Keyboard.prototype.cnds.IsKeyDown,
 					null,
 					0,
@@ -24500,7 +24563,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					25,
+					26,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					3776187904069461,
@@ -24522,7 +24585,7 @@ false,false,5050866466494312,false
 				467136003080307,
 				[
 				[
-					27,
+					28,
 					cr.plugins_.Keyboard.prototype.cnds.OnKey,
 					null,
 					1,
@@ -24569,7 +24632,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					9259483886248807,
@@ -24604,7 +24667,7 @@ false,false,5050866466494312,false
 				4249613776624188,
 				[
 				[
-					27,
+					28,
 					cr.plugins_.Keyboard.prototype.cnds.OnKey,
 					null,
 					1,
@@ -24710,7 +24773,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						3337271623805569,
@@ -24796,7 +24859,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						9469041645061757,
@@ -24866,7 +24929,7 @@ false,false,5050866466494312,false
 				6850927034263637,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -24961,7 +25024,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					9528892287767684,
@@ -24989,7 +25052,7 @@ false,false,5050866466494312,false
 				8591215122146213,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25036,7 +25099,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					25,
+					26,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					6918989005268688,
@@ -25049,7 +25112,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					26,
+					27,
 					cr.behaviors.Platform.prototype.acts.SimulateControl,
 					"Platform",
 					2290928940336092,
@@ -25071,7 +25134,7 @@ false,false,5050866466494312,false
 				6037523778796424,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -25118,7 +25181,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					26,
+					27,
 					cr.behaviors.Platform.prototype.acts.SimulateControl,
 					"Platform",
 					3098611173823787,
@@ -25140,7 +25203,7 @@ false,false,5050866466494312,false
 				6582882659116319,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.IsTouchingObject,
 					null,
 					0,
@@ -25187,7 +25250,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					25,
+					26,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					62123140433944,
@@ -25200,7 +25263,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					26,
+					27,
 					cr.behaviors.Platform.prototype.acts.SimulateControl,
 					"Platform",
 					6093206177638759,
@@ -25222,7 +25285,7 @@ false,false,5050866466494312,false
 				3164831381375612,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -25269,7 +25332,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					35,
+					36,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					8029104452005303,
@@ -25331,7 +25394,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						7288347965461481,
@@ -25379,7 +25442,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						173424715309579,
@@ -25416,7 +25479,7 @@ false,false,5050866466494312,false
 				1592693269751362,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -25463,7 +25526,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					13,
+					14,
 					cr.plugins_.wpc2.prototype.acts.ShowShareUI,
 					null,
 					6635552605374377,
@@ -25479,7 +25542,7 @@ false,false,5050866466494312,false
 				2093607568914644,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -25569,7 +25632,7 @@ false,false,5050866466494312,false
 				1753364685779237,
 				[
 				[
-					22,
+					23,
 					cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 					null,
 					1,
@@ -25711,7 +25774,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					25,
+					26,
 					cr.plugins_.Sprite.prototype.acts.SetPosToObject,
 					null,
 					3758993372488166,
@@ -25719,7 +25782,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						4,
-						26
+						27
 					]
 ,					[
 						7,
@@ -25731,7 +25794,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					5298975488361388,
@@ -25772,7 +25835,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					4406282463030555,
@@ -25881,7 +25944,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							39,
+							40,
 							cr.plugins_.Sprite.prototype.exps.X,
 							false,
 							null
@@ -25904,7 +25967,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							38,
+							39,
 							cr.plugins_.TiledBg.prototype.exps.X,
 							false,
 							null
@@ -25927,7 +25990,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							38,
+							39,
 							cr.plugins_.TiledBg.prototype.exps.Y,
 							false,
 							null
@@ -25936,7 +25999,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					14,
+					15,
 					cr.plugins_.fdcpp.prototype.acts.CreateEngine,
 					null,
 					5789730776143641,
@@ -25959,7 +26022,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					33,
+					34,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					2620564591869675,
@@ -25969,7 +26032,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetSimpleString,
 							true,
 							null
@@ -25984,7 +26047,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					21,
+					22,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					2347373610521265,
@@ -25994,7 +26057,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetSimpleString,
 							true,
 							null
@@ -26009,7 +26072,7 @@ false,false,5050866466494312,false
 					]
 				]
 ,				[
-					36,
+					37,
 					cr.plugins_.Text.prototype.acts.SetText,
 					null,
 					306915919085574,
@@ -26019,7 +26082,7 @@ false,false,5050866466494312,false
 						7,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetSimpleString,
 							true,
 							null
@@ -26085,7 +26148,7 @@ false,false,5050866466494312,false
 					3806278567749429,
 					[
 					[
-						13,
+						14,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -26163,7 +26226,7 @@ false,false,5050866466494312,false
 					5997188881816523,
 					[
 					[
-						13,
+						14,
 						cr.plugins_.wpc2.prototype.cnds.HasTouchInput,
 						null,
 						0,
@@ -26176,7 +26239,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						41,
+						42,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9728335691694453,
@@ -26198,7 +26261,7 @@ false,false,5050866466494312,false
 					5645277167325837,
 					[
 					[
-						13,
+						14,
 						cr.plugins_.wpc2.prototype.cnds.IsWindowsPhone8,
 						null,
 						0,
@@ -26211,7 +26274,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						42,
+						43,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9668285847794626,
@@ -26224,7 +26287,7 @@ false,false,5050866466494312,false
 						]
 					]
 ,					[
-						21,
+						22,
 						cr.plugins_.Text.prototype.acts.SetVisible,
 						null,
 						2116323978420741,
@@ -26248,7 +26311,7 @@ false,false,5050866466494312,false
 				6659338750621825,
 				[
 				[
-					13,
+					14,
 					cr.plugins_.wpc2.prototype.cnds.OnResizec2,
 					null,
 					1,
@@ -26270,7 +26333,7 @@ false,false,5050866466494312,false
 					5496232568047831,
 					[
 					[
-						13,
+						14,
 						cr.plugins_.wpc2.prototype.cnds.CheckAspect,
 						null,
 						0,
@@ -26378,7 +26441,7 @@ false,false,5050866466494312,false
 						],
 						[
 						[
-							15,
+							16,
 							cr.plugins_.Function.prototype.acts.CallFunction,
 							null,
 							3035286106247116,
@@ -26468,7 +26531,7 @@ false,false,5050866466494312,false
 						]
 					]
 ,					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						1364380349908681,
@@ -26518,7 +26581,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					14,
+					15,
 					cr.plugins_.fdcpp.prototype.acts.DestroyEngine,
 					null,
 					9260822805960102,
@@ -26567,7 +26630,7 @@ false,false,5050866466494312,false
 				7525555983572462,
 				[
 				[
-					26,
+					27,
 					cr.behaviors.Platform.prototype.cnds.OnJump,
 					"Platform",
 					1,
@@ -26580,7 +26643,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					16,
+					17,
 					cr.plugins_.Audio.prototype.acts.Play,
 					null,
 					2272639255292411,
@@ -26660,7 +26723,7 @@ false,false,5984259031720608,false
 				17435870339364,
 				[
 				[
-					28,
+					29,
 					cr.behaviors.Platform.prototype.cnds.OnLand,
 					"Platform",
 					1,
@@ -26673,7 +26736,7 @@ false,false,5984259031720608,false
 				],
 				[
 				[
-					16,
+					17,
 					cr.plugins_.Audio.prototype.acts.Play,
 					null,
 					4461753136728867,
@@ -26713,7 +26776,7 @@ false,false,5984259031720608,false
 					3176425798151271,
 					[
 					[
-						28,
+						29,
 						cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
 						null,
 						0,
@@ -26752,7 +26815,7 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						28,
+						29,
 						cr.plugins_.Sprite.prototype.acts.SetBoolInstanceVar,
 						null,
 						2638413201114027,
@@ -26769,7 +26832,7 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						14,
+						15,
 						cr.plugins_.fdcpp.prototype.acts.SetBlock,
 						null,
 						6049718597187286,
@@ -26779,7 +26842,7 @@ false,false,5984259031720608,false
 							0,
 							[
 								21,
-								28,
+								29,
 								false,
 								null
 								,2
@@ -26788,7 +26851,7 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						28,
+						29,
 						cr.plugins_.Sprite.prototype.acts.SetInstanceVar,
 						null,
 						5270631795412552,
@@ -26802,14 +26865,14 @@ false,false,5984259031720608,false
 							7,
 							[
 								20,
-								14,
+								15,
 								cr.plugins_.fdcpp.prototype.exps.GetRow,
 								false,
 								null
 								,[
 [
 									21,
-									28,
+									29,
 									false,
 									null
 									,2
@@ -26820,7 +26883,7 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						9991370044495908,
@@ -26853,7 +26916,7 @@ false,false,5984259031720608,false
 							7,
 							[
 								20,
-								14,
+								15,
 								cr.plugins_.fdcpp.prototype.exps.RowToErase,
 								false,
 								null
@@ -26862,7 +26925,7 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						6136211551935563,
@@ -26920,7 +26983,7 @@ false,false,5984259031720608,false
 					],
 					[
 					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.acts.CallFunction,
 						null,
 						6173421124867728,
@@ -26957,7 +27020,7 @@ false,false,5984259031720608,false
 				2443671993534644,
 				[
 				[
-					28,
+					29,
 					cr.plugins_.Sprite.prototype.cnds.OnCollision,
 					null,
 					0,
@@ -26969,12 +27032,12 @@ false,false,5984259031720608,false
 					,[
 					[
 						4,
-						25
+						26
 					]
 					]
 				]
 ,				[
-					28,
+					29,
 					cr.plugins_.Sprite.prototype.cnds.IsBoolInstanceVarSet,
 					null,
 					0,
@@ -26993,7 +27056,7 @@ false,false,5984259031720608,false
 				],
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					9098862040319093,
@@ -27054,7 +27117,7 @@ false,false,5984259031720608,false
 				4529963049937661,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27085,7 +27148,7 @@ false,false,5984259031720608,false
 					1572159212993434,
 					[
 					[
-						15,
+						16,
 						cr.plugins_.Function.prototype.cnds.CompareParam,
 						null,
 						0,
@@ -27202,7 +27265,7 @@ false,false,5984259031720608,false
 						]
 					]
 ,					[
-						16,
+						17,
 						cr.plugins_.Audio.prototype.acts.SetPaused,
 						null,
 						5165048258988571,
@@ -27253,7 +27316,7 @@ false,false,5984259031720608,false
 						466273100537636,
 						[
 						[
-							15,
+							16,
 							cr.plugins_.Function.prototype.cnds.CompareParam,
 							null,
 							0,
@@ -27342,7 +27405,7 @@ false,false,5984259031720608,false
 							]
 						]
 ,						[
-							16,
+							17,
 							cr.plugins_.Audio.prototype.acts.SetPaused,
 							null,
 							4312313641861344,
@@ -27382,7 +27445,7 @@ false,false,3096662099478148,false
 				5255522894343624,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27418,7 +27481,7 @@ false,false,3096662099478148,false
 						7,
 						[
 							20,
-							14,
+							15,
 							cr.plugins_.fdcpp.prototype.exps.NextBlock,
 							false,
 							null
@@ -27435,7 +27498,7 @@ false,false,3096662099478148,false
 					,[
 					[
 						4,
-						28
+						29
 					]
 ,					[
 						5,
@@ -27475,7 +27538,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					28,
+					29,
 					cr.plugins_.Sprite.prototype.acts.SetInstanceVar,
 					null,
 					9013260943302965,
@@ -27495,7 +27558,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					28,
+					29,
 					cr.behaviors.Platform.prototype.acts.SetAcceleration,
 					"Platform",
 					9062918358726788,
@@ -27525,7 +27588,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					28,
+					29,
 					cr.plugins_.Sprite.prototype.acts.SetAnim,
 					null,
 					5469284865587942,
@@ -27645,7 +27708,7 @@ false,false,3096662099478148,false
 				3082732543644705,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27667,7 +27730,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					29,
+					30,
 					cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 					null,
 					641565820379818,
@@ -27677,7 +27740,7 @@ false,false,3096662099478148,false
 						7,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetNumberString,
 							true,
 							null
@@ -27705,7 +27768,7 @@ false,false,3096662099478148,false
 				9850853647813568,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27727,7 +27790,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					8856132828518768,
@@ -27793,7 +27856,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					13,
+					14,
 					cr.plugins_.wpc2.prototype.acts.SetTextTile,
 					null,
 					4387871545814524,
@@ -27803,7 +27866,7 @@ false,false,3096662099478148,false
 						1,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetNumberString,
 							true,
 							null
@@ -27822,7 +27885,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					16,
+					17,
 					cr.plugins_.Audio.prototype.acts.Play,
 					null,
 					9038819595846695,
@@ -27862,7 +27925,7 @@ false,false,3096662099478148,false
 				9350054527896243,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -27884,7 +27947,7 @@ false,false,3096662099478148,false
 				],
 				[
 				[
-					14,
+					15,
 					cr.plugins_.fdcpp.prototype.acts.ClearEngine,
 					null,
 					4916093313872181,
@@ -27911,7 +27974,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					7250668812011254,
@@ -27937,7 +28000,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					16,
+					17,
 					cr.plugins_.Audio.prototype.acts.Play,
 					null,
 					4821684711443013,
@@ -28028,7 +28091,7 @@ false,false,3096662099478148,false
 					]
 				]
 ,				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.acts.CallFunction,
 					null,
 					8801401297541201,
@@ -28070,7 +28133,7 @@ true,true,3942350720316154,false
 				6461315155595917,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -28092,7 +28155,7 @@ true,true,3942350720316154,false
 				],
 				[
 				[
-					39,
+					40,
 					cr.plugins_.Sprite.prototype.acts.SetX,
 					null,
 					3317244836783479,
@@ -28123,7 +28186,7 @@ true,true,3942350720316154,false
 									]
 									,[
 										20,
-										26,
+										27,
 										cr.plugins_.Sprite.prototype.exps.X,
 										false,
 										null
@@ -28139,7 +28202,7 @@ true,true,3942350720316154,false
 					]
 				]
 ,				[
-					38,
+					39,
 					cr.plugins_.TiledBg.prototype.acts.SetX,
 					null,
 					1286842244730771,
@@ -28170,7 +28233,7 @@ true,true,3942350720316154,false
 									]
 									,[
 										20,
-										26,
+										27,
 										cr.plugins_.Sprite.prototype.exps.X,
 										false,
 										null
@@ -28186,7 +28249,7 @@ true,true,3942350720316154,false
 					]
 				]
 ,				[
-					38,
+					39,
 					cr.plugins_.TiledBg.prototype.acts.SetY,
 					null,
 					2593494932594385,
@@ -28217,7 +28280,7 @@ true,true,3942350720316154,false
 									]
 									,[
 										20,
-										26,
+										27,
 										cr.plugins_.Sprite.prototype.exps.Y,
 										false,
 										null
@@ -28256,7 +28319,7 @@ false,false,6873032296298975,false
 				2881679333843516,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -28278,7 +28341,7 @@ false,false,6873032296298975,false
 				],
 				[
 				[
-					14,
+					15,
 					cr.plugins_.fdcpp.prototype.acts.EraseRow,
 					null,
 					2606686279323703,
@@ -28288,7 +28351,7 @@ false,false,6873032296298975,false
 						0,
 						[
 							20,
-							15,
+							16,
 							cr.plugins_.Function.prototype.exps.Param,
 							false,
 							null
@@ -28317,7 +28380,7 @@ false,false,6873032296298975,false
 						7,
 						[
 							20,
-							15,
+							16,
 							cr.plugins_.Function.prototype.exps.Param,
 							false,
 							null
@@ -28353,7 +28416,7 @@ false,false,6873032296298975,false
 						,[
 						[
 							4,
-							28
+							29
 						]
 						]
 					]
@@ -28391,7 +28454,7 @@ false,false,6873032296298975,false
 								7,
 								[
 									21,
-									28,
+									29,
 									false,
 									null
 									,1
@@ -28402,7 +28465,7 @@ false,false,6873032296298975,false
 						],
 						[
 						[
-							28,
+							29,
 							cr.plugins_.Sprite.prototype.acts.Destroy,
 							null,
 							2639616996776264,
@@ -28432,14 +28495,14 @@ false,false,6873032296298975,false
 						,[
 						[
 							4,
-							28
+							29
 						]
 						]
 					]
 					],
 					[
 					[
-						28,
+						29,
 						cr.plugins_.Sprite.prototype.acts.SubInstanceVar,
 						null,
 						2998188427938045,
@@ -28496,6 +28559,27 @@ false,false,6873032296298975,false
 			]
 			,[
 			[
+				1,
+				"descShareHelper",
+				1,
+				"",
+false,false,3787330820649011,false
+			]
+,			[
+				1,
+				"titleShareHelper",
+				1,
+				"",
+false,false,7178290141809287,false
+			]
+,			[
+				1,
+				"textShareHelper",
+				1,
+				"",
+false,false,7479199012960863,false
+			]
+,			[
 				0,
 				null,
 				false,
@@ -28503,7 +28587,7 @@ false,false,6873032296298975,false
 				8782740739031961,
 				[
 				[
-					13,
+					14,
 					cr.plugins_.wpc2.prototype.cnds.OnShare,
 					null,
 					1,
@@ -28516,33 +28600,21 @@ false,false,6873032296298975,false
 				],
 				[
 				[
-					13,
-					cr.plugins_.wpc2.prototype.acts.ShareText,
+					-1,
+					cr.system_object.prototype.acts.SetVar,
 					null,
-					9872196368290069,
+					2335151289431791,
 					false
 					,[
 					[
-						1,
-						[
-							20,
-							18,
-							cr.plugins_.lcze.prototype.exps.GetSimpleString,
-							true,
-							null
-							,[
-[
-								2,
-								"titleToShareGame"
-							]
-							]
-						]
+						11,
+						"descShareHelper"
 					]
 ,					[
-						1,
+						7,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetSimpleString,
 							true,
 							null
@@ -28554,18 +28626,103 @@ false,false,6873032296298975,false
 							]
 						]
 					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1124254238992875,
+					false
+					,[
+					[
+						11,
+						"textShareHelper"
+					]
 ,					[
-						1,
+						7,
 						[
 							20,
-							18,
+							19,
 							cr.plugins_.lcze.prototype.exps.GetNumberString,
 							true,
 							null
 							,[
 [
 								2,
-								"textToShare"
+								"textToShareGame"
+							]
+,[
+								23,
+								"fallenBLocks"
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					3501279144192506,
+					false
+					,[
+					[
+						11,
+						"titleShareHelper"
+					]
+,					[
+						7,
+						[
+							20,
+							19,
+							cr.plugins_.lcze.prototype.exps.GetSimpleString,
+							true,
+							null
+							,[
+[
+								2,
+								"titleToShareGame"
+							]
+							]
+						]
+					]
+					]
+				]
+,				[
+					14,
+					cr.plugins_.wpc2.prototype.acts.ShareText,
+					null,
+					9872196368290069,
+					false
+					,[
+					[
+						1,
+						[
+							23,
+							"titleShareHelper"
+						]
+					]
+,					[
+						1,
+						[
+							23,
+							"descShareHelper"
+						]
+					]
+,					[
+						1,
+						[
+							20,
+							19,
+							cr.plugins_.lcze.prototype.exps.GetNumberString,
+							true,
+							null
+							,[
+[
+								2,
+								"textToShareGame"
 							]
 ,[
 								23,
@@ -28619,7 +28776,7 @@ false,false,6873032296298975,false
 				6752909749617707,
 				[
 				[
-					30,
+					31,
 					cr.plugins_.Button.prototype.cnds.OnClicked,
 					null,
 					1,
@@ -28646,7 +28803,7 @@ false,false,6873032296298975,false
 					false
 				]
 ,				[
-					16,
+					17,
 					cr.plugins_.Audio.prototype.acts.StopAll,
 					null,
 					1642731255443809,
@@ -28669,7 +28826,7 @@ false,false,6873032296298975,false
 			4610788874286836,
 			[
 			[
-				22,
+				23,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -28710,7 +28867,7 @@ false,false,6873032296298975,false
 			4780418496596003,
 			[
 			[
-				27,
+				28,
 				cr.plugins_.Keyboard.prototype.cnds.OnKeyReleased,
 				null,
 				1,
@@ -28751,7 +28908,7 @@ false,false,6873032296298975,false
 			8120069488708122,
 			[
 			[
-				13,
+				14,
 				cr.plugins_.wpc2.prototype.cnds.IsWindowsPhone8,
 				null,
 				0,
@@ -28764,7 +28921,7 @@ false,false,6873032296298975,false
 			],
 			[
 			[
-				42,
+				43,
 				cr.plugins_.Sprite.prototype.acts.SetVisible,
 				null,
 				4797711022203146,
@@ -28777,7 +28934,7 @@ false,false,6873032296298975,false
 				]
 			]
 ,			[
-				21,
+				22,
 				cr.plugins_.Text.prototype.acts.SetVisible,
 				null,
 				5002935051223918,
@@ -28812,7 +28969,7 @@ false,false,6873032296298975,false
 			],
 			[
 			[
-				21,
+				22,
 				cr.plugins_.Text.prototype.acts.SetText,
 				null,
 				9011462495149802,
@@ -28822,7 +28979,7 @@ false,false,6873032296298975,false
 					7,
 					[
 						20,
-						18,
+						19,
 						cr.plugins_.lcze.prototype.exps.GetSimpleString,
 						true,
 						null
@@ -28835,6 +28992,91 @@ false,false,6873032296298975,false
 					]
 				]
 				]
+			]
+,			[
+				44,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				7651323534567385,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				3791762006684004,
+				[
+				[
+					14,
+					cr.plugins_.wpc2.prototype.cnds.IsWindows8,
+					null,
+					0,
+					false,
+					false,
+					false,
+					8390995989704868,
+					false
+				]
+				],
+				[
+				[
+					44,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					784937265269431,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			7193093433165337,
+			[
+			[
+				23,
+				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+				null,
+				1,
+				false,
+				false,
+				false,
+				4710539174206241,
+				false
+				,[
+				[
+					4,
+					13
+				]
+				]
+			]
+			],
+			[
+			[
+				14,
+				cr.plugins_.wpc2.prototype.acts.ShowSettingsUI,
+				null,
+				4969010147042631,
+				false
 			]
 			]
 		]
@@ -28890,7 +29132,7 @@ false,true,6804083586070575,false
 			],
 			[
 			[
-				15,
+				16,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				5737543505202141,
@@ -28963,7 +29205,7 @@ false,false,137819117408848,false
 				5633705744667694,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -29053,7 +29295,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						17,
+						18,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -29090,7 +29332,7 @@ false,false,137819117408848,false
 						,[
 						[
 							4,
-							29
+							30
 						]
 ,						[
 							5,
@@ -29123,7 +29365,7 @@ false,false,137819117408848,false
 						]
 					]
 ,					[
-						29,
+						30,
 						cr.plugins_.SpriteFontPlus.prototype.acts.SetText,
 						null,
 						7869880355172389,
@@ -29137,7 +29379,7 @@ false,false,137819117408848,false
 									10,
 									[
 										20,
-										17,
+										18,
 										cr.plugins_.WebStorage.prototype.exps.LocalValue,
 										true,
 										null
@@ -29162,7 +29404,7 @@ false,false,137819117408848,false
 								]
 								,[
 									20,
-									17,
+									18,
 									cr.plugins_.WebStorage.prototype.exps.LocalValue,
 									true,
 									null
@@ -29223,7 +29465,7 @@ false,false,8571747330113035,false
 				6926392985740752,
 				[
 				[
-					15,
+					16,
 					cr.plugins_.Function.prototype.cnds.OnFunction,
 					null,
 					2,
@@ -29313,7 +29555,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						17,
+						18,
 						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
@@ -29342,7 +29584,7 @@ false,false,8571747330113035,false
 					],
 					[
 					[
-						17,
+						18,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						8686943429417027,
@@ -29365,7 +29607,7 @@ false,false,8571747330113035,false
 						]
 					]
 ,					[
-						17,
+						18,
 						cr.plugins_.WebStorage.prototype.acts.RemoveLocal,
 						null,
 						6759804980509709,
@@ -29421,7 +29663,7 @@ false,false,8571747330113035,false
 			7878270951107792,
 			[
 			[
-				22,
+				23,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -29462,7 +29704,7 @@ false,false,8571747330113035,false
 			5763700730826748,
 			[
 			[
-				22,
+				23,
 				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
 				null,
 				1,
@@ -29481,7 +29723,7 @@ false,false,8571747330113035,false
 			],
 			[
 			[
-				15,
+				16,
 				cr.plugins_.Function.prototype.acts.CallFunction,
 				null,
 				9573208474145952,
@@ -29522,7 +29764,7 @@ false,false,8571747330113035,false
 	true,
 	2,
 	2,
-	46,
+	47,
 	false,
 	true,
 	1,

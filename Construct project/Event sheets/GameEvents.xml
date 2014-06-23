@@ -609,7 +609,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
+        <event-group description="" sid="6892984352352811" title="Game functions">
             <sub-events>
                 <event-block sid="4529963049937661">
                     <conditions>
@@ -893,7 +893,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="9196677346321056" title="Windows 8 stuff">
+        <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
                 <event-block sid="8782740739031961">
                     <conditions>
@@ -903,7 +903,7 @@
                         <action id="4" name="Share text" sid="9872196368290069" type="wpc2">
                             <param id="0" name="Title">local.GetSimpleString(&quot;titleToShareGame&quot;)</param>
                             <param id="1" name="Description">local.GetSimpleString(&quot;descToShareGame&quot;)</param>
-                            <param id="2" name="Text">local.GetNumberString(&quot;textToShare&quot;, fallenBLocks)</param>
+                            <param id="2" name="Text">local.GetNumberString(&quot;textToShareGame&quot;,fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>

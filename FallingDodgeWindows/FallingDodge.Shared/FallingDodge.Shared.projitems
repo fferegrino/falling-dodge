@@ -20,6 +20,7 @@
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\playbutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\uparrow-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\leaderboardbutton-sheet0.png" />
+	<Content Include="$(MSBuildThisFileDirectory)images\assetsC2\infobutton-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\returnkey-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\esckey-sheet0.png" />
     <Content Include="$(MSBuildThisFileDirectory)images\assetsC2\pauseshade.png" />

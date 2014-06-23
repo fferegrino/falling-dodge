@@ -22,7 +22,7 @@
 	,"dodgedBlocks"			: "%d dodged blocks"
 	,"gameFinished"			: "Game over"
 	,"play"					: "Play"
-	,"textToShareGame"		: "I've dodgend %d blocks on Falling Dodge for Windows"
+	,"textToShareGame"		: "I've dodged %d blocks on Falling Dodge for Windows"
 	,"titleToShareGame"		: "Share your score"
 	,"descToShareGame"		: "Share your score with your friends"
 	,"tileRecordText"		: "The last time you dodged %d blocks, can you beat it?"

@@ -48,6 +48,31 @@
                 <action id="0" name="Set text" sid="9011462495149802" type="screenInstructionsSet">
                     <param id="0" name="Text">local.GetSimpleString(&quot;play&quot;)</param>
                 </action>
+                <action id="-15" name="Set visible" sid="7651323534567385" type="Windows8Controls">
+                    <param id="0" name="Visibility">0</param>
+                </action>
+            </actions>
+            <sub-events>
+                <event-block sid="3791762006684004">
+                    <conditions>
+                        <condition id="9" name="Is Windows 8" sid="8390995989704868" type="wpc2" />
+                    </conditions>
+                    <actions>
+                        <action id="-15" name="Set visible" sid="784937265269431" type="Windows8Controls">
+                            <param id="0" name="Visibility">1</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="7193093433165337">
+            <conditions>
+                <condition id="3" name="On touched object" sid="4710539174206241" type="touchInput">
+                    <param id="0" name="Object">infoButton</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="5" name="Show settings pane" sid="4969010147042631" type="wpc2" />
             </actions>
         </event-block>
     </events>
