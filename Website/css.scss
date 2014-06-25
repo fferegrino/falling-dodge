@@ -243,10 +243,12 @@ background-attachment: fixed;
 		width: 100%;
 		min-width: 100%;
 		min-height: 100%;
-		min-height: 700px;
 	}
 
 	.page.one {
+
+		min-height: 700px;
+
 		.logo {
 			display: block;
 			min-width: 256px;
@@ -301,6 +303,8 @@ background-attachment: fixed;
 			height: auto;
 			width: 100%;
 			max-width: 980px;
+			font-size: 0;
+			line-height: 0;
 
 			/*background-color: red;*/
 			ul {
@@ -328,6 +332,7 @@ background-attachment: fixed;
 
 	.page.three {
 
+		min-height: 700px;
 
 		.downloads {
 			display: block;
