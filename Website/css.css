@@ -237,14 +237,34 @@ body {
         text-decoration: none; }
       .container .page.three .credits a:hover {
         text-decoration: underline; }
+    .container .page.three .acknowledgments {
+      font-family: "open sans", "Lato", "Segoe UI", sans-serif;
+      font-weight: 400;
+      font-size: 1rem;
+      line-height: 130%;
+      color: #f7f7f7;
+      text-align: center; }
+      .container .page.three .acknowledgments a {
+        color: inherit;
+        font-weight: 700; }
+      .container .page.three .acknowledgments a:hover {
+        color: #F8FF7A;
+        text-shadow: 0 0 3px #F8FF7A;
+        text-decoration: underline; }
     .container .page.three .copyright {
       display: block;
-      /*margin-top: 2rem;*/
+      margin-top: 4rem;
       font-family: "open sans", "Lato", "Segoe UI", sans-serif;
       font-weight: 300;
       font-size: 1.15rem;
+      line-height: 170%;
       color: #f7f7f7;
       text-align: center; }
+    .container .page.three .copyright:after {
+      display: block;
+      content: "";
+      width: 100%;
+      padding-top: 3rem; }
 
 .container:before {
   position: fixed;
@@ -259,3 +279,38 @@ body {
   filter: alpha(opacity=0.25);
   -moz-opacity: 0.25;
   opacity: 0.25; }
+
+br[mobile] {
+  display: none; }
+
+@media (max-width: 600px) {
+  .container .page.one .super-title {
+    font-size: 1.8rem; }
+  .container .page.one .super-description {
+    margin-top: 1.5rem;
+    font-size: 1.25rem; }
+  .container .page.one .arrow {
+    position: absolute;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    bottom: 4rem;
+    height: 2rem;
+    filter: alpha(opacity=0.25);
+    -moz-opacity: 0.25;
+    opacity: 0.25; }
+  .container .page.three .downloads .left, .container .page.three .downloads .right {
+    display: block;
+    width: 100%;
+    font-size: 1.325rem;
+    overflow: hidden; }
+  .container .page.three .downloads .right {
+    margin-top: 3rem; }
+  .container .page.three .credits {
+    margin-top: 2.5rem;
+    font-size: 1.25rem; }
+  .container .page.three .copyright:after {
+    padding-top: 6rem; }
+
+  br[mobile] {
+    display: block; } }

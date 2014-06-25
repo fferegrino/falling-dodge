@@ -205,7 +205,7 @@ $content-max-width: 960px;
 /*--------------------------------------------------
 	Falling Dodge
 --------------------------------------------------*/
-$Lato: 'open sans', 'Lato', 'Segoe UI', sans-serif;
+$font-stack: 'open sans', 'Lato', 'Segoe UI', sans-serif;
 
 
 
@@ -263,7 +263,7 @@ background-attachment: fixed;
 			display: block;
 			margin-top: -40px;
 
-			font-family: $Lato;
+			font-family: $font-stack;
 			font-weight: 300;
 			font-size: 2.4rem;
 			color: #f7f7f7;
@@ -274,7 +274,7 @@ background-attachment: fixed;
 			display: block;
 			margin-top: 2rem;
 
-			font-family: $Lato;
+			font-family: $font-stack;
 			font-weight: 300;
 			font-size: 1.5rem;
 			color: #f7f7f7;
@@ -338,7 +338,7 @@ background-attachment: fixed;
 			display: block;
 			margin-top: 2rem;
 
-			font-family: $Lato;
+			font-family: $font-stack;
 			font-weight: 300;
 			font-size: 0;
 			color: #f7f7f7;
@@ -375,7 +375,7 @@ background-attachment: fixed;
 			display: block;
 			margin-top: 2rem;
 
-			font-family: $Lato;
+			font-family: $font-stack;
 			font-weight: 300;
 			font-size: 1.5rem;
 			color: #f7f7f7;
@@ -391,17 +391,43 @@ background-attachment: fixed;
 			}
 		}
 
+		.acknowledgments {
+			font-family: $font-stack;
+			font-weight: 400;
+			font-size: 1rem;
+			line-height: 130%;
+			color: #f7f7f7;
+			text-align: center;
+
+			a {
+				color: inherit;
+				font-weight: 700;
+			}
+			a:hover {
+				color: #F8FF7A;
+				text-shadow: 0 0 3px #F8FF7A;
+				text-decoration: underline;
+			}
+
+		}
+
 		.copyright {
 			display: block;
-			/*margin-top: 2rem;*/
+			margin-top: 4rem;
 
-			font-family: $Lato;
+			font-family: $font-stack;
 			font-weight: 300;
 			font-size: 1.15rem;
+			line-height: 170%;
 			color: #f7f7f7;
 			text-align: center;
 		}
-
+		.copyright:after {
+			display: block;
+			content: "";
+			width: 100%;
+			padding-top: 3rem;
+		}
 
 	}
 
@@ -430,3 +456,66 @@ background-attachment: fixed;
 }
 
 
+br[mobile] {
+	display: none;
+}
+
+
+@media (max-width: 600px) {
+
+
+.container {
+
+	.page.one {
+
+		.super-title {
+			font-size: 1.8rem;
+		}
+		.super-description {
+			margin-top: 1.5rem;
+			font-size: 1.25rem;
+		}
+
+
+		.arrow {
+			position: absolute;
+			margin: 0 auto;
+			display: block;
+			width: 100%;
+			bottom: 4rem;
+			height: 2rem;
+			@include opacity(0.25);
+		}
+	}
+
+
+	.page.three {
+		.downloads {
+			.left, .right {
+				display: block;
+				width: 100%;
+				font-size: 1.325rem;
+				overflow: hidden;
+			}
+
+			.right {
+				margin-top: 3rem;
+			}
+		}
+		.credits {
+			margin-top: 2.5rem;
+			font-size: 1.25rem;
+		}
+		.copyright:after {
+			padding-top: 6rem;
+		}
+	}
+}
+
+
+
+br[mobile] {
+	display: block;
+}
+
+}
