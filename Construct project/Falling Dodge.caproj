@@ -364,6 +364,14 @@
                 <plugin id="Text" />
             </object-type>
         </object-folder>
+        <object-folder expanded="0" name="settingsObjects">
+            <object-type name="soundLabel" sid="5300706372866298">
+                <plugin id="Text" />
+            </object-type>
+            <object-type name="musicLabel" sid="6749541226537101">
+                <plugin id="Text" />
+            </object-type>
+        </object-folder>
         <object-type name="touchInput" sid="7692813297571575">
             <plugin id="Touch" />
         </object-type>
@@ -588,6 +596,7 @@
         <layout>GameLayout.xml</layout>
         <layout>MenuLayout.xml</layout>
         <layout>HighScoresLayout.xml</layout>
+        <layout>SettingsLayout.xml</layout>
     </layout-folder>
     <event-folder expanded="1">
         <event-sheet>GameEvents.xml</event-sheet>
@@ -595,6 +604,7 @@
         <event-sheet>SettingsEvents.xml</event-sheet>
         <event-sheet>HighScoresEvents.xml</event-sheet>
         <event-sheet>ScoreEvents.xml</event-sheet>
+        <event-sheet>OptionsSheet.xml</event-sheet>
     </event-folder>
     <global-instances>
         <global-instance type="touchInput" uid="2">

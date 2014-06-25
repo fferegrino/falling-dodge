@@ -511,14 +511,26 @@
                     <conditions>
                         <condition behavior="Platform" id="5" name="On jump" sid="4328806482909331" type="player" />
                     </conditions>
-                    <actions>
-                        <action id="0" name="Play" sid="2272639255292411" type="sound">
-                            <param id="0" name="Audio file">qubodup-cfork-ccby3-jump</param>
-                            <param id="2" name="Loop">0</param>
-                            <param id="3" name="Volume">-15</param>
-                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
-                        </action>
-                    </actions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="1522300822704682">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="9651320149311727" type="System">
+                                    <param id="0" name="Variable">SOUNDS_ON</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Play" sid="2272639255292411" type="sound">
+                                    <param id="0" name="Audio file">qubodup-cfork-ccby3-jump</param>
+                                    <param id="2" name="Loop">0</param>
+                                    <param id="3" name="Volume">-15</param>
+                                    <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
             </sub-events>
         </event-group>
@@ -529,14 +541,7 @@
                     <conditions>
                         <condition behavior="Platform" id="9" name="On landed" sid="5644892740512408" type="block" />
                     </conditions>
-                    <actions>
-                        <action id="0" name="Play" sid="4461753136728867" type="sound">
-                            <param id="0" name="Audio file">explosion_dull</param>
-                            <param id="2" name="Loop">0</param>
-                            <param id="3" name="Volume">0</param>
-                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
-                        </action>
-                    </actions>
+                    <actions />
                     <sub-events>
                         <event-block sid="3176425798151271">
                             <conditions>
@@ -573,6 +578,25 @@
                                     <param id="1" name="Parameter {n}"></param>
                                 </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="5399209365861815">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="7381970959311068" type="System">
+                                            <param id="0" name="Variable">SOUNDS_ON</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">TRUE</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="0" name="Play" sid="7721976522354644" type="sound">
+                                            <param id="0" name="Audio file">explosion_dull</param>
+                                            <param id="2" name="Loop">0</param>
+                                            <param id="3" name="Volume">0</param>
+                                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="3893053026155212">
                             <conditions>
@@ -609,7 +633,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="6892984352352811" title="Game functions">
+        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
             <sub-events>
                 <event-block sid="4529963049937661">
                     <conditions>
@@ -645,11 +669,24 @@
                                 <action id="-13" name="Set time scale" sid="699772469429195" type="System">
                                     <param id="0" name="Time scale">1.0</param>
                                 </action>
-                                <action id="22" name="Set paused" sid="5165048258988571" type="sound">
-                                    <param id="0" name="Tag">&quot;bgMusic&quot;</param>
-                                    <param id="1" name="State">1</param>
-                                </action>
                             </actions>
+                            <sub-events>
+                                <event-block sid="6293921747537334">
+                                    <conditions>
+                                        <condition id="-14" name="Compare variable" sid="9778399463685786" type="System">
+                                            <param id="0" name="Variable">MUSIC_ON</param>
+                                            <param id="1" name="Comparison">0</param>
+                                            <param id="2" name="Value">TRUE</param>
+                                        </condition>
+                                    </conditions>
+                                    <actions>
+                                        <action id="22" name="Set paused" sid="5165048258988571" type="sound">
+                                            <param id="0" name="Tag">&quot;bgMusic&quot;</param>
+                                            <param id="1" name="State">1</param>
+                                        </action>
+                                    </actions>
+                                </event-block>
+                            </sub-events>
                         </event-block>
                         <event-block sid="1845237708883124">
                             <conditions>
@@ -769,13 +806,26 @@
                         <action id="6" name="Update text tile" sid="4387871545814524" type="wpc2">
                             <param id="0" name="Text">local.GetNumberString(&quot;tileRecordText&quot;,fallenBLocks)</param>
                         </action>
-                        <action id="0" name="Play" sid="9038819595846695" type="sound">
-                            <param id="0" name="Audio file">lifelost</param>
-                            <param id="2" name="Loop">0</param>
-                            <param id="3" name="Volume">0</param>
-                            <param id="1" name="Tag (optional)">&quot;&quot;</param>
-                        </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="9348727035328198">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="7275066151591842" type="System">
+                                    <param id="0" name="Variable">SOUNDS_ON</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Play" sid="9038819595846695" type="sound">
+                                    <param id="0" name="Audio file">lifelost</param>
+                                    <param id="2" name="Loop">0</param>
+                                    <param id="3" name="Volume">0</param>
+                                    <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <event-block sid="9350054527896243">
                     <conditions>
@@ -792,12 +842,6 @@
                         <action id="0" name="Call function" sid="7250668812011254" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
                             <param id="1" name="Parameter {n}">FALSE</param>
-                        </action>
-                        <action id="0" name="Play" sid="4821684711443013" type="sound">
-                            <param id="0" name="Audio file">BackgroundMattOglseby</param>
-                            <param id="2" name="Loop">1</param>
-                            <param id="3" name="Volume">0</param>
-                            <param id="1" name="Tag (optional)">&quot;bgMusic&quot;</param>
                         </action>
                         <action id="-4" name="Set layer visible" sid="2733156267784808" type="System">
                             <param id="0" name="Layer">3</param>
@@ -816,6 +860,25 @@
                             <param id="1" name="Parameter {n}"></param>
                         </action>
                     </actions>
+                    <sub-events>
+                        <event-block sid="925338738911223">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="4434732815877392" type="System">
+                                    <param id="0" name="Variable">MUSIC_ON</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Play" sid="4821684711443013" type="sound">
+                                    <param id="0" name="Audio file">BackgroundMattOglseby</param>
+                                    <param id="2" name="Loop">1</param>
+                                    <param id="3" name="Volume">0</param>
+                                    <param id="1" name="Tag (optional)">&quot;bgMusic&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
                 </event-block>
                 <variable constant="1" name="MOUNTAIN_PARALLAX" sid="5465309023031647" static="1" type="number">0.2</variable>
                 <variable constant="1" name="STARS_PARALLAX" sid="3942350720316154" static="1" type="number">0.1</variable>
@@ -854,6 +917,23 @@
                         </action>
                     </actions>
                     <sub-events>
+                        <event-block sid="9935483091644185">
+                            <conditions>
+                                <condition id="-14" name="Compare variable" sid="4043039059913387" type="System">
+                                    <param id="0" name="Variable">SOUNDS_ON</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Value">TRUE</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Play" sid="227242239004583" type="sound">
+                                    <param id="0" name="Audio file">explosion_dull</param>
+                                    <param id="2" name="Loop">0</param>
+                                    <param id="3" name="Volume">0</param>
+                                    <param id="1" name="Tag (optional)">&quot;&quot;</param>
+                                </action>
+                            </actions>
+                        </event-block>
                         <event-block sid="2679780040448508">
                             <conditions>
                                 <condition id="-11" name="For Each" sid="4507022371692224" type="System">
@@ -893,7 +973,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="9196677346321056" title="Windows 8 stuff">
+        <event-group collapsed="1" description="" sid="9196677346321056" title="Windows 8 stuff">
             <sub-events>
                 <event-block sid="8782740739031961">
                     <conditions>

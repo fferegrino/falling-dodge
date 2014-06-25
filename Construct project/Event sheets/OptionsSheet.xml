@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>OptionsSheet</name>
+    <events>
+        <variable constant="0" name="MUSIC_ON" sid="2873776442068116" static="0" type="number">1</variable>
+        <variable constant="0" name="SOUNDS_ON" sid="9802822318236472" static="0" type="number">1</variable>
+    </events>
+</c2eventsheet>
