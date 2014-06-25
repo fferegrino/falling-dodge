@@ -246,7 +246,8 @@ body {
       text-align: center; }
       .container .page.three .acknowledgments a {
         color: inherit;
-        font-weight: 700; }
+        font-weight: 700;
+        text-decoration: none; }
       .container .page.three .acknowledgments a:hover {
         color: #F8FF7A;
         text-shadow: 0 0 3px #F8FF7A;
