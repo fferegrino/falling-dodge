@@ -20,7 +20,7 @@
                     <sub-events>
                         <event-block sid="1467760939894752">
                             <conditions>
-                                <condition id="4" name="Session key exists" sid="4729340209631265" type="storage">
+                                <condition id="3" name="Local key exists" sid="4729340209631265" type="storage">
                                     <param id="0" name="Key">MUSIC_KEY_OPTION</param>
                                 </condition>
                             </conditions>
@@ -65,7 +65,7 @@
                     <sub-events>
                         <event-block sid="567640756241459">
                             <conditions>
-                                <condition id="4" name="Session key exists" sid="4501386026730801" type="storage">
+                                <condition id="3" name="Local key exists" sid="4501386026730801" type="storage">
                                     <param id="0" name="Key">SOUND_KEY_OPTION</param>
                                 </condition>
                             </conditions>

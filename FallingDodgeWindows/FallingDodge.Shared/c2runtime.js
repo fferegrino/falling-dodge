@@ -20627,6 +20627,7 @@ cr.plugins_.lcze = function(runtime)
 	{
 		if(window["c2isWindows8"])
 			this._res = WinJS["Resources"];
+		this.aA = []; // Empty array
 	};
 	instanceProto.onDestroy = function ()
 	{
@@ -20653,6 +20654,17 @@ cr.plugins_.lcze = function(runtime)
 	}
 	pluginProto.cnds = new Cnds();
 	function Acts() {};
+	Acts.prototype.AppendStringArray = function (str_) {
+		this.aA.push(str_);
+	};
+	Acts.prototype.AppendNumberArray = function (nmbr_) {
+		this.aA.push(nmbr_);
+	};
+	Acts.prototype.ClearArray = function(){
+	   while(this.aA.length > 0 ){
+			this.aA.pop();
+	   }
+	};
 	pluginProto.acts = new Acts();
 	function Exps() {};
 	Exps.prototype.GetString = function (ret, expr_)
@@ -20675,6 +20687,12 @@ cr.plugins_.lcze = function(runtime)
 			ret.set_string(sprintf(this._res["getString"](expr_).value, num_));
 		else
 			ret.set_string("Key" + expr_ + ": " + num_);
+	};
+	Exps.prototype.GetStringArray = function(ret, key_) {
+		if(this._res)
+			ret.set_string(vsprintf(this._res["getString"](key_).value, this.aA));
+		else
+			ret.set_string(key_);
 	};
 	pluginProto.exps = new Exps();
 }());
@@ -22161,18 +22179,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.lcze,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
 		cr.plugins_.Keyboard,
 		true,
 		false,
@@ -22185,15 +22191,15 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Sprite,
+		cr.plugins_.lcze,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
@@ -22207,6 +22213,30 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		true
+	]
+,	[
+		cr.plugins_.Text,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
+	]
+,	[
+		cr.plugins_.Sprite,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		false
 	]
 ,	[
 		cr.plugins_.TiledBg,
@@ -22233,31 +22263,19 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.WebStorage,
+		true,
 		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
 		false
 	]
 ,	[
 		cr.plugins_.wpc2,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -24530,7 +24548,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[693, 498, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[336, 385, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				1,
 				52,
 				[
@@ -30099,6 +30117,224 @@ false,false,6873032296298975,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			6599211539338136,
+			[
+			[
+				25,
+				cr.plugins_.Touch.prototype.cnds.OnTouchObject,
+				null,
+				1,
+				false,
+				false,
+				false,
+				4743121965366246,
+				false
+				,[
+				[
+					4,
+					23
+				]
+				]
+			]
+			],
+			[
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				1559390820932811,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					3995469230679126,
+					false
+					,[
+					[
+						11,
+						"SOUNDS_OPTION"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							23,
+							"TRUE"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1022215887678086,
+					false
+					,[
+					[
+						11,
+						"SOUNDS_OPTION"
+					]
+,					[
+						7,
+						[
+							23,
+							"FALSE"
+						]
+					]
+					]
+				]
+,				[
+					23,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					7061631393839249,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							19,
+							cr.plugins_.lcze.prototype.exps.GetString,
+							true,
+							null
+							,[
+[
+								2,
+								"soundOffT"
+							]
+							]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				4618764344859663,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.Else,
+					null,
+					0,
+					false,
+					false,
+					false,
+					6710664082811213,
+					false
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					3329605981520342,
+					false
+					,[
+					[
+						11,
+						"SOUNDS_OPTION"
+					]
+,					[
+						7,
+						[
+							23,
+							"TRUE"
+						]
+					]
+					]
+				]
+,				[
+					23,
+					cr.plugins_.Text.prototype.acts.SetText,
+					null,
+					8703980443464887,
+					false
+					,[
+					[
+						7,
+						[
+							20,
+							19,
+							cr.plugins_.lcze.prototype.exps.GetString,
+							true,
+							null
+							,[
+[
+								2,
+								"soundOnT"
+							]
+							]
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				1792005231694004,
+				[
+				],
+				[
+				[
+					16,
+					cr.plugins_.Function.prototype.acts.CallFunction,
+					null,
+					5281868242502133,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"setSoundSetting"
+						]
+					]
+,					[
+						13,
+													[
+								7,
+								[
+									23,
+									"SOUNDS_OPTION"
+								]
+							]
+					]
+					]
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
@@ -30873,7 +31109,7 @@ false,false,9356006424015819,false
 					[
 					[
 						18,
-						cr.plugins_.WebStorage.prototype.cnds.SessionStorageExists,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
 						false,
@@ -31063,7 +31299,7 @@ false,false,332446024701571,false
 					[
 					[
 						18,
-						cr.plugins_.WebStorage.prototype.cnds.SessionStorageExists,
+						cr.plugins_.WebStorage.prototype.cnds.LocalStorageExists,
 						null,
 						0,
 						false,
@@ -31224,7 +31460,7 @@ false,false,332446024701571,false
 	true,
 	2,
 	2,
-	54,
+	55,
 	false,
 	true,
 	1,

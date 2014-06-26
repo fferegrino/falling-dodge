@@ -123,5 +123,56 @@
                 </event-block>
             </sub-events>
         </event-block>
+        <event-block sid="6599211539338136">
+            <conditions>
+                <condition id="3" name="On touched object" sid="4743121965366246" type="touchInput">
+                    <param id="0" name="Object">soundLabel</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="1559390820932811">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="3995469230679126" type="System">
+                            <param id="0" name="Variable">SOUNDS_OPTION</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">TRUE</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="1022215887678086" type="System">
+                            <param id="0" name="Variable">SOUNDS_OPTION</param>
+                            <param id="1" name="Value">FALSE</param>
+                        </action>
+                        <action id="0" name="Set text" sid="7061631393839249" type="soundLabel">
+                            <param id="0" name="Text">local.GetString(&quot;soundOffT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="4618764344859663">
+                    <conditions>
+                        <condition id="-22" name="Else" sid="6710664082811213" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="3329605981520342" type="System">
+                            <param id="0" name="Variable">SOUNDS_OPTION</param>
+                            <param id="1" name="Value">TRUE</param>
+                        </action>
+                        <action id="0" name="Set text" sid="8703980443464887" type="soundLabel">
+                            <param id="0" name="Text">local.GetString(&quot;soundOnT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="1792005231694004">
+                    <conditions />
+                    <actions>
+                        <action id="0" name="Call function" sid="5281868242502133" type="functions">
+                            <param id="0" name="Name">&quot;setSoundSetting&quot;</param>
+                            <param id="1" name="Parameter {n}">SOUNDS_OPTION</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
     </events>
 </c2eventsheet>
