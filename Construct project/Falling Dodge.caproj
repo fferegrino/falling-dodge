@@ -23,7 +23,7 @@
         <plugin author="Zack0Wack0/Scirra" id="WebStorage" version="1">WebStorage</plugin>
         <plugin author="@fferegrino" id="fdcpp" version="1.600000024">Falling Dodge C++ engine</plugin>
         <plugin author="@fferegrino" id="lcze" version="1">Localize</plugin>
-        <plugin author="@fferegrino" id="wpc2" version="1.700000048">Windows + c2</plugin>
+        <plugin author="@fferegrino" id="wpc2" version="1.799999952">Windows + c2</plugin>
     </used-plugins>
     <used-behaviors>
         <behavior author="Scirra" id="Platform" version="1">Platform</behavior>
@@ -364,7 +364,7 @@
                 <plugin id="Text" />
             </object-type>
         </object-folder>
-        <object-folder expanded="0" name="settingsObjects">
+        <object-folder expanded="1" name="settingsObjects">
             <object-type name="soundLabel" sid="5300706372866298">
                 <plugin id="Text" />
             </object-type>

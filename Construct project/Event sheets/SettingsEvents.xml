@@ -2,5 +2,126 @@
 <c2eventsheet>
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>SettingsEvents</name>
-    <events />
+    <events>
+        <include>OptionsSheet</include>
+        <event-block sid="720822772364898">
+            <conditions>
+                <condition id="-2" name="On start of layout" sid="8808537774834484" type="System" />
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="6463678758910572">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="9391640431813488" type="System">
+                            <param id="0" name="Variable">MUSIC_OPTION</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">TRUE</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="5063525549167014" type="musicLabel">
+                            <param id="0" name="Text">local.GetString(&quot;musicOnT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="7218870823732544">
+                    <conditions>
+                        <condition id="-22" name="Else" sid="8945658282558747" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="7439262563216237" type="musicLabel">
+                            <param id="0" name="Text">local.GetString(&quot;musicOffT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="166695739742607">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="1618708158555529" type="System">
+                            <param id="0" name="Variable">SOUNDS_OPTION</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">TRUE</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="5880116859312212" type="soundLabel">
+                            <param id="0" name="Text">local.GetString(&quot;soundOnT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="4087811570639664">
+                    <conditions>
+                        <condition id="-22" name="Else" sid="2994111671496285" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set text" sid="9696698545329515" type="soundLabel">
+                            <param id="0" name="Text">local.GetString(&quot;soundOffT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+        <event-block sid="7146119442308333">
+            <conditions>
+                <condition id="3" name="On touched object" sid="6258664758079668" type="touchInput">
+                    <param id="0" name="Object">backButton</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-2" name="Go to layout" sid="6971180505368459" type="System">
+                    <param id="0" name="Layout">MenuLayout</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="8444021722526673">
+            <conditions>
+                <condition id="3" name="On touched object" sid="4215663946983273" type="touchInput">
+                    <param id="0" name="Object">musicLabel</param>
+                </condition>
+            </conditions>
+            <actions />
+            <sub-events>
+                <event-block sid="2178109786634712">
+                    <conditions>
+                        <condition id="-14" name="Compare variable" sid="8842530655024394" type="System">
+                            <param id="0" name="Variable">MUSIC_OPTION</param>
+                            <param id="1" name="Comparison">0</param>
+                            <param id="2" name="Value">TRUE</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="2908452614581026" type="System">
+                            <param id="0" name="Variable">MUSIC_OPTION</param>
+                            <param id="1" name="Value">FALSE</param>
+                        </action>
+                        <action id="0" name="Set text" sid="4282558700160359" type="musicLabel">
+                            <param id="0" name="Text">local.GetString(&quot;musicOffT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="3852856255762977">
+                    <conditions>
+                        <condition id="-22" name="Else" sid="520537939534468" type="System" />
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Set value" sid="1577727022507567" type="System">
+                            <param id="0" name="Variable">MUSIC_OPTION</param>
+                            <param id="1" name="Value">TRUE</param>
+                        </action>
+                        <action id="0" name="Set text" sid="926129134526022" type="musicLabel">
+                            <param id="0" name="Text">local.GetString(&quot;musicOnT&quot;)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <event-block sid="2039318593204967">
+                    <conditions />
+                    <actions>
+                        <action id="0" name="Call function" sid="3550061707829194" type="functions">
+                            <param id="0" name="Name">&quot;setMusicSetting&quot;</param>
+                            <param id="1" name="Parameter {n}">MUSIC_OPTION</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-block>
+    </events>
 </c2eventsheet>

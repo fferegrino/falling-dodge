@@ -3,7 +3,103 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>OptionsSheet</name>
     <events>
-        <variable constant="0" name="MUSIC_ON" sid="2873776442068116" static="0" type="number">1</variable>
-        <variable constant="0" name="SOUNDS_ON" sid="9802822318236472" static="0" type="number">1</variable>
+        <variable comment="The constant key of sound option" constant="1" name="SOUND_KEY_OPTION" sid="2199823315815817" static="0" type="text">sOpt</variable>
+        <variable comment="The constant key of music option" constant="1" name="MUSIC_KEY_OPTION" sid="3623715832193185" static="0" type="text">mOpt</variable>
+        <variable constant="0" name="MUSIC_OPTION" sid="2873776442068116" static="0" type="number">1</variable>
+        <variable constant="0" name="SOUNDS_OPTION" sid="9802822318236472" static="0" type="number">1</variable>
+        <event-group description="This group contains the functions to work with the game options" sid="5331168303043785" title="Options functions">
+            <sub-events>
+                <variable comment="Return value" constant="0" name="rValuem" sid="9356006424015819" static="0" type="number">0</variable>
+                <event-block sid="9609675369485442">
+                    <conditions>
+                        <condition id="0" name="On function" sid="1672308436200301" type="functions">
+                            <param id="0" name="Name">&quot;getMusicSetting&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="1467760939894752">
+                            <conditions>
+                                <condition id="4" name="Session key exists" sid="4729340209631265" type="storage">
+                                    <param id="0" name="Key">MUSIC_KEY_OPTION</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="9105195886061804" type="System">
+                                    <param id="0" name="Variable">rValuem</param>
+                                    <param id="1" name="Value">storage.LocalValue(MUSIC_KEY_OPTION)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="8175249251940163">
+                            <conditions />
+                            <actions>
+                                <action id="1" name="Set return value" sid="7183532719606951" type="functions">
+                                    <param id="0" name="Value">rValuem</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="5869327186738228">
+                    <conditions>
+                        <condition id="0" name="On function" sid="9124408809356627" type="functions">
+                            <param id="0" name="Name">&quot;setMusicSetting&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set local value" sid="5215476613781838" type="storage">
+                            <param id="0" name="Key">MUSIC_KEY_OPTION</param>
+                            <param id="1" name="Value">functions.Param(0)</param>
+                        </action>
+                    </actions>
+                </event-block>
+                <variable comment="Return value" constant="0" name="rValues" sid="332446024701571" static="0" type="number">0</variable>
+                <event-block sid="8178714714370649">
+                    <conditions>
+                        <condition id="0" name="On function" sid="847923883705281" type="functions">
+                            <param id="0" name="Name">&quot;getSoundSetting&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions />
+                    <sub-events>
+                        <event-block sid="567640756241459">
+                            <conditions>
+                                <condition id="4" name="Session key exists" sid="4501386026730801" type="storage">
+                                    <param id="0" name="Key">SOUND_KEY_OPTION</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="4926313067840924" type="System">
+                                    <param id="0" name="Variable">rValues</param>
+                                    <param id="1" name="Value">storage.LocalValue(SOUND_KEY_OPTION)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="5260405876314232">
+                            <conditions />
+                            <actions>
+                                <action id="1" name="Set return value" sid="9876857651524767" type="functions">
+                                    <param id="0" name="Value">rValues</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="8647507991694262">
+                    <conditions>
+                        <condition id="0" name="On function" sid="1306203691714057" type="functions">
+                            <param id="0" name="Name">&quot;setSoundSetting&quot;</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="0" name="Set local value" sid="4754997393431608" type="storage">
+                            <param id="0" name="Key">SOUND_KEY_OPTION</param>
+                            <param id="1" name="Value">functions.Param(0)</param>
+                        </action>
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
     </events>
 </c2eventsheet>

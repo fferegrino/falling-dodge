@@ -3,6 +3,7 @@
     <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
     <name>MenuEvents</name>
     <events>
+        <include>OptionsSheet</include>
         <event-block sid="4610788874286836">
             <conditions>
                 <condition id="3" name="On touched object" sid="4761762538065575" type="touchInput">
@@ -12,6 +13,18 @@
             <actions>
                 <action id="-2" name="Go to layout" sid="5932579197045594" type="System">
                     <param id="0" name="Layout">GameLayout</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="5041872224852331">
+            <conditions>
+                <condition id="3" name="On touched object" sid="433511067916035" type="touchInput">
+                    <param id="0" name="Object">configButton</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-2" name="Go to layout" sid="72166877229639" type="System">
+                    <param id="0" name="Layout">SettingsLayout</param>
                 </action>
             </actions>
         </event-block>
@@ -60,6 +73,14 @@
                 </action>
                 <action id="-15" name="Set visible" sid="7651323534567385" type="Windows8Controls">
                     <param id="0" name="Visibility">0</param>
+                </action>
+                <action id="-9" name="Set value" sid="2147610492432787" type="System">
+                    <param id="0" name="Variable">MUSIC_OPTION</param>
+                    <param id="1" name="Value">functions.Call(&quot;getMusicSetting&quot;)</param>
+                </action>
+                <action id="-9" name="Set value" sid="2198390420159419" type="System">
+                    <param id="0" name="Variable">SOUNDS_OPTION</param>
+                    <param id="1" name="Value">functions.Call(&quot;getSoundSetting&quot;)</param>
                 </action>
             </actions>
             <sub-events>

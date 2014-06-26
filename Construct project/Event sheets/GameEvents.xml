@@ -516,7 +516,7 @@
                         <event-block sid="1522300822704682">
                             <conditions>
                                 <condition id="-14" name="Compare variable" sid="9651320149311727" type="System">
-                                    <param id="0" name="Variable">SOUNDS_ON</param>
+                                    <param id="0" name="Variable">SOUNDS_OPTION</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Value">TRUE</param>
                                 </condition>
@@ -582,7 +582,7 @@
                                 <event-block sid="5399209365861815">
                                     <conditions>
                                         <condition id="-14" name="Compare variable" sid="7381970959311068" type="System">
-                                            <param id="0" name="Variable">SOUNDS_ON</param>
+                                            <param id="0" name="Variable">SOUNDS_OPTION</param>
                                             <param id="1" name="Comparison">0</param>
                                             <param id="2" name="Value">TRUE</param>
                                         </condition>
@@ -674,7 +674,7 @@
                                 <event-block sid="6293921747537334">
                                     <conditions>
                                         <condition id="-14" name="Compare variable" sid="9778399463685786" type="System">
-                                            <param id="0" name="Variable">MUSIC_ON</param>
+                                            <param id="0" name="Variable">MUSIC_OPTION</param>
                                             <param id="1" name="Comparison">0</param>
                                             <param id="2" name="Value">TRUE</param>
                                         </condition>
@@ -780,7 +780,7 @@
                     </conditions>
                     <actions>
                         <action id="0" name="Set text" sid="641565820379818" type="hudFont">
-                            <param id="0" name="Text">local.GetNumberString(&quot;dodgedBlocks&quot;,fallenBLocks)</param>
+                            <param id="0" name="Text">local.GetFormattedNumber(&quot;dodgedBlocks&quot;,fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>
@@ -804,14 +804,14 @@
                             <param id="1" name="Visibility">1</param>
                         </action>
                         <action id="6" name="Update text tile" sid="4387871545814524" type="wpc2">
-                            <param id="0" name="Text">local.GetNumberString(&quot;tileRecordText&quot;,fallenBLocks)</param>
+                            <param id="0" name="Text">local.GetFormattedNumber(&quot;tileRecordText&quot;,fallenBLocks)</param>
                         </action>
                     </actions>
                     <sub-events>
                         <event-block sid="9348727035328198">
                             <conditions>
                                 <condition id="-14" name="Compare variable" sid="7275066151591842" type="System">
-                                    <param id="0" name="Variable">SOUNDS_ON</param>
+                                    <param id="0" name="Variable">SOUNDS_OPTION</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Value">TRUE</param>
                                 </condition>
@@ -864,7 +864,7 @@
                         <event-block sid="925338738911223">
                             <conditions>
                                 <condition id="-14" name="Compare variable" sid="4434732815877392" type="System">
-                                    <param id="0" name="Variable">MUSIC_ON</param>
+                                    <param id="0" name="Variable">MUSIC_OPTION</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Value">TRUE</param>
                                 </condition>
@@ -920,7 +920,7 @@
                         <event-block sid="9935483091644185">
                             <conditions>
                                 <condition id="-14" name="Compare variable" sid="4043039059913387" type="System">
-                                    <param id="0" name="Variable">SOUNDS_ON</param>
+                                    <param id="0" name="Variable">SOUNDS_OPTION</param>
                                     <param id="1" name="Comparison">0</param>
                                     <param id="2" name="Value">TRUE</param>
                                 </condition>
@@ -981,9 +981,9 @@
                     </conditions>
                     <actions>
                         <action id="4" name="Share text" sid="9872196368290069" type="wpc2">
-                            <param id="0" name="Title">local.GetSimpleString(&quot;titleToShareGame&quot;)</param>
-                            <param id="1" name="Description">local.GetSimpleString(&quot;descToShareGame&quot;)</param>
-                            <param id="2" name="Text">local.GetNumberString(&quot;textToShareGame&quot;,fallenBLocks)</param>
+                            <param id="0" name="Title">local.GetString(&quot;titleToShareGame&quot;)</param>
+                            <param id="1" name="Description">local.GetString(&quot;descToShareGame&quot;)</param>
+                            <param id="2" name="Text">local.GetFormattedNumber(&quot;textToShareGame&quot;,fallenBLocks)</param>
                         </action>
                     </actions>
                 </event-block>
