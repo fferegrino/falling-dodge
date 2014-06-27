@@ -20694,6 +20694,9 @@ cr.plugins_.lcze = function(runtime)
 		else
 			ret.set_string(key_);
 	};
+	Exps.prototype.FormatExpression = function(ret, expr_, data_){
+		ret.set_string(sprintf(expr_, data_));
+	};
 	pluginProto.exps = new Exps();
 }());
 var badges = [
@@ -22215,7 +22218,7 @@ cr.getProjectModel = function() { return [
 		true
 	]
 ,	[
-		cr.plugins_.Text,
+		cr.plugins_.Sprite,
 		false,
 		true,
 		true,
@@ -22227,7 +22230,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.Sprite,
+		cr.plugins_.Text,
 		false,
 		true,
 		true,
@@ -22263,7 +22266,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.WebStorage,
+		cr.plugins_.wpc2,
 		true,
 		false,
 		false,
@@ -22275,7 +22278,7 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.wpc2,
+		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -24548,7 +24551,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[336, 385, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				[683, 480, 0, 80, 80, 0, 0, 1, 0.5, 0.5, 0, 0, []],
 				1,
 				52,
 				[
@@ -31066,7 +31069,7 @@ false,false,9802822318236472,false
 				1,
 				"rValuem",
 				0,
-				0,
+				1,
 false,false,9356006424015819,false
 			]
 ,			[
@@ -31256,7 +31259,7 @@ false,false,9356006424015819,false
 				1,
 				"rValues",
 				0,
-				0,
+				1,
 false,false,332446024701571,false
 			]
 ,			[
@@ -31460,7 +31463,7 @@ false,false,332446024701571,false
 	true,
 	2,
 	2,
-	55,
+	54,
 	false,
 	true,
 	1,

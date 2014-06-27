@@ -9,7 +9,7 @@
         <variable constant="0" name="SOUNDS_OPTION" sid="9802822318236472" static="0" type="number">1</variable>
         <event-group description="This group contains the functions to work with the game options" sid="5331168303043785" title="Options functions">
             <sub-events>
-                <variable comment="Return value" constant="0" name="rValuem" sid="9356006424015819" static="0" type="number">0</variable>
+                <variable comment="Return value" constant="0" name="rValuem" sid="9356006424015819" static="0" type="number">1</variable>
                 <event-block sid="9609675369485442">
                     <conditions>
                         <condition id="0" name="On function" sid="1672308436200301" type="functions">
@@ -54,7 +54,7 @@
                         </action>
                     </actions>
                 </event-block>
-                <variable comment="Return value" constant="0" name="rValues" sid="332446024701571" static="0" type="number">0</variable>
+                <variable comment="Return value" constant="0" name="rValues" sid="332446024701571" static="0" type="number">1</variable>
                 <event-block sid="8178714714370649">
                     <conditions>
                         <condition id="0" name="On function" sid="847923883705281" type="functions">

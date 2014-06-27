@@ -11,7 +11,7 @@
         processFlyout();
     }
     function processFlyout() {
-        document.getElementById("acknowledgmentsTransSpan").innerHTML = WinJS.Resources.getString("acknowledgmentsTrans").value;
-        document.getElementById("acknowledgmentsTextSpan").innerHTML = WinJS.Resources.getString("acknowledgmentsText").value;
+        //document.getElementById("acknowledgmentsTransSpan").innerHTML = WinJS.Resources.getString("acknowledgmentsTrans").value;
+        //document.getElementById("acknowledgmentsTextSpan").innerHTML = WinJS.Resources.getString("acknowledgmentsText").value;
     }
 })();

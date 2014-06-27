@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest">
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:build="http://schemas.microsoft.com/developer/appx/2012/build" IgnorableNamespaces="build">
   <Identity Name="14107fferegrino.FallingDodge" Version="2.0.0.2" Publisher="CN=8BD20898-9E0A-4C13-AC37-E9D349AF4781" />
   <Properties>
     <DisplayName>Falling Dodge</DisplayName>
@@ -28,4 +28,7 @@
       </m2:VisualElements>
     </Application>
   </Applications>
+  <build:Metadata>
+    <build:Item Name="Blend" Version="12.0.50429.0" />
+  </build:Metadata>
 </Package>
