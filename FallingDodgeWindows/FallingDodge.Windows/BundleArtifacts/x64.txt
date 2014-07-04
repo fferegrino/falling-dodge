@@ -1,0 +1,2 @@
+MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\x64\Release\FallingDodge.Windows_2.1.0.0_Bundle\FallingDodge.Windows_2.1.0.0_x64.appx
+SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\AppPackages\FallingDodge.Windows_2.1.0.0_Test\FallingDodge.Windows_2.1.0.0_x64.appxsym
