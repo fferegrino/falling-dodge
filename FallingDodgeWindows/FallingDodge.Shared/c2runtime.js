@@ -22170,6 +22170,30 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.WebStorage,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
+		cr.plugins_.wpc2,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.Function,
 		true,
 		false,
@@ -22206,18 +22230,6 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
-		cr.plugins_.SpriteFontPlus,
-		false,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true,
-		true
-	]
-,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -22228,6 +22240,18 @@ cr.getProjectModel = function() { return [
 		true,
 		true,
 		false
+	]
+,	[
+		cr.plugins_.SpriteFontPlus,
+		false,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	]
 ,	[
 		cr.plugins_.Text,
@@ -22255,30 +22279,6 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		cr.plugins_.Touch,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.wpc2,
-		true,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false,
-		false
-	]
-,	[
-		cr.plugins_.WebStorage,
 		true,
 		false,
 		false,
@@ -23037,7 +23037,7 @@ cr.getProjectModel = function() { return [
 			false,
 			1368556712634666,
 			[
-				["images/assetsC2/player-sheet0.png", 92, 0, 0, 46, 9, 1, 0.5, -6,[],[],1]
+				["images/assetsC2/player-sheet0.png", 92, 0, 0, 46, 9, 1, 0.5, 1.111111164093018,[],[],1]
 			]
 			]
 		],
@@ -23391,17 +23391,67 @@ cr.getProjectModel = function() { return [
 ,	[
 		"t44",
 		cr.plugins_.Sprite,
-		true,
+		false,
 		[],
 		0,
 		0,
 		null,
-		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			5723814770813013,
+			[
+				["images/assetsC2/maincharacter-sheet0.png", 17002, 1, 1, 70, 100, 1, 0.5, 1,[],[-0.4107142686843872,-0.7300000190734863,0.003571391105651856,-0.9074999690055847,0.4107142686843872,-0.7174999117851257,-0.01071423292160034,-0.2725000381469727],0]
+			]
+			]
+,			[
+			"Walking",
+			5,
+			true,
+			1,
+			0,
+			false,
+			1229757134128365,
+			[
+				["images/assetsC2/maincharacter-sheet0.png", 17002, 73, 1, 70, 100, 1, 0.5, 1,[],[-0.4357142746448517,-0.7075000405311585,0.003571212291717529,-0.9300000071525574,0.4428570866584778,-0.6875,0.01428574323654175,-0.2849999666213989],0],
+				["images/assetsC2/maincharacter-sheet0.png", 17002, 145, 1, 70, 100, 1, 0.5, 1,[],[-0.4142857193946838,-0.7350000143051148,0.05714279413223267,-0.9574999809265137,0.4535714387893677,-0.7424998283386231,0.007142961025238037,-0.3125001192092896],0]
+			]
+			]
+,			[
+			"Jumping",
+			5,
+			false,
+			1,
+			0,
+			false,
+			8956726300820551,
+			[
+				["images/assetsC2/maincharacter-sheet0.png", 17002, 1, 103, 70, 100, 1, 0.5, 1,[],[-0.4464285671710968,-0.7124999761581421,0.04642874002456665,-0.9399999976158142,0.4428572654724121,-0.6600000262260437,0.007142841815948486,-0.3274998664855957],0]
+			]
+			]
+,			[
+			"Falling",
+			5,
+			false,
+			1,
+			0,
+			false,
+			1450394265521928,
+			[
+				["images/assetsC2/maincharacter-sheet0.png", 17002, 73, 103, 70, 100, 1, 0.5, 1,[],[-0.4214286208152771,-0.6974999904632568,-0.007142841815948486,-0.934999942779541,0.4392855763435364,-0.714999794960022,0.01785695552825928,-0.2824998497962952],0]
+			]
+			]
+		],
 		[
 		],
 		false,
 		false,
-		3367200240305971,
+		7901581069446705,
 		[],
 		null
 	]
@@ -23418,12 +23468,29 @@ cr.getProjectModel = function() { return [
 		],
 		false,
 		false,
-		7216524448227114,
+		3367200240305971,
 		[],
 		null
 	]
 ,	[
 		"t46",
+		cr.plugins_.Sprite,
+		true,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		7216524448227114,
+		[],
+		null
+	]
+,	[
+		"t47",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -23441,9 +23508,9 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[44,4,5,9,11]
-,		[45,21,20]
-,		[46,13]
+		[45,4,5,9,11]
+,		[46,21,20]
+,		[47,13]
 	],
 	[
 	[
@@ -23596,7 +23663,7 @@ cr.getProjectModel = function() { return [
 				]
 			]
 ,			[
-				[683, 703, 0, 46, 9, 0, 0, 1, 0.5, -6, 0, 0, []],
+				[683, 703, 0, 46, 9, 0, 0, 1, 0.5, 1.111111164093018, 0, 0, []],
 				29,
 				11,
 				[
@@ -23687,6 +23754,21 @@ cr.getProjectModel = function() { return [
 				[
 					0,
 					0
+				]
+			]
+,			[
+				[-286, 627, 0, 70, 100, 0, 0, 1, 0.5, 1, 0, 0, []],
+				44,
+				54,
+				[
+				],
+				[
+				],
+				[
+					0,
+					"Default",
+					0,
+					1
 				]
 			]
 			],
@@ -24734,7 +24816,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					28,
+					44,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					2566797943737636,
@@ -24742,7 +24824,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						3,
-						0
+						1
 					]
 					]
 				]
@@ -24803,7 +24885,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					28,
+					44,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					3776187904069461,
@@ -24811,7 +24893,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						3,
-						1
+						0
 					]
 					]
 				]
@@ -25339,7 +25421,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					28,
+					44,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					6918989005268688,
@@ -25347,7 +25429,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						3,
-						0
+						1
 					]
 					]
 				]
@@ -25490,7 +25572,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					28,
+					44,
 					cr.plugins_.Sprite.prototype.acts.SetMirrored,
 					null,
 					62123140433944,
@@ -25498,7 +25580,7 @@ false,false,5050866466494312,false
 					,[
 					[
 						3,
-						1
+						0
 					]
 					]
 				]
@@ -26014,7 +26096,7 @@ false,false,5050866466494312,false
 				],
 				[
 				[
-					28,
+					44,
 					cr.plugins_.Sprite.prototype.acts.SetPosToObject,
 					null,
 					3758993372488166,
@@ -26479,7 +26561,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						44,
+						45,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9728335691694453,
@@ -26514,7 +26596,7 @@ false,false,5050866466494312,false
 					],
 					[
 					[
-						45,
+						46,
 						cr.plugins_.Sprite.prototype.acts.SetVisible,
 						null,
 						9668285847794626,
@@ -27354,7 +27436,7 @@ false,false,5984259031720608,false
 					,[
 					[
 						4,
-						28
+						44
 					]
 					]
 				]
@@ -29234,6 +29316,174 @@ false,false,6873032296298975,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			6637158834146041,
+			[
+			[
+				29,
+				cr.behaviors.Platform.prototype.cnds.IsFalling,
+				"Platform",
+				0,
+				false,
+				false,
+				false,
+				615381996065465,
+				false
+			]
+			],
+			[
+			[
+				44,
+				cr.plugins_.Sprite.prototype.acts.SetAnim,
+				null,
+				6447106501615784,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Falling"
+					]
+				]
+,				[
+					3,
+					1
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			4487706973038842,
+			[
+			[
+				29,
+				cr.behaviors.Platform.prototype.cnds.IsMoving,
+				"Platform",
+				0,
+				false,
+				false,
+				false,
+				9880108125275456,
+				false
+			]
+			],
+			[
+			[
+				44,
+				cr.plugins_.Sprite.prototype.acts.SetAnim,
+				null,
+				7405547536123891,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Walking"
+					]
+				]
+,				[
+					3,
+					1
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			1574088983814511,
+			[
+			[
+				-1,
+				cr.system_object.prototype.cnds.Else,
+				null,
+				0,
+				false,
+				false,
+				false,
+				1940063228647286,
+				false
+			]
+			],
+			[
+			[
+				44,
+				cr.plugins_.Sprite.prototype.acts.SetAnim,
+				null,
+				3114534592440558,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Default"
+					]
+				]
+,				[
+					3,
+					1
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			6186044566971979,
+			[
+			[
+				29,
+				cr.behaviors.Platform.prototype.cnds.IsJumping,
+				"Platform",
+				0,
+				false,
+				false,
+				false,
+				2381551404750309,
+				false
+			]
+			],
+			[
+			[
+				44,
+				cr.plugins_.Sprite.prototype.acts.SetAnim,
+				null,
+				5661127835404074,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"Jumping"
+					]
+				]
+,				[
+					3,
+					1
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 ,	[
@@ -29423,7 +29673,7 @@ false,false,6873032296298975,false
 			],
 			[
 			[
-				45,
+				46,
 				cr.plugins_.Sprite.prototype.acts.SetVisible,
 				null,
 				4797711022203146,
@@ -29496,7 +29746,7 @@ false,false,6873032296298975,false
 				]
 			]
 ,			[
-				46,
+				47,
 				cr.plugins_.Sprite.prototype.acts.SetVisible,
 				null,
 				7651323534567385,
@@ -29589,7 +29839,7 @@ false,false,6873032296298975,false
 				],
 				[
 				[
-					46,
+					47,
 					cr.plugins_.Sprite.prototype.acts.SetVisible,
 					null,
 					784937265269431,
@@ -31463,7 +31713,7 @@ false,false,332446024701571,false
 	true,
 	2,
 	2,
-	54,
+	55,
 	false,
 	true,
 	1,

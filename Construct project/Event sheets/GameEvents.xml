@@ -13,7 +13,7 @@
         <variable comment="Position mountains (X axis)" constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
         <variable comment="Position stars (X axis)" constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
         <variable comment="Position stars (Y axis)" constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
-        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -27,8 +27,8 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="7" name="Set mirrored" sid="2566797943737636" type="mainC">
-                            <param id="0" name="State">0</param>
+                        <action id="7" name="Set mirrored" sid="2566797943737636" type="mainCharacter">
+                            <param id="0" name="State">1</param>
                         </action>
                     </actions>
                 </event-block>
@@ -44,8 +44,8 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="7" name="Set mirrored" sid="3776187904069461" type="mainC">
-                            <param id="0" name="State">1</param>
+                        <action id="7" name="Set mirrored" sid="3776187904069461" type="mainCharacter">
+                            <param id="0" name="State">0</param>
                         </action>
                     </actions>
                 </event-block>
@@ -122,7 +122,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -162,8 +162,8 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="7" name="Set mirrored" sid="6918989005268688" type="mainC">
-                            <param id="0" name="State">0</param>
+                        <action id="7" name="Set mirrored" sid="6918989005268688" type="mainCharacter">
+                            <param id="0" name="State">1</param>
                         </action>
                         <action behavior="Platform" id="7" name="Simulate control" sid="2290928940336092" type="player">
                             <param id="0" name="Control">1</param>
@@ -199,8 +199,8 @@
                         </condition>
                     </conditions>
                     <actions>
-                        <action id="7" name="Set mirrored" sid="62123140433944" type="mainC">
-                            <param id="0" name="State">1</param>
+                        <action id="7" name="Set mirrored" sid="62123140433944" type="mainCharacter">
+                            <param id="0" name="State">0</param>
                         </action>
                         <action behavior="Platform" id="7" name="Simulate control" sid="6093206177638759" type="player">
                             <param id="0" name="Control">0</param>
@@ -318,7 +318,7 @@
                         <condition id="-1" name="Every tick" sid="6535111327470096" type="System" />
                     </conditions>
                     <actions>
-                        <action id="-4" name="Set position to another object" sid="3758993372488166" type="mainC">
+                        <action id="-4" name="Set position to another object" sid="3758993372488166" type="mainCharacter">
                             <param id="0" name="Object">player</param>
                             <param id="1" name="Image point (optional)">0</param>
                         </action>
@@ -505,7 +505,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="7601084355575327" title="Player actions">
+        <event-group description="" sid="7601084355575327" title="Player actions">
             <sub-events>
                 <event-block sid="7525555983572462">
                     <conditions>
@@ -633,9 +633,9 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="6892984352352811" title="Game functions">
+        <event-group description="" sid="6892984352352811" title="Game functions">
             <sub-events>
-                <event-block sid="4529963049937661">
+                <event-block collapsed="1" sid="4529963049937661">
                     <conditions>
                         <condition id="0" name="On function" sid="818978772213328" type="functions">
                             <param id="0" name="Name">&quot;pause&quot;</param>
@@ -1003,5 +1003,49 @@
                 </event-block>
             </sub-events>
         </event-group>
+        <event-block sid="6637158834146041">
+            <conditions>
+                <condition behavior="Platform" id="4" name="Is falling" sid="615381996065465" type="player" />
+            </conditions>
+            <actions>
+                <action id="4" name="Set animation" sid="6447106501615784" type="mainCharacter">
+                    <param id="0" name="Animation">&quot;Falling&quot;</param>
+                    <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="4487706973038842">
+            <conditions>
+                <condition behavior="Platform" id="0" name="Is moving" sid="9880108125275456" type="player" />
+            </conditions>
+            <actions>
+                <action id="4" name="Set animation" sid="7405547536123891" type="mainCharacter">
+                    <param id="0" name="Animation">&quot;Walking&quot;</param>
+                    <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="1574088983814511">
+            <conditions>
+                <condition id="-22" name="Else" sid="1940063228647286" type="System" />
+            </conditions>
+            <actions>
+                <action id="4" name="Set animation" sid="3114534592440558" type="mainCharacter">
+                    <param id="0" name="Animation">&quot;Default&quot;</param>
+                    <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-block sid="6186044566971979">
+            <conditions>
+                <condition behavior="Platform" id="3" name="Is jumping" sid="2381551404750309" type="player" />
+            </conditions>
+            <actions>
+                <action id="4" name="Set animation" sid="5661127835404074" type="mainCharacter">
+                    <param id="0" name="Animation">&quot;Jumping&quot;</param>
+                    <param id="1" name="From">1</param>
+                </action>
+            </actions>
+        </event-block>
     </events>
 </c2eventsheet>
