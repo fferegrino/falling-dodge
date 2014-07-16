@@ -3,7 +3,7 @@ Game resources
 This is a list of resources that we are using in our game with or without modifications, we will use this to keep track of acknowledgments within the product.
 ### Sprites
 
- - Main character, **Wootstudio**, http://wootstudio.ca/win8platstarter
+ - Main character, **Kenney**, www.kenney.nl
  - Blocks, **Korba™**, http://opengameart.org/content/2d-minecraft-sprite-pack
  
 ### Sound effects
