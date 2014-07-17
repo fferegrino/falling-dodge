@@ -1,4 +1,4 @@
-MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\ARM\Release\FallingDodge.Windows_2.1.0.0_Bundle\FallingDodge.Windows_2.1.0.0_ARM.appx
-SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\AppPackages\FallingDodge.Windows_2.1.0.0_Test\FallingDodge.Windows_2.1.0.0_ARM.appxsym
-ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\ARM\Release\FallingDodge.Windows_2.1.0.0_Bundle\FallingDodge.Windows_2.1.0.0_language-es.appx
-ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\ARM\Release\FallingDodge.Windows_2.1.0.0_Bundle\FallingDodge.Windows_2.1.0.0_language-fr.appx
+MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\ARM\Release\FallingDodge.Windows_2.2.0.0_Bundle\FallingDodge.Windows_2.2.0.0_ARM.appx
+SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\AppPackages\FallingDodge.Windows_2.2.0.0_Test\FallingDodge.Windows_2.2.0.0_ARM.appxsym
+ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\ARM\Release\FallingDodge.Windows_2.2.0.0_Bundle\FallingDodge.Windows_2.2.0.0_language-es.appx
+ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\ARM\Release\FallingDodge.Windows_2.2.0.0_Bundle\FallingDodge.Windows_2.2.0.0_language-fr.appx

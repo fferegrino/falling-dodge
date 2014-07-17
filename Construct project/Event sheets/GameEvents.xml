@@ -13,7 +13,7 @@
         <variable comment="Position mountains (X axis)" constant="0" name="mountainX" sid="3464267042580843" static="0" type="number">0</variable>
         <variable comment="Position stars (X axis)" constant="0" name="starsX" sid="9434421779047864" static="0" type="number">0</variable>
         <variable comment="Position stars (Y axis)" constant="0" name="starsY" sid="5050866466494312" static="0" type="number">0</variable>
-        <event-group description="" sid="1134808966113924" title="Keyboard controls">
+        <event-group collapsed="1" description="" sid="1134808966113924" title="Keyboard controls">
             <sub-events>
                 <event-block sid="7573670909184389">
                     <conditions>
@@ -122,7 +122,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="3386134529125263" title="Touch &amp; mouse controls">
+        <event-group collapsed="1" description="" sid="3386134529125263" title="Touch &amp; mouse controls">
             <sub-events>
                 <event-block sid="6850927034263637">
                     <conditions>
@@ -505,7 +505,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group description="" sid="7601084355575327" title="Player actions">
+        <event-group collapsed="1" description="" sid="7601084355575327" title="Player actions">
             <sub-events>
                 <event-block sid="7525555983572462">
                     <conditions>
@@ -534,7 +534,7 @@
                 </event-block>
             </sub-events>
         </event-group>
-        <event-group collapsed="1" description="" sid="8086918785451181" title="Block actions">
+        <event-group description="" sid="8086918785451181" title="Block actions">
             <sub-events>
                 <variable constant="0" name="rowToErase" sid="5984259031720608" static="0" type="number">-1</variable>
                 <event-block sid="17435870339364">
@@ -618,7 +618,7 @@
                 <event-block sid="2443671993534644">
                     <conditions>
                         <condition id="0" name="On collision with another object" sid="2605921727028014" type="block">
-                            <param id="0" name="Object">mainC</param>
+                            <param id="0" name="Object">mainCharacter</param>
                         </condition>
                         <condition id="-8" name="Is boolean instance variable set" sid="9931561741404137" type="block">
                             <param id="0" name="Instance variable">damageEnabled</param>

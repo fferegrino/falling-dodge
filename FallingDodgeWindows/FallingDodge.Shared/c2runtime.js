@@ -20625,7 +20625,7 @@ cr.plugins_.lcze = function(runtime)
 	var instanceProto = pluginProto.Instance.prototype;
 	instanceProto.onCreate = function()
 	{
-		if(window["c2isWindows8"])
+	    if(window["c2isWindows8"] || window["c2isWindowsPhone81"] || window["c2isWindowsPhone8"])
 			this._res = WinJS["Resources"];
 		this.aA = []; // Empty array
 	};

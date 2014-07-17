@@ -1,4 +1,4 @@
-MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\bin\ARM\Release\FallingDodge.WindowsPhone_2.1.0.0_Bundle\FallingDodge.WindowsPhone_2.1.0.0_ARM.appx
-SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\AppPackages\FallingDodge.WindowsPhone_2.1.0.0_Test\FallingDodge.WindowsPhone_2.1.0.0_ARM.appxsym
-ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\bin\ARM\Release\FallingDodge.WindowsPhone_2.1.0.0_Bundle\FallingDodge.WindowsPhone_2.1.0.0_language-es.appx
-ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\bin\ARM\Release\FallingDodge.WindowsPhone_2.1.0.0_Bundle\FallingDodge.WindowsPhone_2.1.0.0_language-fr.appx
+MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\bin\ARM\Release\FallingDodge.WindowsPhone_2.2.0.1_Bundle\FallingDodge.WindowsPhone_2.2.0.1_ARM.appx
+SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\AppPackages\FallingDodge.WindowsPhone_2.2.0.1_Test\FallingDodge.WindowsPhone_2.2.0.1_ARM.appxsym
+ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\bin\ARM\Release\FallingDodge.WindowsPhone_2.2.0.1_Bundle\FallingDodge.WindowsPhone_2.2.0.1_language-es.appx
+ResourcePack=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.WindowsPhone\bin\ARM\Release\FallingDodge.WindowsPhone_2.2.0.1_Bundle\FallingDodge.WindowsPhone_2.2.0.1_language-fr.appx

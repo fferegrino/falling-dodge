@@ -1,2 +1,2 @@
-MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\x86\Release\FallingDodge.Windows_2.1.0.0_Bundle\FallingDodge.Windows_2.1.0.0_x86.appx
-SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\AppPackages\FallingDodge.Windows_2.1.0.0_Test\FallingDodge.Windows_2.1.0.0_x86.appxsym
+MainPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\bin\x86\Release\FallingDodge.Windows_2.2.0.0_Bundle\FallingDodge.Windows_2.2.0.0_x86.appx
+SymbolPackage=C:\Users\Antonio\Documents\git\falling-dodge\FallingDodgeWindows\FallingDodge.Windows\AppPackages\FallingDodge.Windows_2.2.0.0_Test\FallingDodge.Windows_2.2.0.0_x86.appxsym
